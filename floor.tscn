@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://bini5uue7t3ki"]
 
+[ext_resource type="Texture2D" uid="uid://belag4tnvpdc8" path="res://assets/art/dirt.png" id="1_oj3tl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+albedo_texture = ExtResource("1_oj3tl")
+
 [sub_resource type="BoxMesh" id="BoxMesh_et6nl"]
+material = SubResource("StandardMaterial3D_0xm2m")
 size = Vector3(20, 0.2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uetk2"]
