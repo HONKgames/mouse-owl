@@ -6,6 +6,7 @@ const JUMP_SPEED = 10.0
 const ACCEL = 4.5
 const DEACCEL = 16.0
 const MAX_SLOPE_ANGLE = 40.0
+const SPEED_MULTIPLIER = 1.6
 
 var MOUSE_SENSITIVITY = 0.2
 
@@ -49,8 +50,6 @@ func process_movement(delta: float) -> void:
 		input_movement_vector.x -= 1
 	if Input.is_action_pressed("move_right"):
 		input_movement_vector.x += 1
-	if Input.is_action_pressed("sprint"):
-		input_movement_vector.x += 2
 
 	input_movement_vector = input_movement_vector.normalized()
 	
@@ -60,10 +59,14 @@ func process_movement(delta: float) -> void:
 	dir.y = 0
 	dir = dir.normalized()
 
+	var current_speed = MAX_SPEED
+	if Input.is_action_pressed("sprint"):
+		current_speed *= SPEED_MULTIPLIER
+
 	# Horizontal velocity handling
 	var hvel = velocity
 	hvel.y = 0
-	var target = dir * MAX_SPEED
+	var target = dir * current_speed
 	var accel = ACCEL if dir.dot(hvel) > 0 else DEACCEL
 	hvel = hvel.lerp(target, accel * delta)
 	velocity.x = hvel.x
