@@ -30,12 +30,10 @@ func advance_minute() -> void:
 		
 func advance_hour() -> void:
 	hour += 1
-	print("Hour passed: ", hour, " | Day: ", day)
 	emit_signal("hour_changed", hour)
 	if hour >= 24:
 		hour = 0
 		day += 1
-		print("--- NEW DAY: ", day, " ---")
 		emit_signal("day_changed", day)
 		
 func start_sleeping() -> void:
@@ -43,10 +41,3 @@ func start_sleeping() -> void:
 	
 func stop_sleeping() -> void:
 	target_time_scale = 1.0
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_select") or Input.is_key_pressed(KEY_SPACE):
-		start_sleeping()
-	elif event.is_action_released("ui_select") or not Input.is_key_pressed(KEY_SPACE):
-		if not Input.is_key_pressed(KEY_SPACE):
-			stop_sleeping()

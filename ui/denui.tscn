@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c1nwfla6yxgn1"]
 
+[ext_resource type="Script" uid="uid://bfce50t6w68la" path="res://den/den.gd" id="1_gnf06"]
 [ext_resource type="Texture2D" uid="uid://hcpel4qht2tr" path="res://assets/art/sleep.png" id="1_sq3tw"]
 [ext_resource type="Script" uid="uid://c155ahqbqk8ol" path="res://ui/sleep_button.gd" id="2_rwsqr"]
 
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_gnf06")
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1634372620]
 layout_mode = 0
