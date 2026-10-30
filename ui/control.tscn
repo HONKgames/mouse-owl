@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c1nwfla6yxgn1"]
+
+[ext_resource type="Texture2D" uid="uid://hcpel4qht2tr" path="res://assets/art/sleep.png" id="1_sq3tw"]
+[ext_resource type="Script" uid="uid://c155ahqbqk8ol" path="res://ui/sleep_button.gd" id="2_rwsqr"]
+
+[node name="Control" type="Control" unique_id=1661196179]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=1634372620]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 256.0
+texture_normal = ExtResource("1_sq3tw")
+script = ExtResource("2_rwsqr")
