@@ -180,6 +180,17 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_gnf06"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.0055555557, 0.98888886)
+colors = PackedColorArray(1, 1, 1, 0, 0.91717654, 0.91717654, 0.91717654, 0.06983157, 0, 0, 0, 0.84313726)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pm0ju"]
+gradient = SubResource("Gradient_gnf06")
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Control" type="Control" unique_id=1661196179]
 layout_mode = 3
 anchors_preset = 15
@@ -190,15 +201,24 @@ grow_vertical = 2
 script = ExtResource("1_gnf06")
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1634372620]
+texture_filter = 3
 layout_mode = 0
-offset_left = 896.0
-offset_top = 392.0
+offset_left = 850.0
+offset_top = 467.0
 offset_right = 1152.0
 offset_bottom = 648.0
 texture_normal = ExtResource("1_sq3tw")
+ignore_texture_size = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=128171099]
 texture_filter = 3
 position = Vector2(80, 80)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_pm0ju")
+
+[node name="Vignette" type="TextureRect" parent="." unique_id=650886681]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_pm0ju")
