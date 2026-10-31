@@ -11,8 +11,8 @@ var day: int = 1
 
 var time_scale: float = 1.0
 var target_time_scale: float = 1.0
-@export var max_time_scale: float = 20.0
-@export var ramp_speed: float = 10.0
+@export var max_time_scale: float = 100.0
+@export var ramp_speed: float = 25.0
 
 func _process(delta: float) -> void:
 	time_scale = move_toward(time_scale, target_time_scale, ramp_speed * delta)
