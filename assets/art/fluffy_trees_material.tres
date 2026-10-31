@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://nbufyjjbwrxk"]
+
+[ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="1_1q2dl"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_1q2dl")
+shader_parameter/texture_scale = Vector2(1, 1)
+shader_parameter/alpha_threshold = 1.0
+shader_parameter/foliage_colour = Color(0.9411765, 0.23529412, 0.05490196, 1)
+shader_parameter/color_strength = 0.63600003021
+shader_parameter/fresnel_colour = Color(0.9607843, 0.5137255, 0.09019608, 1)
+shader_parameter/fresnel_strength = 0.51200002432
+shader_parameter/fresnel_power = 1.98400009098012
+shader_parameter/billboard_strength = 0.0
+shader_parameter/vertex_offset_scale = Vector2(1, 1)
+shader_parameter/flip_normal = true
+shader_parameter/use_wind = true
+shader_parameter/wind_strength = 0.350000016625
+shader_parameter/wind_speed = 0.94700004172262
+shader_parameter/wind_direction = Vector3(1, 0, 0)

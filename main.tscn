@@ -6,10 +6,33 @@
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
+[ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
+[ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_et6nl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+albedo_texture = ExtResource("7_5vw27")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kek77"]
+render_priority = 0
+shader = ExtResource("8_5vw27")
+shader_parameter/texture_scale = Vector2(1, 1)
+shader_parameter/alpha_threshold = 1.0
+shader_parameter/foliage_colour = Color(0.9411765, 0.23529412, 0.05490196, 1)
+shader_parameter/color_strength = 0.63600003021
+shader_parameter/fresnel_colour = Color(0.9607843, 0.5137255, 0.09019608, 1)
+shader_parameter/fresnel_strength = 0.51200002432
+shader_parameter/fresnel_power = 1.98400009098012
+shader_parameter/billboard_strength = 0.0
+shader_parameter/vertex_offset_scale = Vector2(1, 1)
+shader_parameter/flip_normal = true
+shader_parameter/use_wind = true
+shader_parameter/wind_strength = 0.350000016625
+shader_parameter/wind_speed = 0.94700004172262
+shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="main" type="Node3D" unique_id=1661839361]
 script = ExtResource("1_h2yge")
@@ -18,29 +41,35 @@ script = ExtResource("1_h2yge")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
 
 [node name="Floor" parent="." unique_id=1311978240 instance=ExtResource("2_h2yge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016062498, -0.11724043, 0.07845138)
 
 [node name="SpawnPoint" type="Marker3D" parent="Floor" unique_id=1695823843]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8721782, 0)
 
 [node name="DayNightCycle" type="Node3D" parent="." unique_id=1595699666]
 script = ExtResource("4_1bvp3")
 
 [node name="moon" type="DirectionalLight3D" parent="DayNightCycle" unique_id=323963446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9348335, 6.5537577, -4.7683716e-07)
-light_energy = 16.0
+light_color = Color(0.89411765, 1, 1, 1)
+light_energy = 0.0
 
 [node name="sun" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
-transform = Transform3D(1, 0, 0, 0, -0.034899287, 0.99939084, 0, -0.99939084, -0.034899287, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.034899287, 0.99939084, 0, -0.99939084, -0.034899287, 0, 8.777229, 0)
+light_color = Color(0.95686275, 0.84313726, 0.44705883, 1)
+light_energy = 0.617
 
 [node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="House" unique_id=1628653682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.7212846)
 mesh = SubResource("PrismMesh_et6nl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="House" unique_id=461189166]
 shape = SubResource("BoxShape3D_et6nl")
 
 [node name="Den" parent="." unique_id=1990834529 instance=ExtResource("3_h2yge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
 
 [node name="Kid" parent="Den" unique_id=1115583922 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0, -0.54089713)
@@ -49,3 +78,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0, -0.54089713)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48865962)
 
 [node name="Kid3" parent="Den" unique_id=1062397357 instance=ExtResource("5_kid")]
+
+[node name="Tree3D" type="Tree3D" parent="." unique_id=1370372849]
+trunk_segments = 10
+trunk_branches_count = 8
+trunk_height = 7
+trunk_branch_length = 0.55
+trunk_branch_length_falloff = 1.0
+trunk_branch_clump_max = 0.1
+trunk_branch_clump_min = 0.02
+trunk_drop_amount = 0.089
+trunk_grow_amount = 0.201
+trunk_sweep_amount = 0.0
+trunk_kink = 0.107
+trunk_twist = 2.03
+twig_scale = 0.25
+material_trunk = SubResource("StandardMaterial3D_5vw27")
+material_twig = SubResource("ShaderMaterial_kek77")
+collision_enabled = true
+wind_blur = 0.41
+wind_branch_wind_strength = 2.07
+wind_branch_wind_blur = 0.52
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.180275, 0, 3.9190898)
+
+[node name="Vision" type="ColorRect" parent="." unique_id=242354737]
+visible = false
+offset_right = 1146.0
+offset_bottom = 655.0
