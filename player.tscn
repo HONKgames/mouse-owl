@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b0wadkrpsdcw6"]
 
 [ext_resource type="Script" uid="uid://bgtvrl6l8l72v" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dlujedv8es71p" path="res://systems/needs.gd" id="2_onrkg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
 
@@ -14,3 +15,6 @@ shape = SubResource("CapsuleShape3D_et6nl")
 
 [node name="Camera3D" type="Camera3D" parent="Rotation_Helper" unique_id=1863197516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Needs" type="Node" parent="." unique_id=1485875694]
+script = ExtResource("2_onrkg")
