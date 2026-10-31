@@ -17,15 +17,15 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	update_time_indicator()
 	
-	var is_sleeping = TimeGlobal.time_scale > 10.0
+	var is_sleeping: bool = TimeGlobal.time_scale > 10.0
 	if is_sleeping != was_sleeping:
 		was_sleeping = is_sleeping
 		fade_sleep_effects(is_sleeping)
 
 func update_time_indicator() -> void:
-	var max_frames = time_indicator.sprite_frames.get_frame_count(time_indicator.animation)
-	var total_minutes = (TimeGlobal.hour * 60) + TimeGlobal.minute
-	var target_frame = floori((float(total_minutes) / 1440.0) * max_frames) % max_frames
+	var max_frames: int = time_indicator.sprite_frames.get_frame_count(time_indicator.animation)
+	var total_minutes: int = (TimeGlobal.hour * 60) + TimeGlobal.minute
+	var target_frame: int = floori((float(total_minutes) / 1440.0) * max_frames) % max_frames
 	
 	time_indicator.stop()
 	time_indicator.frame = target_frame
@@ -37,7 +37,7 @@ func _on_sleep_button_up() -> void:
 	TimeGlobal.stop_sleeping()
 	
 func fade_sleep_effects(active: bool) -> void:
-	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	var tween: Tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	if active:
 		if vignette:
