@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://l8120fauya0u"]
+
+[ext_resource type="Script" uid="uid://c3shp05r2s2eu" path="res://world/den.gd" id="1_x4axy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o33cc"]
+size = Vector3(4, 3, 4)
+
+[node name="Den" type="Area3D" unique_id=1990834529]
+script = ExtResource("1_x4axy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=933565049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+shape = SubResource("BoxShape3D_o33cc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

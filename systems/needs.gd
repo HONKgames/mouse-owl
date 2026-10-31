@@ -12,8 +12,6 @@ var elapsed: float = 0.0
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact"):
 		eat(10.0)
-	if Input.is_action_just_pressed("debug_rest"):
-		in_den = !in_den
 
 func _process(delta: float) -> void:
 	elapsed += delta
