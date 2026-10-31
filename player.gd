@@ -14,6 +14,7 @@ var near_den: bool = false
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var spawn_point: Node3D = $/root/main/Floor/SpawnPoint
+@onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
 
 func _ready() -> void:
@@ -28,17 +29,33 @@ func _teleport_to_spawn() -> void:
 
 func _physics_process(delta: float) -> void:
 	process_input()
+	if den_ui.visible:
+		velocity.x = 0.0
+		velocity.z = 0.0
+	else:
+		process_movement(delta)
 	apply_gravity(delta)
-	process_movement(delta)
 	move_and_slide()
 
 func process_input() -> void:
 	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("point"):
+	if Input.is_action_just_pressed("point") and !den_ui.visible:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	if Input.is_action_just_pressed("interact") and near_den:
+		toggle_den()
+
+func apply_gravity(delta: float) -> void:
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump") and not den_ui.visible:
+			velocity.y = JUMP_SPEED
+		else:
+			velocity.y = -0.5
+	else:
+		velocity.y += GRAVITY * delta
 
 func process_movement(delta: float) -> void:
 	var input: Vector2 = Input.get_vector(
@@ -64,14 +81,14 @@ func process_movement(delta: float) -> void:
 	velocity.x = hvel.x
 	velocity.z = hvel.z
 
-func apply_gravity(delta: float) -> void:
-	if is_on_floor():
-		if Input.is_action_just_pressed("jump"):
-			velocity.y = JUMP_SPEED
-		else:
-			velocity.y = -0.5
+func toggle_den() -> void:
+	den_ui.visible = !den_ui.visible
+	needs.in_den = den_ui.visible
+	if den_ui.visible:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
-		velocity.y += GRAVITY * delta
+		TimeGlobal.stop_sleeping()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
