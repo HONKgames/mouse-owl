@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgtvrl6l8l72v" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dlujedv8es71p" path="res://systems/needs.gd" id="2_onrkg"]
+[ext_resource type="PackedScene" uid="uid://ldbcuyt4b8wf" path="res://ui/hud.tscn" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
 
@@ -18,3 +19,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Needs" type="Node" parent="." unique_id=1485875694]
 script = ExtResource("2_onrkg")
+
+[node name="Hud" parent="." unique_id=1355711614 node_paths=PackedStringArray("needs") instance=ExtResource("3_i3pqv")]
+needs = NodePath("../Needs")
