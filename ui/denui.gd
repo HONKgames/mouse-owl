@@ -53,8 +53,9 @@ func fade_sleep_effects(active: bool) -> void:
 			tween.tween_property(sleep_button, "scale", Vector2(1.0, 1.0), 0.3)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_select") or Input.is_key_pressed(KEY_SPACE):
+	if not visible:
+		return
+	if event.is_action_pressed("jump"):
 		TimeGlobal.start_sleeping()
-	elif event.is_action_released("ui_select") or not Input.is_key_pressed(KEY_SPACE):
-		if not Input.is_key_pressed(KEY_SPACE):
-			TimeGlobal.stop_sleeping()
+	elif event.is_action_released("jump"):
+		TimeGlobal.stop_sleeping()
