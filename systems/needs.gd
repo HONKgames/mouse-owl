@@ -22,7 +22,8 @@ func _process(delta: float) -> void:
 		else:
 			fatigue = minf(fatigue + hours * fatigue_per_hour, 100.0)
 	if elapsed >= 1.0:
-		print(get_parent().name, " hunger: ", hunger, " fatigue: ", fatigue)
+		print(get_parent().name, "\n Hunger: ", hunger, "\n Fatigue: ", fatigue)
+		print("______________________________________________________________\n")
 		elapsed -= 1.0
 	
 func eat(amount: float) -> void:

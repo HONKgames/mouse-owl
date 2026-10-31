@@ -29,7 +29,7 @@ script = ExtResource("4_1bvp3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9348335, 6.5537577, -4.7683716e-07)
 light_energy = 16.0
 
-[node name="sonion" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
+[node name="sun" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
 transform = Transform3D(1, 0, 0, 0, -0.034899287, 0.99939084, 0, -0.99939084, -0.034899287, 0, 0, 0)
 
 [node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
