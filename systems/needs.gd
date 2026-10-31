@@ -3,6 +3,7 @@ extends Node
 var hunger: float = 0.0
 @export var hunger_per_hour: float = 10.0
 @export var hunger_growth_per_day: float = 0.0
+
 var fatigue: float = 0.0
 @export var has_fatigue: bool = true
 @export var fatigue_per_hour: float = 5.0

@@ -1,9 +1,10 @@
 extends CharacterBody3D
 
 const GRAVITY = -24.8
-const MAX_SPEED = 15.0
+const MAX_SPEED = 8.0
 const JUMP_SPEED = 10.0
 const ACCEL = 10.0
+const TURN_ACCEL = 60.0
 const DEACCEL = 100.0
 const MAX_SLOPE_ANGLE = 40.0
 const SPEED_MULTIPLIER = 1.6
@@ -78,9 +79,13 @@ func process_movement(delta: float) -> void:
 	var hvel = velocity
 	hvel.y = 0
 	var target = dir * current_speed
-	var acceleration = ACCEL if dir != Vector3.ZERO else DEACCEL
-	velocity.x = move_toward(hvel.x, target.x, acceleration * delta)
-	velocity.z = move_toward(hvel.z, target.z, acceleration * delta)
+	var acceleration = DEACCEL
+	if dir != Vector3.ZERO:
+		# Turn quickly when the current momentum points against the new input.
+		acceleration = TURN_ACCEL if hvel.dot(dir) < 0.0 else ACCEL
+	hvel = hvel.move_toward(target, acceleration * delta)
+	velocity.x = hvel.x
+	velocity.z = hvel.z
 
 	move_and_slide()
 

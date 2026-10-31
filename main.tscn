@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://c7q6acdqhnmd0" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bini5uue7t3ki" path="res://floor.tscn" id="2_h2yge"]
-[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
