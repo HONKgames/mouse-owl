@@ -4,13 +4,14 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
 albedo_texture = ExtResource("1_oj3tl")
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_et6nl"]
 material = SubResource("StandardMaterial3D_0xm2m")
-size = Vector3(20, 0.2, 20)
+size = Vector3(200, 0.2, 200)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uetk2"]
-size = Vector3(20, 0.2, 20)
+size = Vector3(200, 0.2, 200)
 
 [node name="Floor" type="StaticBody3D" unique_id=1311978240]
 

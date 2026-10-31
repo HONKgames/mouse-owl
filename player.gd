@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
 const GRAVITY = -24.8
-const MAX_SPEED = 20.0
+const MAX_SPEED = 15.0
 const JUMP_SPEED = 10.0
-const ACCEL = 4.5
-const DEACCEL = 16.0
+const ACCEL = 10.0
+const DEACCEL = 100.0
 const MAX_SLOPE_ANGLE = 40.0
 const SPEED_MULTIPLIER = 1.6
 
@@ -12,12 +12,20 @@ var MOUSE_SENSITIVITY = 0.2
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var camera: Camera3D = $Rotation_Helper/Camera3D
-
-func setSENSITIVITY(sens):
-	MOUSE_SENSITIVITY = sens
+@onready var spawn_point: Node3D = $/root/main/Floor/SpawnPoint
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	if spawn_point:
+		call_deferred("_teleport_to_spawn")
+
+func _teleport_to_spawn() -> void:
+	global_position = spawn_point.global_position
+	velocity = Vector3.ZERO # Reset any leftover velocity
+	
+func setSENSITIVITY(sens):
+	MOUSE_SENSITIVITY = sens
 
 func _physics_process(delta: float) -> void:
 	process_input(delta)
@@ -37,10 +45,13 @@ func process_movement(delta: float) -> void:
 	var input_movement_vector = Vector3.ZERO
 	
 	# Add gravity
-	if not is_on_floor():
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = JUMP_SPEED
+		else:
+			velocity.y = -0.5
+	else:
 		velocity.y += GRAVITY * delta
-	elif Input.is_action_just_pressed("jump"):
-		velocity.y = JUMP_SPEED
 
 	if Input.is_action_pressed("move_forward"):
 		input_movement_vector.y += 1
@@ -67,10 +78,9 @@ func process_movement(delta: float) -> void:
 	var hvel = velocity
 	hvel.y = 0
 	var target = dir * current_speed
-	var accel = ACCEL if dir.dot(hvel) > 0 else DEACCEL
-	hvel = hvel.lerp(target, accel * delta)
-	velocity.x = hvel.x
-	velocity.z = hvel.z
+	var acceleration = ACCEL if dir != Vector3.ZERO else DEACCEL
+	velocity.x = move_toward(hvel.x, target.x, acceleration * delta)
+	velocity.z = move_toward(hvel.z, target.z, acceleration * delta)
 
 	move_and_slide()
 

@@ -1,10 +1,39 @@
 [gd_scene format=3 uid="uid://bcfe57p0d3ktf"]
 
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://c7q6acdqhnmd0" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bini5uue7t3ki" path="res://floor.tscn" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_et6nl"]
 
 [node name="main" type="Node3D" unique_id=1661839361]
+script = ExtResource("1_h2yge")
 
 [node name="Player" parent="." unique_id=1106861229 instance=ExtResource("1_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
 
 [node name="Floor" parent="." unique_id=1311978240 instance=ExtResource("2_h2yge")]
+
+[node name="SpawnPoint" type="Marker3D" parent="Floor" unique_id=1695823843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DayNightCycle" type="Node3D" parent="." unique_id=1595699666]
+script = ExtResource("4_1bvp3")
+
+[node name="moon" type="DirectionalLight3D" parent="DayNightCycle" unique_id=323963446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9348335, 6.5537577, -4.7683716e-07)
+light_energy = 16.0
+
+[node name="sonion" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
+transform = Transform3D(1, 0, 0, 0, -0.034899287, 0.99939084, 0, -0.99939084, -0.034899287, 0, 0, 0)
+
+[node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House" unique_id=1628653682]
+mesh = SubResource("PrismMesh_et6nl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="House" unique_id=461189166]
+shape = SubResource("BoxShape3D_et6nl")
