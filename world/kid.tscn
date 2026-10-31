@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d3ukt380pj15c"]
+
+[ext_resource type="Script" uid="uid://dlujedv8es71p" path="res://systems/needs.gd" id="1_carbn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o33cc"]
+radius = 0.25
+height = 0.8
+
+[node name="Kid" type="Node3D" unique_id=1115583922]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1430425848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_o33cc")
+
+[node name="Needs" type="Node" parent="." unique_id=89471699]
+script = ExtResource("1_carbn")
+hunger_per_hour = 8.0
+hunger_growth_per_day = 0.25
+has_fatigue = false
