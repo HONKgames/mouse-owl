@@ -1,19 +1,31 @@
 extends CharacterBody3D
 
 const GRAVITY = -24.8
-const MAX_SPEED = 20.0
-const JUMP_SPEED = 18.0
-const ACCEL = 4.5
-const DEACCEL = 16.0
+const MAX_SPEED = 15.0
+const JUMP_SPEED = 10.0
+const ACCEL = 10.0
+const DEACCEL = 100.0
 const MAX_SLOPE_ANGLE = 40.0
+const SPEED_MULTIPLIER = 1.6
 
-var MOUSE_SENSITIVITY = 0.05
+var MOUSE_SENSITIVITY = 0.2
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var camera: Camera3D = $Rotation_Helper/Camera3D
+@onready var spawn_point: Node3D = $/root/main/Floor/SpawnPoint
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	if spawn_point:
+		call_deferred("_teleport_to_spawn")
+
+func _teleport_to_spawn() -> void:
+	global_position = spawn_point.global_position
+	velocity = Vector3.ZERO # Reset any leftover velocity
+	
+func setSENSITIVITY(sens):
+	MOUSE_SENSITIVITY = sens
 
 func _physics_process(delta: float) -> void:
 	process_input(delta)
@@ -21,22 +33,25 @@ func _physics_process(delta: float) -> void:
 
 func process_input(delta: float) -> void:
 	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("point"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func process_movement(delta: float) -> void:
-	# Add gravity
-	if not is_on_floor():
-		velocity.y += GRAVITY * delta
-	elif Input.is_action_just_pressed("movement_jump"):
-		velocity.y = JUMP_SPEED
-
 	# Get camera basis for relative movement
 	var cam_xform = camera.get_global_transform()
 	var input_movement_vector = Vector3.ZERO
+	
+	# Add gravity
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = JUMP_SPEED
+		else:
+			velocity.y = -0.5
+	else:
+		velocity.y += GRAVITY * delta
 
 	if Input.is_action_pressed("move_forward"):
 		input_movement_vector.y += 1
@@ -46,28 +61,26 @@ func process_movement(delta: float) -> void:
 		input_movement_vector.x -= 1
 	if Input.is_action_pressed("move_right"):
 		input_movement_vector.x += 1
-	if Input.is_action_pressed("jump"):
-		input_movement_vector.z += 1
 
 	input_movement_vector = input_movement_vector.normalized()
-
+	
 	var dir = Vector3.ZERO
 	dir += -cam_xform.basis.z.normalized() * input_movement_vector.y
 	dir += cam_xform.basis.x.normalized() * input_movement_vector.x
 	dir.y = 0
 	dir = dir.normalized()
 
+	var current_speed = MAX_SPEED
+	if Input.is_action_pressed("sprint"):
+		current_speed *= SPEED_MULTIPLIER
+
 	# Horizontal velocity handling
 	var hvel = velocity
 	hvel.y = 0
-
-	var target = dir * MAX_SPEED
-
-	var accel = ACCEL if dir.dot(hvel) > 0 else DEACCEL
-
-	hvel = hvel.lerp(target, accel * delta)
-	velocity.x = hvel.x
-	velocity.z = hvel.z
+	var target = dir * current_speed
+	var acceleration = ACCEL if dir != Vector3.ZERO else DEACCEL
+	velocity.x = move_toward(hvel.x, target.x, acceleration * delta)
+	velocity.z = move_toward(hvel.z, target.z, acceleration * delta)
 
 	move_and_slide()
 
