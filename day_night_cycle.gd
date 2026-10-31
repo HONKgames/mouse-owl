@@ -4,12 +4,7 @@ extends Node3D
 @export var moon: DirectionalLight3D
 @export var time_node: Node
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not time_node:
 		return
 	var time_progress = time_node.get_current_time() 
