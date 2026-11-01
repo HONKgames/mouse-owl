@@ -6,6 +6,8 @@ extends StaticBody3D
 @export var flat_spots: Array[Node3D]
 @export var flat_radius: float = 10.0
 @export var blend_radius: float = 10.0
+@export var edge_width: float = 20.0
+@export var edge_height: float = 40.0
 
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
@@ -17,9 +19,10 @@ func _ready() -> void:
 	offset = size / 2.0
 	for z in range(size + 1):
 		for x in range(size + 1):
-			heights.append(flatten(x, z, noise.get_noise_2d(x, z) * height))
+			heights.append(raise_edges(x, z, flatten(x, z, noise.get_noise_2d(x, z) * height)))
 	build_mesh()
 	build_collision()
+	build_walls()
 
 func build_mesh() -> void:
 	var st: SurfaceTool = SurfaceTool.new()
@@ -47,7 +50,12 @@ func build_collision() -> void:
 
 func get_height(x: int, z: int) -> float:
 	return heights[z * (size + 1) + x]
-	
+
+func get_height_at(world_x: float, world_z: float) -> float:
+	var gx: int = clampi(roundi(world_x + offset), 0, size)
+	var gz: int = clampi(roundi(world_z + offset), 0, size)
+	return get_height(gx, gz)
+
 func flatten(x: float, z: float, h: float) -> float:
 	var pos: Vector2 = Vector2(x - offset, z - offset)
 	for spot in flat_spots:
@@ -60,3 +68,22 @@ func flatten(x: float, z: float, h: float) -> float:
 			var s: float = smoothstep(0.0, 1.0, t)
 			return lerpf(spot.global_position.y, h, s)
 	return h
+
+func raise_edges(x: float, z: float, h: float) -> float:
+	var edge_dist: float = minf(minf(x, z), minf(size - x, size - z))
+	if edge_dist > edge_width:
+		return h
+	var t: float = 1.0 - edge_dist / edge_width
+	return h + smoothstep(0.0, 1.0, t) * edge_height
+
+func build_walls() -> void:
+	for dir: Vector3 in [Vector3.LEFT, Vector3.RIGHT, Vector3.FORWARD, Vector3.BACK]:
+		var coll: CollisionShape3D = CollisionShape3D.new()
+		var box: BoxShape3D = BoxShape3D.new()
+		if dir.x != 0:
+			box.size = Vector3(1, 100, size)
+		else:
+			box.size = Vector3(size, 100, 1)
+		coll.shape = box
+		coll.position = dir * offset + Vector3.UP * 50
+		add_child(coll)
