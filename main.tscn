@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bcfe57p0d3ktf"]
 
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://c7q6acdqhnmd0" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
@@ -35,7 +34,6 @@ shader_parameter/wind_speed = 0.94700004172262
 shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="main" type="Node3D" unique_id=1661839361]
-script = ExtResource("1_h2yge")
 
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
