@@ -12,10 +12,6 @@
 [ext_resource type="Material" uid="uid://nbufyjjbwrxk" path="res://assets/art/fluffy_trees_material.tres" id="11_dg77c"]
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_et6nl"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("7_5vw27")
 
@@ -37,6 +33,10 @@ shader_parameter/use_wind = true
 shader_parameter/wind_strength = 0.350000016625
 shader_parameter/wind_speed = 0.94700004172262
 shader_parameter/wind_direction = Vector3(1, 0, 0)
+
+[sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_et6nl"]
 
 [sub_resource type="Shader" id="Shader_efxa6"]
 code = "shader_type spatial;
@@ -129,31 +129,6 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
 spawn_point = NodePath("../Environment/House/SpawnPoint")
-
-[node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="House" unique_id=1628653682]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1.721)
-mesh = SubResource("PrismMesh_et6nl")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="House" unique_id=461189166]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("BoxShape3D_et6nl")
-
-[node name="SpawnPoint" type="Marker3D" parent="House" unique_id=1695823843]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 15, 100)
-
-[node name="Den" parent="." unique_id=1990834529 instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
-
-[node name="Kid" parent="Den" unique_id=1115583922 instance=ExtResource("5_kid")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0.75, -0.54089713)
-
-[node name="Kid2" parent="Den" unique_id=1372317730 instance=ExtResource("5_kid")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.48865962)
-
-[node name="Kid3" parent="Den" unique_id=1062397357 instance=ExtResource("5_kid")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="Tree3D" type="Tree3D" parent="." unique_id=1370372849]
 trunk_segments = 10
@@ -253,7 +228,7 @@ collision_enabled = true
 transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.731186e-05, -3.374937e-05, -1.731186e-05, 1, 3.180275, 0, 19.946564)
 
 [node name="Terrain" parent="." unique_id=1207053157 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
-flat_spots = [NodePath("../Den"), NodePath("../House")]
+flat_spots = [NodePath("../Environment/House"), NodePath("../Environment/Den")]
 
 [node name="Atmosphere" parent="." unique_id=957738652 instance=ExtResource("12_dg77c")]
 day_color = Color(0.35819095, 0.6171973, 0.92147624, 1)

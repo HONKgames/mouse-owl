@@ -15,9 +15,10 @@ texture_filter = 2
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_m57dp"]
 
-[node name="Terrain" type="StaticBody3D" unique_id=381149719]
+[node name="Terrain" type="StaticBody3D" unique_id=381149719 node_paths=PackedStringArray("flat_spots")]
 script = ExtResource("1_m57dp")
 noise = SubResource("FastNoiseLite_m57dp")
+flat_spots = [null, null]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=448027876]
 material_override = SubResource("StandardMaterial3D_csr0e")
