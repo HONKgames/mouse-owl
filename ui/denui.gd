@@ -2,6 +2,10 @@ extends Control
 
 const FOOD_VALUE: float = 25.0
 
+@export var children_scene: PackedScene
+
+@onready var children: Node2D = $Children
+
 @onready var time_indicator: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sleep_button: TextureButton = $TextureButton
 @onready var vignette: TextureRect = $Vignette
@@ -69,6 +73,14 @@ func open(d: Area3D, n: Node) -> void:
 	den = d
 	player_needs = n
 	update_label()
+	for child in children.get_children():
+		child.queue_free()
+	for child in den.get_children():
+		if not child.has_node("Needs"):
+			continue
+		var c: Node2D = children_scene.instantiate()
+		c.position = Vector2(randf_range(300, 700), randf_range(300, 500))
+		children.add_child(c)
 
 func update_label() -> void:
 	food_label.text = "food: " + str(den.stored_food)
