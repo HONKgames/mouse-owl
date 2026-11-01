@@ -10,6 +10,9 @@ var fatigue: float = 0.0
 @export var rest_per_hour: float = 10.0
 var in_den: bool = false
 
+var stamina: float = 100.0
+var since_used: float
+
 var elapsed: float = 0.0
 
 func _process(delta: float) -> void:
@@ -25,6 +28,14 @@ func _process(delta: float) -> void:
 		print(get_parent().name, "\n Hunger: ", hunger, "\n Fatigue: ", fatigue)
 		print("______________________________________________________________\n")
 		elapsed -= 1.0
-	
+
+func max_stamina() -> float:
+	return clampf(100.0 - hunger - fatigue, 10.0, 100.0)
+
+func use_stamina() -> bool:
+	if stamina <= 0:
+		return false
+	return true
+
 func eat(amount: float) -> void:
 	hunger = maxf(hunger - amount, 0)
