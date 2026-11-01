@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="9_kek77"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
@@ -109,3 +110,9 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
 [node name="Terrain" parent="." unique_id=381149719 node_paths=PackedStringArray("flat_spots") instance=ExtResource("9_kek77")]
 flat_spots = [NodePath("../Den"), NodePath("../House")]
+
+[node name="Food" parent="." unique_id=1070793160 instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7894335, 0, -1.0000334)
+
+[node name="Food2" parent="." unique_id=1748641733 instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3558917, 0, 1.7902015)

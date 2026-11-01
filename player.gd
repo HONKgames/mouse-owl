@@ -7,15 +7,19 @@ const ACCEL: float = 10.0
 const TURN_ACCEL: float = 60.0
 const DECEL: float = 100.0
 const SPEED_MULTIPLIER: float = 1.6
+const PICKUP_TIME: float = 0.5
 
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
 
 var near_den: bool = false
+var nearby_food: Area3D
+var pickup_progress: float
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
+@onready var inventory: Inventory = $Inventory
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -28,7 +32,7 @@ func _teleport_to_spawn() -> void:
 	velocity = Vector3.ZERO # Reset any leftover velocity
 
 func _physics_process(delta: float) -> void:
-	process_input()
+	process_input(delta)
 	if den_ui.visible:
 		velocity.x = 0.0
 		velocity.z = 0.0
@@ -37,9 +41,9 @@ func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
 	move_and_slide()
 
-func process_input() -> void:
+func process_input(delta: float) -> void:
 	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("point") and !den_ui.visible:
+	if Input.is_action_just_pressed("ui_cancel") and !den_ui.visible:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
@@ -47,6 +51,16 @@ func process_input() -> void:
 	
 	if Input.is_action_just_pressed("interact") and near_den:
 		toggle_den()
+		
+	if Input.is_action_pressed("point") and nearby_food:
+		pickup_progress += delta
+	else:
+		pickup_progress = 0.0
+	if pickup_progress >= PICKUP_TIME:
+		if inventory.add("food"):
+			nearby_food.queue_free()
+			nearby_food = null
+		pickup_progress = 0.0
 
 func apply_gravity(delta: float) -> void:
 	if is_on_floor():

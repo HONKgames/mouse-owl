@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dlujedv8es71p" path="res://systems/needs.gd" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://ldbcuyt4b8wf" path="res://ui/hud.tscn" id="3_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://c1nwfla6yxgn1" path="res://ui/denui.tscn" id="4_hqtel"]
+[ext_resource type="Script" uid="uid://d1045d07a7k2x" path="res://systems/inventory.gd" id="5_sweqy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
 
@@ -26,3 +27,6 @@ needs = NodePath("../Needs")
 
 [node name="DenUI" parent="." unique_id=1661196179 instance=ExtResource("4_hqtel")]
 visible = false
+
+[node name="Inventory" type="Node" parent="." unique_id=671944091]
+script = ExtResource("5_sweqy")
