@@ -16,7 +16,7 @@ shape = SubResource("CapsuleShape3D_et6nl")
 [node name="Rotation_Helper" type="Node3D" parent="." unique_id=375243117]
 
 [node name="Camera3D" type="Camera3D" parent="Rotation_Helper" unique_id=1863197516]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Needs" type="Node" parent="." unique_id=1485875694]
 script = ExtResource("2_onrkg")
