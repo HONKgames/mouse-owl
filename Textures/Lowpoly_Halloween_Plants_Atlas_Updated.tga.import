@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://yng3glulrk50"
-path.s3tc="res://.godot/imported/Lowpoly_Halloween_Plants_Atlas_Updated.tga-ed60b19b761686a38b012a5b52a5c424.s3tc.ctex"
+path.s3tc="res://.godot/imported/Lowpoly_Halloween_Plants_Atlas_Updated.tga-e59fe0ac9b271bc2d793314b02a2474e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/Lowpoly_Halloween_Plants_Atlas_Updated.tga"
-dest_files=["res://.godot/imported/Lowpoly_Halloween_Plants_Atlas_Updated.tga-ed60b19b761686a38b012a5b52a5c424.s3tc.ctex"]
+source_file="res://Textures/Lowpoly_Halloween_Plants_Atlas_Updated.tga"
+dest_files=["res://.godot/imported/Lowpoly_Halloween_Plants_Atlas_Updated.tga-e59fe0ac9b271bc2d793314b02a2474e.s3tc.ctex"]
 
 [params]
 

@@ -1,10 +1,12 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://nbufyjjbwrxk"]
 
 [ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="1_1q2dl"]
+[ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="2_4ifn5"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_1q2dl")
+shader_parameter/foliage_texture = ExtResource("2_4ifn5")
 shader_parameter/texture_scale = Vector2(1, 1)
 shader_parameter/alpha_threshold = 1.0
 shader_parameter/foliage_colour = Color(0.9411765, 0.23529412, 0.05490196, 1)
