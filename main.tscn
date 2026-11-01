@@ -9,6 +9,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="9_kek77"]
+
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 
