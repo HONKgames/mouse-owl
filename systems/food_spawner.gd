@@ -4,7 +4,7 @@ extends Node3D
 @export var terrain: Node
 @export var count: int = 20
 @export var max_food: int = 40
-@export var spawn_range: float = 90.0
+@export var spawn_range: float = 65.0
 
 func _ready() -> void:
 	spawn_batch(count)
