@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bxuixkaihwvwp"]
+
+[ext_resource type="Script" uid="uid://5omd8k2w0ovt" path="res://world/terrain.gd" id="1_m57dp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m57dp"]
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_m57dp"]
+
+[node name="Terrain" type="StaticBody3D" unique_id=381149719]
+script = ExtResource("1_m57dp")
+noise = SubResource("FastNoiseLite_m57dp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=448027876]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1027646656]
+shape = SubResource("HeightMapShape3D_m57dp")

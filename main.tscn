@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="9_kek77"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
 
@@ -42,6 +43,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040
 
 [node name="Floor" parent="." unique_id=1311978240 instance=ExtResource("2_h2yge")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 500)
+visible = false
 
 [node name="DayNightCycle" type="Node3D" parent="." unique_id=1595699666]
 script = ExtResource("4_1bvp3")
@@ -67,7 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("BoxShape3D_et6nl")
 
 [node name="SpawnPoint" type="Marker3D" parent="House" unique_id=1695823843]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 0.79, 100)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 15, 100)
 
 [node name="Den" parent="." unique_id=1990834529 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
@@ -110,3 +112,5 @@ offset_bottom = 655.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1096886927]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
+
+[node name="Terrain" parent="." unique_id=381149719 instance=ExtResource("9_kek77")]
