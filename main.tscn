@@ -107,4 +107,5 @@ offset_bottom = 655.0
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1096886927]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
-[node name="Terrain" parent="." unique_id=381149719 instance=ExtResource("9_kek77")]
+[node name="Terrain" parent="." unique_id=381149719 node_paths=PackedStringArray("flat_spots") instance=ExtResource("9_kek77")]
+flat_spots = [NodePath("../Den"), NodePath("../House")]
