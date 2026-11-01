@@ -101,7 +101,7 @@ func toggle_den() -> void:
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		current_den.stored_food += inventory.items.size()
-		inventory.items.clear()
+		inventory.clear_items()
 		den_ui.open(current_den, needs)
 	else:
 		TimeGlobal.stop_sleeping()

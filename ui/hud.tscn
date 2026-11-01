@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ldbcuyt4b8wf"]
 
 [ext_resource type="Script" uid="uid://jen2u0ggq21g" path="res://ui/hud.gd" id="1_rbyyf"]
+[ext_resource type="Texture2D" uid="uid://bmeibrecbthmw" path="res://icon.svg" id="2_276te"]
 
 [node name="Hud" type="CanvasLayer" unique_id=1355711614]
 script = ExtResource("1_rbyyf")
@@ -23,3 +24,65 @@ layout_mode = 2
 [node name="FatigueBar" type="ProgressBar" parent="VBoxContainer" unique_id=1689084637]
 self_modulate = Color(0.36248228, 0.6328748, 0.2672309, 1)
 layout_mode = 2
+
+[node name="Hotbar" type="HBoxContainer" parent="." unique_id=1130170654]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -16)
+theme_override_constants/separation = 8
+
+[node name="Panel" type="Panel" parent="Hotbar" unique_id=1825826576]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Hotbar/Panel" unique_id=1500939416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_276te")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel2" type="Panel" parent="Hotbar" unique_id=2000204862]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Hotbar/Panel2" unique_id=474903329]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_276te")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel3" type="Panel" parent="Hotbar" unique_id=1427078058]
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Hotbar/Panel3" unique_id=1363542688]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_276te")
+expand_mode = 1
+stretch_mode = 5
