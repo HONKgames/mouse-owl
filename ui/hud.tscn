@@ -7,8 +7,14 @@ script = ExtResource("1_rbyyf")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=249142225]
 custom_minimum_size = Vector2(200, 0)
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+offset_right = 200.0
+grow_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(16, -16)
 
 [node name="HungerBar" type="ProgressBar" parent="VBoxContainer" unique_id=1179333631]
 self_modulate = Color(0.95281494, 0.7373294, 0.3491902, 1)
