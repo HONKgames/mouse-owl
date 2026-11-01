@@ -2,18 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://day_night_cycle.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://atmosphere.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
-
 [ext_resource type="PackedScene" uid="uid://bl0o14brm6wb1" path="res://systems/owl/owl.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 [ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="10_efxa6"]
 [ext_resource type="Material" uid="uid://nbufyjjbwrxk" path="res://assets/art/fluffy_trees_material.tres" id="11_dg77c"]
-
-[ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
 
@@ -60,8 +58,6 @@ transform = Transform3D(1, 0, 0, 0, -0.034899462, 0.99939084, 0, -0.99939084, -0
 light_color = Color(0.95686275, 0.84313726, 0.44705883, 1)
 light_energy = 0.617
 
-<<<<<<< Updated upstream
-=======
 [node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="House" unique_id=1628653682]
@@ -112,7 +108,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.180275, 0, 3.9190898)
 [node name="Pumpkin_1" parent="Tree3D" unique_id=1440053990 instance=ExtResource("9_kek77")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -4.5383644, 0, 6.7070584)
 
-
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false
 offset_right = 1146.0
@@ -121,51 +116,46 @@ offset_bottom = 655.0
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1096886927]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
-
 [node name="Owl" parent="." unique_id=2075625185 instance=ExtResource("9_4c57u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2418265, 2.4711514, -0.16457772)
 
 [node name="Environment" type="Node3D" parent="." unique_id=639223408]
 
-[node name="Terrain" parent="Environment" unique_id=381149719 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
+[node name="Terrain" parent="Environment" unique_id=381149719 instance=ExtResource("8_kek77")]
 
-[node name="Terrain" parent="." unique_id=381149719 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
-
-flat_spots = [NodePath("../Den"), NodePath("../House")]
-
-[node name="Den" parent="Environment" unique_id=1990834529 instance=ExtResource("3_h2yge")]
+[node name="Den" parent="Environment" unique_id=834735283 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
 
-[node name="Kid" parent="Environment/Den" unique_id=1115583922 instance=ExtResource("5_kid")]
+[node name="Kid" parent="Environment/Den" unique_id=52582032 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0.75, -0.54089713)
 
-[node name="Kid2" parent="Environment/Den" unique_id=1372317730 instance=ExtResource("5_kid")]
+[node name="Kid2" parent="Environment/Den" unique_id=80892995 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.48865962)
 
-[node name="Kid3" parent="Environment/Den" unique_id=1062397357 instance=ExtResource("5_kid")]
+[node name="Kid3" parent="Environment/Den" unique_id=1644969824 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
-[node name="House" type="StaticBody3D" parent="Environment" unique_id=2116433258]
+[node name="House" type="StaticBody3D" parent="Environment" unique_id=2042364361]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/House" unique_id=1628653682]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/House" unique_id=1313397918]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1.721)
 mesh = SubResource("PrismMesh_et6nl")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/House" unique_id=461189166]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/House" unique_id=2117067737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("BoxShape3D_et6nl")
 
-[node name="SpawnPoint" type="Marker3D" parent="Environment/House" unique_id=1695823843]
+[node name="SpawnPoint" type="Marker3D" parent="Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 15, 100)
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="Environment" unique_id=2127347354]
 
-[node name="Pumpkin_1" parent="Environment/PumpkingSpawnRegion" unique_id=1440053990 instance=ExtResource("9_kek77")]
+[node name="Pumpkin_1" parent="Environment/PumpkingSpawnRegion" unique_id=1444960331 instance=ExtResource("9_kek77")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -10.112246, 0, 0.22724915)
 
 [node name="TreeSpawnRegion" type="Area3D" parent="Environment" unique_id=1310804942]
 
-[node name="SmallTree" type="Tree3D" parent="Environment/TreeSpawnRegion" unique_id=1370372849]
+[node name="SmallTree" type="Tree3D" parent="Environment/TreeSpawnRegion" unique_id=826772632]
 seed = 258
 trunk_sweep_amount = 0.0
 trunk_max_radius = 0.29
@@ -191,3 +181,8 @@ material_trunk = SubResource("StandardMaterial3D_5vw27")
 material_twig = ExtResource("11_dg77c")
 collision_enabled = true
 transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.731186e-05, -3.374937e-05, -1.731186e-05, 1, 3.180275, 0, 19.946564)
+
+[node name="Terrain" parent="." unique_id=1207053157 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
+flat_spots = [NodePath("../Den"), NodePath("../House")]
+
+[node name="Atmosphere" parent="." unique_id=957738652 instance=ExtResource("12_dg77c")]
