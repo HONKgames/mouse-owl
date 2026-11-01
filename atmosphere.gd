@@ -11,7 +11,7 @@ extends Node3D
 @export var clouds: Node3D
 
 @export_category("Settings")
-@export var orbit_distance: float = 100.0
+@export var orbit_distance: float = 1000.0
 @export var day_color: Color = Color("4a90e2")
 @export var night_color: Color = Color("411c6bff")
 
@@ -27,10 +27,9 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	var time_progress: float = TimeGlobal.get_time()
-	var angle_rad: float = (time_progress * TAU) + (PI / 2.0)
 	
-	_update_sun(time_progress, angle_rad)
-	_update_moon(time_progress, angle_rad)
+	_update_sun(time_progress)
+	_update_moon(time_progress)
 	_update_sky_color(time_progress)
 	_move_clouds(delta)
 	
@@ -41,12 +40,13 @@ func _spawn_clouds() -> void:
 	for i in range(cloud_count):
 		var cloud: MeshInstance3D = MeshInstance3D.new()
 		var quad: QuadMesh = QuadMesh.new()
-		quad.size = Vector2(randf_range(10.0, 22.0), randf_range(3.0, 6.0))
+		quad.size = Vector2(randf_range(12.0, 20.0), randf_range(6.0, 10.0))
 		cloud.mesh = quad
 		
 		if cloud_material:
 			cloud.material_override = cloud_material
-			
+		
+		cloud.rotation_degrees.x = 90.0
 		var rx: float = randf_range(spawn_range.x, spawn_range.y)
 		var rz: float = randf_range(spawn_range.x, spawn_range.y)
 		var ry: float = sky_height + randf_range(-5.0, 5.0)
@@ -54,41 +54,60 @@ func _spawn_clouds() -> void:
 		cloud.position = Vector3(rx, ry, rz)
 		clouds.add_child(cloud)
 		
-		
-	
-func _update_sun(time_progress: float, angle_rad: float) -> void:
+func _update_sun(time_progress: float) -> void:
 	if not sun:
 		return
-	sun.rotation_degrees.x = (time_progress * 360.0) + 90.0
-	var sun_intensity: float = clamp(sin(time_progress * TAU), 0.0, 1.0)
+	
+	var sun_angle: float = (time_progress - 0.25) * TAU
+	var dir := Vector3(0.0, sin(sun_angle), -cos(sun_angle)).normalized()
+	
+	sun.global_position = global_position
+	sun.look_at(global_position - dir, Vector3.UP)
+	
+	var sun_intensity: float = clamp(cos((time_progress - 0.5) * TAU), 0.0, 1.0)
 	sun.light_energy = sun_intensity * 1.5
 	sun.shadow_enabled = sun_intensity > 0.05
 	
 	if sun_sprite:
-		var dir := Vector3(0.0, sin(angle_rad), cos(angle_rad)).normalized()
 		sun_sprite.global_position = global_position + (dir * orbit_distance)
-		sun_sprite.visible = sun_intensity > 0.0
+		sun_sprite.visible = true
+		sun_sprite.look_at(global_position, Vector3.UP)
 	
-func _update_moon(time_progress: float, angle_rad: float) -> void:
+func _update_moon(time_progress: float) -> void:
 	if not moon:
 		return
-	moon.rotation_degrees.x = (time_progress * 360.0) + 270.0
-	var moon_intensity: float = clamp(-sin(time_progress * TAU), 0.0, 1.0)
+		
+	var moon_angle: float = (time_progress - 0.25) * TAU + PI
+	var moon_dir := Vector3(0.0, sin(moon_angle), -cos(moon_angle)).normalized()
+	
+	moon.global_position = global_position
+	moon.look_at(global_position - moon_dir, Vector3.UP)
+	
+	var moon_intensity: float = clamp(-cos((time_progress - 0.5) * TAU), 0.0, 1.0)
 	moon.light_energy = moon_intensity * 0.3
 	moon.shadow_enabled = moon_intensity > 0.05
 	
 	if moon_sprite:
-		var dir := Vector3(0.0, -sin(angle_rad), -cos(angle_rad)).normalized()
-		moon_sprite.global_position = global_position + (dir * orbit_distance)
-		moon_sprite.visible = moon_intensity > 0.0
+		moon_sprite.global_position = global_position + (moon_dir * orbit_distance)
+		moon_sprite.visible = true
+		moon_sprite.look_at(global_position, Vector3.UP)
 
 func _update_sky_color(time_progress: float) -> void:
 	if not world_env or not world_env.environment:
 		return
 		
-	var env = world_env.environment
-	var night_factor: float = clamp(-sin(time_progress * TAU), 0.0, 1.0)
+	var env: Environment = world_env.environment
+	env.background_mode = Environment.BG_COLOR
+	
+	var day_factor: float = clamp(cos((time_progress - 0.5) * TAU), 0.0, 1.0)
+	var current_sky_color: Color = night_color.lerp(day_color, day_factor)
+	
+	env.background_color = current_sky_color
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = current_sky_color
+	env.ambient_light_energy = 1.0
 
+	var night_factor: float = clamp(-cos((time_progress - 0.5) * TAU), 0.0, 1.0)
 	if env.fog_enabled:
 		env.fog_density = lerp(0.005, 0.03, night_factor)
 		env.fog_light_color = Color("120421").lerp(Color("a457e6ff"), night_factor * 0.5)

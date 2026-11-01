@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://atmosphere.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
@@ -39,24 +38,97 @@ shader_parameter/wind_strength = 0.350000016625
 shader_parameter/wind_speed = 0.94700004172262
 shader_parameter/wind_direction = Vector3(1, 0, 0)
 
+[sub_resource type="Shader" id="Shader_efxa6"]
+code = "shader_type spatial;
+
+render_mode depth_draw_always, alpha_to_coverage, unshaded;
+
+// Texture and visual control
+uniform sampler2D foliage_texture;
+uniform vec2 texture_scale = vec2(1.0, 1.0);
+uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.1;
+
+// Color control
+uniform vec3 foliage_colour : source_color = vec3(0.13, 0.33, 0.25);
+uniform float color_strength : hint_range(0.0, 2.0) = 1.0;
+
+// Fresnel blend
+uniform vec3 fresnel_colour : source_color = vec3(0.5, 0.7, 0.4);
+uniform float fresnel_strength : hint_range(0.0, 1.0) = 0.3;
+uniform float fresnel_power : hint_range(0.1, 5.0) = 1.5;
+
+// Billboard effect control
+uniform float billboard_strength : hint_range(0.0, 1.0) = 1.0;
+uniform vec2 vertex_offset_scale = vec2(1.0, 1.0);
+uniform bool flip_normal = true;
+
+// Wind sway control
+uniform bool use_wind = true;
+uniform float wind_strength : hint_range(0.0, 1.0) = 0.1;
+uniform float wind_speed : hint_range(0.1, 5.0) = 1.0;
+uniform vec3 wind_direction = vec3(1.0, 0.0, 0.0);
+
+void vertex()
+{
+    if (flip_normal) {
+        NORMAL = -NORMAL;
+    }
+
+    // Billboard positioning
+    vec2 viewspace_offset = (UV - vec2(0.5)) * vertex_offset_scale;
+    vec4 modelspace_offset = inverse(MODELVIEW_MATRIX) * vec4(viewspace_offset, 0.0, 0.0);
+    VERTEX += modelspace_offset.xyz * billboard_strength;
+
+    // Wind sway (optional)
+    if (use_wind) {
+        float sway = sin(TIME * wind_speed + UV.x * 5.0) * wind_strength;
+        VERTEX.xyz += wind_direction * sway;
+    }
+}
+
+void fragment()
+{
+    vec2 scaled_uv = UV * texture_scale;
+    float alpha = texture(foliage_texture, scaled_uv).g;
+
+    if (alpha < alpha_threshold) {
+        discard;
+    }
+
+    // Fake Fresnel effect: based on view direction and normal
+    vec3 view_dir = normalize(-FRAGCOORD.xyz);
+    float fresnel = pow(1.0 - dot(NORMAL, view_dir), fresnel_power);
+    vec3 final_color = mix(foliage_colour, fresnel_colour, fresnel * fresnel_strength);
+
+    ALBEDO = final_color * color_strength;
+    ALPHA = alpha;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dg77c"]
+render_priority = 0
+shader = SubResource("Shader_efxa6")
+shader_parameter/foliage_texture = ExtResource("10_efxa6")
+shader_parameter/texture_scale = Vector2(1, 1)
+shader_parameter/alpha_threshold = 1.0
+shader_parameter/foliage_colour = Color(0.9411765, 0.23529412, 0.05490196, 1)
+shader_parameter/color_strength = 0.63600003021
+shader_parameter/fresnel_colour = Color(0.9607843, 0.5137255, 0.09019608, 1)
+shader_parameter/fresnel_strength = 0.51200002432
+shader_parameter/fresnel_power = 1.98400009098012
+shader_parameter/billboard_strength = 0.0
+shader_parameter/vertex_offset_scale = Vector2(1, 1)
+shader_parameter/flip_normal = true
+shader_parameter/use_wind = true
+shader_parameter/wind_strength = 0.350000016625
+shader_parameter/wind_speed = 0.94700004172262
+shader_parameter/wind_direction = Vector3(1, 0, 0)
+
 [node name="main" type="Node3D" unique_id=1661839361]
 
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
 spawn_point = NodePath("../Environment/House/SpawnPoint")
-
-[node name="DayNightCycle" type="Node3D" parent="." unique_id=1595699666]
-script = ExtResource("4_1bvp3")
-
-[node name="moon" type="DirectionalLight3D" parent="DayNightCycle" unique_id=323963446]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9348335, 6.5537577, -4.7683716e-07)
-light_color = Color(0.89411765, 1, 1, 1)
-light_energy = 0.0
-
-[node name="sun" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
-transform = Transform3D(1, 0, 0, 0, -0.034899462, 0.99939084, 0, -0.99939084, -0.034899462, 0, 8.777229, 0)
-light_color = Color(0.95686275, 0.84313726, 0.44705883, 1)
-light_energy = 0.617
 
 [node name="House" type="StaticBody3D" parent="." unique_id=2116433258]
 
@@ -121,8 +193,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2418265, 2.4711514, -0.1645
 
 [node name="Environment" type="Node3D" parent="." unique_id=639223408]
 
-[node name="Terrain" parent="Environment" unique_id=381149719 instance=ExtResource("8_kek77")]
-
 [node name="Den" parent="Environment" unique_id=834735283 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
 
@@ -161,7 +231,7 @@ trunk_sweep_amount = 0.0
 trunk_max_radius = 0.29
 twig_scale = 0.8
 material_trunk = SubResource("StandardMaterial3D_5vw27")
-material_twig = SubResource("ShaderMaterial_kek77")
+material_twig = SubResource("ShaderMaterial_dg77c")
 collision_enabled = true
 wind_blur = 0.41
 wind_branch_wind_strength = 2.07
@@ -186,3 +256,8 @@ transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.73118
 flat_spots = [NodePath("../Den"), NodePath("../House")]
 
 [node name="Atmosphere" parent="." unique_id=957738652 instance=ExtResource("12_dg77c")]
+day_color = Color(0.35819095, 0.6171973, 0.92147624, 1)
+night_color = Color(0.22086313, 0.09058233, 0.36689776, 1)
+cloud_count = 25
+cloud_speed = 5.0
+sky_height = 150.0

@@ -16,7 +16,6 @@ tonemap_mode = 3
 glow_enabled = true
 glow_intensity = 1.2
 glow_blend_mode = 0
-fog_enabled = true
 fog_light_color = Color(0.05882353, 0.09019608, 0.16470589, 1)
 fog_density = 0.02
 fog_height = 2.0
@@ -41,20 +40,21 @@ clouds = NodePath("Clouds")
 cloud_material = ExtResource("2_itjcu")
 
 [node name="Sunlight" type="DirectionalLight3D" parent="." unique_id=1805883158]
+sky_mode = 1
 
 [node name="Moonlight" type="DirectionalLight3D" parent="." unique_id=2056782194]
+sky_mode = 1
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1985895199]
 environment = SubResource("Environment_itjcu")
 
 [node name="SunSprite" type="Sprite3D" parent="." unique_id=653447690]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.48496, 2.9102302, 0)
-pixel_size = 0.1
+pixel_size = 2.5
 texture_filter = 2
 texture = SubResource("CompressedTexture2D_itjcu")
 
 [node name="MoonSprite" type="Sprite3D" parent="." unique_id=808465055]
-pixel_size = 0.1
+pixel_size = 2.5
 texture_filter = 2
 texture = SubResource("CompressedTexture2D_ilkcg")
 
