@@ -12,7 +12,7 @@ const PICKUP_TIME: float = 0.5
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
 
-var near_den: bool = false
+var current_den: Area3D = null
 var nearby_food: Area3D
 var pickup_progress: float
 
@@ -49,7 +49,7 @@ func process_input(delta: float) -> void:
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
-	if Input.is_action_just_pressed("interact") and near_den:
+	if Input.is_action_just_pressed("interact") and current_den:
 		toggle_den()
 		
 	if Input.is_action_pressed("point") and nearby_food:
@@ -100,6 +100,8 @@ func toggle_den() -> void:
 	needs.in_den = den_ui.visible
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		current_den.stored_food += inventory.items.size()
+		inventory.items.clear()
 	else:
 		TimeGlobal.stop_sleeping()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
