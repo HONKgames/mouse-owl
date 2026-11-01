@@ -1,9 +1,18 @@
 extends Control
 
+const FOOD_VALUE: float = 25.0
+
 @onready var time_indicator: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sleep_button: TextureButton = $TextureButton
 @onready var vignette: TextureRect = $Vignette
+
+@onready var food_label: Label = $VBoxContainer/FoodLabel
+@onready var eat_button: Button = $VBoxContainer/EatButton
+@onready var feed_button: Button = $VBoxContainer/FeedButton
+
 var was_sleeping: bool = false
+var den: Area3D = null
+var player_needs: Node = null
 
 func _ready() -> void:
 	if sleep_button:
@@ -14,6 +23,9 @@ func _ready() -> void:
 		vignette.modulate.a = 0.0
 		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
+	eat_button.pressed.connect(_on_eat_pressed)
+	feed_button.pressed.connect(_on_feed_pressed)
+
 func _process(_delta: float) -> void:
 	update_time_indicator()
 	
@@ -51,6 +63,35 @@ func fade_sleep_effects(active: bool) -> void:
 		if sleep_button:
 			tween.tween_property(sleep_button, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.3)
 			tween.tween_property(sleep_button, "scale", Vector2(1.0, 1.0), 0.3)
+
+func open(d: Area3D, n: Node) -> void:
+	den = d
+	player_needs = n
+	update_label()
+
+func update_label() -> void:
+	food_label.text = "food: " + str(den.stored_food)
+
+func _on_eat_pressed() -> void:
+	if den.stored_food > 0:
+		den.stored_food -= 1
+		player_needs.eat(FOOD_VALUE)
+		update_label()
+
+func _on_feed_pressed() -> void:
+	if den.stored_food <= 0:
+		return
+	var hungriest: Node = null
+	for child in den.get_children():
+		if not child.has_node("Needs"):
+			continue
+		var child_needs: Node = child.get_node("Needs")
+		if hungriest == null or hungriest.hunger < child_needs.hunger:
+			hungriest = child_needs
+	if hungriest != null:
+		den.stored_food -= 1
+		hungriest.eat(FOOD_VALUE)
+		update_label()
 
 func _input(event: InputEvent) -> void:
 	if not visible:

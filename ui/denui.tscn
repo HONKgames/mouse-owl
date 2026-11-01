@@ -222,3 +222,37 @@ offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
 texture = SubResource("GradientTexture2D_pm0ju")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1593698213]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -23.5
+offset_bottom = 23.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="FoodLabel" type="Label" parent="VBoxContainer" unique_id=963027306]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Food: 0"
+horizontal_alignment = 1
+
+[node name="EatButton" type="Button" parent="VBoxContainer" unique_id=1000828080]
+custom_minimum_size = Vector2(180, 48)
+custom_maximum_size = Vector2(180, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Eat"
+
+[node name="FeedButton" type="Button" parent="VBoxContainer" unique_id=1645537402]
+custom_minimum_size = Vector2(180, 48)
+custom_maximum_size = Vector2(180, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Feed Child"
