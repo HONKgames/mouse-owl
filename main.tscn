@@ -10,7 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 [ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="10_efxa6"]
 [ext_resource type="Material" uid="uid://nbufyjjbwrxk" path="res://assets/art/fluffy_trees_material.tres" id="11_dg77c"]
+[ext_resource type="Script" uid="uid://cs63y05saoxd" path="res://systems/food_spawner.gd" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
+[ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("7_5vw27")
@@ -229,6 +231,11 @@ transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.73118
 
 [node name="Terrain" parent="." unique_id=1207053157 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
 flat_spots = [NodePath("../Environment/House"), NodePath("../Environment/Den")]
+
+[node name="FoodSpawner" type="Node3D" parent="." unique_id=2050113089 node_paths=PackedStringArray("terrain")]
+script = ExtResource("11_ycdy4")
+food_scene = ExtResource("12_ycdy4")
+terrain = NodePath("../Terrain")
 
 [node name="Atmosphere" parent="." unique_id=957738652 instance=ExtResource("12_dg77c")]
 day_color = Color(0.35819095, 0.6171973, 0.92147624, 1)

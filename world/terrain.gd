@@ -47,7 +47,12 @@ func build_collision() -> void:
 
 func get_height(x: int, z: int) -> float:
 	return heights[z * (size + 1) + x]
-	
+
+func get_height_at(world_x: float, world_z: float) -> float:
+	var gx: int = clampi(roundi(world_x + offset), 0, size)
+	var gz: int = clampi(roundi(world_z + offset), 0, size)
+	return get_height(gx, gz)
+
 func flatten(x: float, z: float, h: float) -> float:
 	var pos: Vector2 = Vector2(x - offset, z - offset)
 	for spot in flat_spots:
