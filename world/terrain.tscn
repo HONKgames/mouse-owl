@@ -11,6 +11,7 @@ albedo_texture = ExtResource("2_8r1dp")
 normal_enabled = true
 normal_texture = ExtResource("3_pjce0")
 uv1_triplanar = true
+texture_filter = 2
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_m57dp"]
 
