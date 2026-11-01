@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://tfmpiu5l2exf"]
+
+[ext_resource type="PackedScene" uid="uid://duh5g2cgori8q" path="res://Meshes/Pumpkin_1.fbx" id="1_yv5ev"]
+
+[node name="smallpumpkin" unique_id=1440053990 instance=ExtResource("1_yv5ev")]
