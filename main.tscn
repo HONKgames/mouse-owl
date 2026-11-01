@@ -48,7 +48,7 @@ light_color = Color(0.89411765, 1, 1, 1)
 light_energy = 0.0
 
 [node name="sun" type="DirectionalLight3D" parent="DayNightCycle" unique_id=1677514503]
-transform = Transform3D(1, 0, 0, 0, -0.034899287, 0.99939084, 0, -0.99939084, -0.034899287, 0, 8.777229, 0)
+transform = Transform3D(1, 0, 0, 0, -0.034899462, 0.99939084, 0, -0.99939084, -0.034899462, 0, 8.777229, 0)
 light_color = Color(0.95686275, 0.84313726, 0.44705883, 1)
 light_energy = 0.617
 
@@ -107,4 +107,5 @@ offset_bottom = 655.0
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1096886927]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
-[node name="Terrain" parent="." unique_id=381149719 instance=ExtResource("9_kek77")]
+[node name="Terrain" parent="." unique_id=381149719 node_paths=PackedStringArray("flat_spots") instance=ExtResource("9_kek77")]
+flat_spots = [NodePath("../Den"), NodePath("../House")]
