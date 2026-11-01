@@ -21,6 +21,7 @@ func _ready() -> void:
 	
 	if vignette:
 		vignette.modulate.a = 0.0
+		vignette.visible = true
 		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	eat_button.pressed.connect(_on_eat_pressed)
@@ -53,7 +54,7 @@ func fade_sleep_effects(active: bool) -> void:
 	
 	if active:
 		if vignette:
-			tween.tween_property(vignette, "modulate:a", 0.4, 0.3)
+			tween.tween_property(vignette, "modulate:a", 0.75, 0.3)
 		if sleep_button:
 			tween.tween_property(sleep_button, "modulate", Color(1.3, 1.3, 1.0, 1.0), 0.3)
 			tween.tween_property(sleep_button, "scale", Vector2(1.05, 1.05), 0.3)

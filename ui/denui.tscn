@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bfce50t6w68la" path="res://ui/denui.gd" id="1_gnf06"]
 [ext_resource type="Texture2D" uid="uid://hcpel4qht2tr" path="res://assets/art/sleep.png" id="1_sq3tw"]
 [ext_resource type="Texture2D" uid="uid://cy471u1iiv7x2" path="res://assets/art/time_indicator.png" id="3_gnf06"]
+[ext_resource type="Texture2D" uid="uid://bwakgri7kftw" path="res://assets/art/den.png" id="4_cnmp4"]
+[ext_resource type="Script" uid="uid://io8fyuriql44" path="res://ui/mousebaby.gd" id="5_p5g6x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p5g6x"]
 atlas = ExtResource("3_gnf06")
@@ -191,6 +193,13 @@ use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cnmp4"]
+load_path = "res://.godot/imported/mouse newborn.png-b77aad1f2034902f8590c850e1994803.ctex"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pm0ju"]
+radius = 20.0
+height = 88.0
+
 [node name="Control" type="Control" unique_id=1661196179]
 layout_mode = 3
 anchors_preset = 15
@@ -199,6 +208,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gnf06")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1269641448]
+position = Vector2(576, 324)
+scale = Vector2(4.5, 4.5)
+texture = ExtResource("4_cnmp4")
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1634372620]
 texture_filter = 3
@@ -217,6 +231,7 @@ scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_pm0ju")
 
 [node name="Vignette" type="TextureRect" parent="." unique_id=650886681]
+visible = false
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -256,3 +271,113 @@ custom_maximum_size = Vector2(180, 48)
 layout_mode = 2
 focus_mode = 0
 text = "Feed Child"
+
+[node name="Boundary" type="StaticBody2D" parent="." unique_id=1824680762]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boundary" unique_id=1898365944]
+build_mode = 1
+polygon = PackedVector2Array(359, 57, 270, 125, 262, 147, 185, 227, 174, 304, 175, 385, 199, 413, 208, 487, 288, 529, 305, 564, 519, 618, 726, 614, 936, 488, 953, 446, 961, 372, 991, 257, 1031, 204, 1147, 141, 1149, -103, 751, 41, 472, 24)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2125956594]
+position = Vector2(600, 570)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=97805390]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=438406477]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D8" type="CharacterBody2D" parent="." unique_id=1465886130]
+position = Vector2(550, 300)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D8" unique_id=1811949136]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D8" unique_id=1514500689]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D7" type="CharacterBody2D" parent="." unique_id=779539149]
+position = Vector2(400, 500)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D7" unique_id=972863200]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D7" unique_id=599616555]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D6" type="CharacterBody2D" parent="." unique_id=2112672926]
+position = Vector2(700, 300)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D6" unique_id=893935475]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D6" unique_id=2042847407]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D5" type="CharacterBody2D" parent="." unique_id=1676383430]
+position = Vector2(300, 400)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D5" unique_id=1214069787]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D5" unique_id=1484475217]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="." unique_id=682939937]
+position = Vector2(500, 570)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D2" unique_id=1063625456]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2" unique_id=1772667645]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D3" type="CharacterBody2D" parent="." unique_id=1724794179]
+position = Vector2(700, 570)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D3" unique_id=503383683]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3" unique_id=639273660]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
+
+[node name="CharacterBody2D4" type="CharacterBody2D" parent="." unique_id=1402773430]
+position = Vector2(600, 500)
+script = ExtResource("5_p5g6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D4" unique_id=1730128000]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("CompressedTexture2D_cnmp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D4" unique_id=2076657262]
+position = Vector2(-5, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_pm0ju")
