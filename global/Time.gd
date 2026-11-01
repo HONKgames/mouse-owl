@@ -42,6 +42,6 @@ func start_sleeping() -> void:
 func stop_sleeping() -> void:
 	target_time_scale = 1.0
 	
-func get_time(): #0.0 to 1.0
+func get_time() -> float: #0.0 to 1.0
 	return (hour*3600+minute*60+second)/86400
 	

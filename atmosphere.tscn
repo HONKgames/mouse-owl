@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://c87nauh5y0ps3"]
+
+[ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://atmosphere.gd" id="1_1kep5"]
+[ext_resource type="Material" uid="uid://dqyu5eg6572lw" path="res://assets/shaders/clouds.tres" id="2_itjcu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s04jw"]
+sky_top_color = Color(0.07058824, 0.03137255, 0.10980392, 1)
+
+[sub_resource type="Sky" id="Sky_f3jpl"]
+sky_material = SubResource("ProceduralSkyMaterial_s04jw")
+
+[sub_resource type="Environment" id="Environment_itjcu"]
+background_mode = 2
+sky = SubResource("Sky_f3jpl")
+tonemap_mode = 3
+glow_enabled = true
+glow_intensity = 1.2
+glow_blend_mode = 0
+fog_enabled = true
+fog_light_color = Color(0.05882353, 0.09019608, 0.16470589, 1)
+fog_density = 0.02
+fog_height = 2.0
+adjustment_enabled = true
+adjustment_contrast = 1.15
+adjustment_saturation = 1.2
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_itjcu"]
+load_path = "res://.godot/imported/sun.png-8bae438e467b461130510d24b573217e.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ilkcg"]
+load_path = "res://.godot/imported/moon.png-0ed251f80723dc7f174f2b3e976d685a.s3tc.ctex"
+
+[node name="Atmosphere" type="Node3D" unique_id=957738652 node_paths=PackedStringArray("sun", "moon", "world_env", "sun_sprite", "moon_sprite", "clouds")]
+script = ExtResource("1_1kep5")
+sun = NodePath("Sunlight")
+moon = NodePath("Moonlight")
+world_env = NodePath("Environment")
+sun_sprite = NodePath("SunSprite")
+moon_sprite = NodePath("MoonSprite")
+clouds = NodePath("Clouds")
+cloud_material = ExtResource("2_itjcu")
+
+[node name="Sunlight" type="DirectionalLight3D" parent="." unique_id=1805883158]
+
+[node name="Moonlight" type="DirectionalLight3D" parent="." unique_id=2056782194]
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=1985895199]
+environment = SubResource("Environment_itjcu")
+
+[node name="SunSprite" type="Sprite3D" parent="." unique_id=653447690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.48496, 2.9102302, 0)
+pixel_size = 0.1
+texture_filter = 2
+texture = SubResource("CompressedTexture2D_itjcu")
+
+[node name="MoonSprite" type="Sprite3D" parent="." unique_id=808465055]
+pixel_size = 0.1
+texture_filter = 2
+texture = SubResource("CompressedTexture2D_ilkcg")
+
+[node name="Clouds" type="Node3D" parent="." unique_id=1789887744]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=96659337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.49650002, 12.104345, -0.1663456)
