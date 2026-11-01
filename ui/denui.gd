@@ -78,8 +78,9 @@ func open(d: Area3D, n: Node) -> void:
 	for child in den.get_children():
 		if not child.has_node("Needs"):
 			continue
-		var c: Node2D = children_scene.instantiate()
+		var c: MouseBaby = children_scene.instantiate()
 		c.position = Vector2(randf_range(300, 700), randf_range(300, 500))
+		c.needs = child.get_node("Needs")
 		children.add_child(c)
 
 func update_label() -> void:

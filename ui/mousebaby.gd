@@ -1,3 +1,4 @@
+class_name MouseBaby
 extends CharacterBody2D
 
 @export var jump_velocity_min: float = -200.0
@@ -8,6 +9,7 @@ extends CharacterBody2D
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_timer: float = 0.0
+var needs: Node
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -15,6 +17,8 @@ func _ready() -> void:
 	_reset_jump_timer()
 
 func _physics_process(delta: float) -> void:
+	if needs:
+		sprite.modulate = Color.WHITE.lerp(Color(0.5, 0.5, 0.5), needs.hunger / 100.0)
 	if TimeGlobal.time_scale > 1.5:
 		if not is_on_floor():
 			velocity.y += gravity * delta
