@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" uid="uid://5omd8k2w0ovt" path="res://world/terrain.gd" id="1_m57dp"]
 [ext_resource type="Texture2D" uid="uid://belag4tnvpdc8" path="res://assets/art/dirt.png" id="2_8r1dp"]
+[ext_resource type="Texture2D" uid="uid://d2mm163sha3as" path="res://assets/art/dirt_n.png" id="3_pjce0"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_m57dp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_csr0e"]
 albedo_texture = ExtResource("2_8r1dp")
+normal_enabled = true
+normal_texture = ExtResource("3_pjce0")
 uv1_triplanar = true
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_m57dp"]
