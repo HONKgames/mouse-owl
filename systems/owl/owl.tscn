@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bl0o14brm6wb1"]
+
+[ext_resource type="Script" uid="uid://kkdpqlh1d6tk" path="res://systems/owl/owl.gd" id="1_5a64n"]
+[ext_resource type="Script" uid="uid://dklm1vtf7u2e0" path="res://systems/owl/navigation_agent_3d.gd" id="2_wmkke"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x1w1a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uetk2"]
+radius = 5.9947014
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_et6nl"]
+
+[node name="Owl" type="CharacterBody3D" unique_id=1619061527]
+script = ExtResource("1_5a64n")
+fov_degree = null
+detection_area = null
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=553197226]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=94275418]
+shape = SubResource("CapsuleShape3D_x1w1a")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=816587137]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1688298435]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1081924752]
+shape = SubResource("SphereShape3D_uetk2")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=483436991]
+sprite_frames = SubResource("SpriteFrames_et6nl")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=27819783]
+script = ExtResource("2_wmkke")
+
+[node name="NavigationLink3D" type="NavigationLink3D" parent="." unique_id=1081938557]
