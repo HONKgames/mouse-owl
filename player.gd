@@ -9,11 +9,11 @@ const DECEL: float = 100.0
 const SPEED_MULTIPLIER: float = 1.6
 
 @export var mouse_sensitivity: float = 0.2
+@export var spawn_point: Node3D
 
 var near_den: bool = false
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
-@onready var spawn_point: Node3D = $/root/main/Floor/SpawnPoint
 @onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
 
