@@ -25,10 +25,12 @@ var reject_tween: Tween
 var pop_tween: Tween
 
 func _ready() -> void:
-	if inventory and inventory.changed.is_connected(_on_inventory_changed) == false:
-		inventory.changed.connect(_on_inventory_changed)
-	inventory.rejected.connect(_on_inventory_rejected)
-	_on_inventory_changed()
+	if inventory:
+		if not inventory.changed.is_connected(_on_inventory_changed):
+			inventory.changed.connect(_on_inventory_changed)
+		if not inventory.rejected.is_connected(_on_inventory_rejected):
+			inventory.rejected.connect(_on_inventory_rejected)
+		_on_inventory_changed()
 	
 	if not needs and Engine.has_singleton("Needs"):
 		needs = get_node("/root/Needs")
@@ -44,6 +46,9 @@ func _ready() -> void:
 	update_bar(false)
 
 func _process(_delta: float) -> void:
+	if not player:
+		return
+		
 	pickup_bar.value = player.pickup_progress / player.PICKUP_TIME * 100
 	pickup_bar.visible = pickup_bar.value != 0
 

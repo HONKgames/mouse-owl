@@ -229,7 +229,7 @@ position = Vector2(576, 324)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("4_cnmp4")
 
-[node name="TextureButton" type="Button" parent="." unique_id=1773269804]
+[node name="Button" type="Button" parent="." unique_id=1773269804]
 texture_filter = 3
 layout_mode = 0
 offset_left = 833.0
@@ -238,7 +238,7 @@ offset_right = 1134.0
 offset_bottom = 620.0
 flat = true
 
-[node name="Label2" type="Label" parent="TextureButton" unique_id=1864579319]
+[node name="Label2" type="Label" parent="Button" unique_id=1864579319]
 layout_mode = 0
 offset_left = 16.0
 offset_top = -7.0
@@ -249,7 +249,7 @@ label_settings = SubResource("LabelSettings_52eyo")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="TextureButton" unique_id=1465431075]
+[node name="Label3" type="Label" parent="Button" unique_id=1465431075]
 layout_mode = 0
 offset_left = 57.0
 offset_top = -32.0

@@ -5,7 +5,7 @@ signal day_changed(day: int)
 
 @export var seconds_per_hour: float = 60.0
 @export var roundNum: int = 0 
-@export var nightPhase = "EARLY"
+@export var nightPhase := "EARLY"
 var phaseTransitions := [20, 23, 2, 7]
 var second: float = 0.0
 var minute: int = 0
@@ -52,9 +52,8 @@ func get_time() -> float: #0.0 to 1.0
 func advance_round() -> void:
 	roundNum+=1
 
-func get_night_phase():
+func get_night_phase() -> String:
 	if hour > phaseTransitions[0] and hour < phaseTransitions[1]: return "EARLY"
 	if hour >= phaseTransitions[1] and hour < phaseTransitions[2]: return "MIDDLE"
 	if hour >= phaseTransitions[2] and hour < phaseTransitions[3]: return "LATE"
-	return null
-	
+	return ""
