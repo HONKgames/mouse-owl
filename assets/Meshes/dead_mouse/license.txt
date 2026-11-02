@@ -1,0 +1,8 @@
+Model Information:
+* title:	Dead Mouse
+* source:	https://sketchfab.com/3d-models/dead-mouse-e28f6ceb4dcb4bebbef9f9a9ba69164d
+* author:	Dom S (https://sketchfab.com/dominiksubocz)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

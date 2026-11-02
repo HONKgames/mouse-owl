@@ -7,7 +7,7 @@ const FOOD_VALUE: float = 25.0
 @onready var children: Node2D = $Children
 
 @onready var time_indicator: AnimatedSprite2D = $AnimatedSprite2D
-@onready var sleep_button: TextureButton = $TextureButton
+@onready var sleep_button: Button = $Button
 @onready var vignette: TextureRect = $Vignette
 
 @onready var food_label: Label = $VBoxContainer/FoodLabel
