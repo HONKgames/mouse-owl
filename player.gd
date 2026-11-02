@@ -30,6 +30,11 @@ var death_camera: Camera3D = null
 @onready var death_vignette: Control = $DeathVignette
 @onready var game_over: Node2D = $GameOver
 @onready var restart_button: Button = $GameOver/restart
+@onready var death_hunger: Node2D = $GameOver/death_hunger
+@onready var death_children: Node2D = $GameOver/death_children
+@onready var death_enemy: Node2D = $GameOver/death_enemy
+@onready var win: Node2D = $GameOver/win
+@onready var death_floor: TextureRect = $GameOver/Floor
 @onready var hud: CanvasLayer = $Hud
 
 @onready var den_prompt: Label = $DenPrompt
@@ -68,7 +73,7 @@ func _process(delta: float) -> void:
 				texture.gradient.set_offset(1, current_offset)
 			
 		if death_timer >= TIME_TO_DEATH:
-			start_death_sequence()
+			start_death_sequence("HUNGER")
 	else:
 		death_timer = maxf(death_timer - delta * 3.0, 0.0)
 		
@@ -191,7 +196,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		rotation_helper.rotation.x = clampf(rotation_helper.rotation.x, deg_to_rad(-70), deg_to_rad(70))
 
-func start_death_sequence() -> void:
+func start_death_sequence(type: String) -> void:
 	is_dead = true
 	hud.visible = false
 	death_model.visible = true
@@ -207,10 +212,28 @@ func start_death_sequence() -> void:
 		tween.tween_property(camera_3D, "position:z", 5.0, 3.0)
 	
 	await get_tree().create_timer(5.0).timeout
-	game_over_screen()
+	game_over_screen(type)
 
-func game_over_screen() -> void:
+func game_over_screen(type: String) -> void:
 	game_over.visible = true
+	var texture: GradientTexture2D = death_floor.texture as GradientTexture2D
+	var floor_color: Color
+	
+	if type.contains("HUNGER"):
+		death_hunger.visible = true
+		floor_color = Color.from_hsv(0.361, 0.484, 0.809, 0.502)
+	elif type.contains("CHILDREN"):
+		death_children.visible = true
+		floor_color = Color.from_hsv(0.361, 0.484, 0.809, 0.502)
+	elif type.contains("ENEMY"):
+		death_enemy.visible = true
+		floor_color = Color.from_hsv(0.012, 0.796, 0.797, 0.502)
+	elif type.contains("WIN"):
+		win.visible = true
+		floor_color = Color.from_hsv(0.122, 0.006, 0.709, 0.502)
+	
+	if texture and texture.gradient and floor_color:
+		texture.gradient.set_color(1, floor_color)
 
 func _reset() -> void:
 	get_tree().reload_current_scene()

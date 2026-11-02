@@ -3,6 +3,8 @@
 [ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="1_j1fe5"]
 [ext_resource type="Texture2D" uid="uid://c546a5bn7uj3x" path="res://assets/art/mouse newborn.png" id="2_xjda6"]
 [ext_resource type="Texture2D" uid="uid://br3i7rxgl7cu3" path="res://assets/art/flying owl.png" id="3_akjlf"]
+[ext_resource type="Texture2D" uid="uid://bf5lyxpynamva" path="res://assets/art/mouse newborn skeleton.png" id="4_akjlf"]
+[ext_resource type="Texture2D" uid="uid://77mfpcb7dtlg" path="res://assets/art/adult mouse.png" id="5_k8651"]
 
 [sub_resource type="Gradient" id="Gradient_55k1u"]
 interpolation_mode = 2
@@ -17,6 +19,23 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="LabelSettings" id="LabelSettings_u0541"]
 font = ExtResource("1_j1fe5")
 font_size = 100
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j1fe5"]
+font = ExtResource("1_j1fe5")
+font_size = 45
+font_color = Color(0.6334909, 0.06101609, 0.17572346, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_55k1u"]
+font = ExtResource("1_j1fe5")
+font_size = 25
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
@@ -37,14 +56,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_j1fe5"]
-font = ExtResource("1_j1fe5")
-font_size = 45
-font_color = Color(0.6334909, 0.06101609, 0.17572346, 1)
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 10
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tb368"]
+load_path = "res://.godot/imported/trunk top.png-af1bfac04a6efed8cec516d34e3b764e.ctex"
 
 [node name="GameOver" type="Node2D" unique_id=1162549157]
 
@@ -53,7 +66,7 @@ offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.14391336, 0.027358806, 0.22808191, 1)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=2053677835]
+[node name="Floor" type="TextureRect" parent="." unique_id=2053677835]
 offset_left = 81.81357
 offset_top = 228.04231
 offset_right = 650.8136
@@ -79,33 +92,6 @@ label_settings = SubResource("LabelSettings_u0541")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1441511183]
-texture_filter = 3
-position = Vector2(309.48825, 328.2895)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_xjda6")
-
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=643659616]
-texture_filter = 3
-position = Vector2(396.48825, 341.2895)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_xjda6")
-
-[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=742077082]
-texture_filter = 3
-position = Vector2(368.48825, 283.28943)
-rotation = 0.2617994
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_xjda6")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=797135452]
-modulate = Color(0, 0, 0, 0.23921569)
-texture_filter = 3
-position = Vector2(343.67465, 327.2472)
-rotation = 1.7453293
-scale = Vector2(7.119676, 15.859284)
-sprite_frames = SubResource("SpriteFrames_pm0ju")
-
 [node name="restart" type="Button" parent="." unique_id=220124630]
 offset_left = 689.0
 offset_top = 350.0
@@ -129,5 +115,152 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "R E S T A R T"
 label_settings = SubResource("LabelSettings_j1fe5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="death_hunger" type="Node2D" parent="." unique_id=905557773]
+visible = false
+
+[node name="Label3" type="Label" parent="death_hunger" unique_id=108027905]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 135.0
+offset_top = 25.0
+offset_right = 612.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You have starved to death!
+Your children have been left without a parent!"
+label_settings = SubResource("LabelSettings_55k1u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="death_hunger" unique_id=1441511183]
+texture_filter = 3
+position = Vector2(309.48825, 328.2895)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_xjda6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="death_hunger" unique_id=643659616]
+texture_filter = 3
+position = Vector2(396.48825, 341.2895)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_xjda6")
+
+[node name="Sprite2D3" type="Sprite2D" parent="death_hunger" unique_id=742077082]
+texture_filter = 3
+position = Vector2(368.48825, 283.28943)
+rotation = 0.2617994
+scale = Vector2(0.49999997, 0.49999997)
+texture = ExtResource("2_xjda6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="death_hunger" unique_id=797135452]
+modulate = Color(0, 0, 0, 0.23921569)
+texture_filter = 3
+position = Vector2(343.67465, 327.2472)
+rotation = 1.7453293
+scale = Vector2(7.119676, 15.859284)
+sprite_frames = SubResource("SpriteFrames_pm0ju")
+
+[node name="death_children" type="Node2D" parent="." unique_id=1455216430]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="death_children" unique_id=1011782691]
+modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)
+position = Vector2(370, 348)
+rotation = 0.054915376
+scale = Vector2(1.5989679, 0.8028848)
+texture = SubResource("CompressedTexture2D_tb368")
+
+[node name="Sprite2D2" type="Sprite2D" parent="death_children" unique_id=2055305516]
+position = Vector2(368.82343, 320.03262)
+rotation = 0.21190189
+scale = Vector2(1.0935259, 1.0195751)
+texture = ExtResource("4_akjlf")
+
+[node name="Label4" type="Label" parent="death_children" unique_id=1368039770]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 135.0
+offset_top = 25.0
+offset_right = 612.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You have neglected your children;
+they have perished!"
+label_settings = SubResource("LabelSettings_55k1u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="death_enemy" type="Node2D" parent="." unique_id=1121565615]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="death_enemy" unique_id=2037618398]
+position = Vector2(379, 322.99997)
+rotation = 0.2617994
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_akjlf")
+
+[node name="Label5" type="Label" parent="death_enemy" unique_id=1495922093]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 137.0
+offset_top = 60.0
+offset_right = 614.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You were mauled by the owl!"
+label_settings = SubResource("LabelSettings_55k1u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="win" type="Node2D" parent="." unique_id=1682570285]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="win" unique_id=747845254]
+position = Vector2(443, 382)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_k8651")
+flip_h = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="win" unique_id=1462011704]
+position = Vector2(281, 367)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_k8651")
+flip_h = true
+
+[node name="Sprite2D3" type="Sprite2D" parent="win" unique_id=1690017669]
+position = Vector2(388, 307)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_k8651")
+
+[node name="Label6" type="Label" parent="win" unique_id=1402720309]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 137.0
+offset_top = 60.0
+offset_right = 614.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Your children didn't suffer a cruel death!
+You were an okay parent;
+Victory!"
+label_settings = SubResource("LabelSettings_55k1u")
 horizontal_alignment = 1
 vertical_alignment = 1
