@@ -33,3 +33,13 @@ visible = false
 
 [node name="Inventory" type="Node" parent="." unique_id=671944091]
 script = ExtResource("5_sweqy")
+
+[node name="DenPrompt" type="Label" parent="." unique_id=2145479249]
+visible = false
+offset_left = 471.0
+offset_top = 302.0
+offset_right = 626.0
+offset_bottom = 325.0
+text = "Press E to enter den"
+horizontal_alignment = 1
+vertical_alignment = 1

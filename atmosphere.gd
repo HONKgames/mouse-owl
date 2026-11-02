@@ -16,10 +16,10 @@ extends Node3D
 @export var night_color: Color = Color("411c6bff")
 
 @export_category("Clouds")
-@export var cloud_count: int = 12
+@export var cloud_count: int = 1200
 @export var cloud_speed: float = 1.5
 @export var sky_height: float = 50.0
-@export var spawn_range: Vector2 = Vector2(-120.0, 120.0)
+@export var spawn_range: Vector2 = Vector2(-500.0, 500.0)
 @export var cloud_material: Material
 
 func _ready() -> void:

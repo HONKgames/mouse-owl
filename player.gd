@@ -20,6 +20,7 @@ var pickup_progress: float
 @onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
 @onready var inventory: Inventory = $Inventory
+@onready var den_prompt: Label = $DenPrompt
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -40,6 +41,9 @@ func _physics_process(delta: float) -> void:
 		process_movement(delta)
 	apply_gravity(delta)
 	move_and_slide()
+
+func _process(_delta: float) -> void:
+	den_prompt.visible = current_den != null and not den_ui.visible
 
 func process_input(delta: float) -> void:
 	# Capturing/Freeing the cursor

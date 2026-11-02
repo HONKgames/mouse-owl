@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://l8120fauya0u" path="res://world/den.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://d3ukt380pj15c" path="res://world/kid.tscn" id="5_kid"]
+[ext_resource type="PackedScene" uid="uid://dx4p7oofcglum" path="res://stump_low.tscn" id="5_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
-[ext_resource type="Shader" uid="uid://dj3ywti7pc8y5" path="res://assets/art/fluffy_trees.gdshader" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://bl0o14brm6wb1" path="res://systems/owl/owl.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
@@ -13,10 +13,13 @@
 [ext_resource type="Script" uid="uid://cs63y05saoxd" path="res://systems/food_spawner.gd" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
+[ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
 vertices = PackedVector3Array(-10.681719, 1.9986035, 0.062232018, -10.181719, 1.9986035, 0.812232, -9.681719, 1.9986035, 0.562232, -9.681719, 1.9986035, -0.18776798, 4.568281, 7.4986033, 3.812232, 3.8182812, 7.4986033, 3.062232, 3.3182812, 7.7486033, 3.562232, 3.8182812, 7.7486033, 5.062232, 4.568281, 7.2486033, 4.812232, -1.9317188, 1.9986035, 10.562232, -1.6817188, 2.2486033, 11.062232, -0.9317188, 1.9986035, 11.062232, -1.1817188, 1.9986035, 10.062232, 6.818281, 8.248604, 15.312232, 7.568281, 8.998604, 16.562233, 8.068281, 8.998604, 16.312233, -0.43171883, 13.998604, 22.562233, 0.8182812, 13.498604, 23.312233, 0.8182812, 13.248604, 22.062233, -1.1817188, 13.998604, 21.062233, -0.43171883, 11.498604, 22.812233, -0.43171883, 11.248604, 23.562233, 0.06828117, 11.498604, 23.812233, 2.0682812, 14.248604, 24.062233, 2.8182812, 13.998604, 24.062233, 3.0682812, 13.998604, 23.562233, 3.0682812, 13.748604, 22.812233, 1.8182812, 14.248604, 23.062233)
 polygons = [PackedInt32Array(2, 1, 3), PackedInt32Array(3, 1, 0), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 8), PackedInt32Array(6, 8, 7), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(22, 21, 20), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 26), PackedInt32Array(26, 23, 27)]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qanqi"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
 
@@ -111,25 +114,6 @@ shader_parameter/wind_strength = 0.350000016625
 shader_parameter/wind_speed = 0.94700004172262
 shader_parameter/wind_direction = Vector3(1, 0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kek77"]
-render_priority = 0
-shader = ExtResource("8_5vw27")
-shader_parameter/foliage_texture = ExtResource("10_efxa6")
-shader_parameter/texture_scale = Vector2(1, 1)
-shader_parameter/alpha_threshold = 1.0
-shader_parameter/foliage_colour = Color(0.9411765, 0.23529412, 0.05490196, 1)
-shader_parameter/color_strength = 0.63600003021
-shader_parameter/fresnel_colour = Color(0.9607843, 0.5137255, 0.09019608, 1)
-shader_parameter/fresnel_strength = 0.51200002432
-shader_parameter/fresnel_power = 1.98400009098012
-shader_parameter/billboard_strength = 0.0
-shader_parameter/vertex_offset_scale = Vector2(1, 1)
-shader_parameter/flip_normal = true
-shader_parameter/use_wind = true
-shader_parameter/wind_strength = 0.350000016625
-shader_parameter/wind_speed = 0.94700004172262
-shader_parameter/wind_direction = Vector3(1, 0, 0)
-
 [node name="main" type="Node3D" unique_id=1661839361 groups=["player"]]
 
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
@@ -147,24 +131,35 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 [node name="Owl" parent="." unique_id=2075625185 instance=ExtResource("9_4c57u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2418265, 6.0832977, 26.098814)
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=207479146 groups=["player"]]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=207479146]
 navigation_mesh = SubResource("NavigationMesh_et6nl")
 
 [node name="Environment" type="Node3D" parent="NavigationRegion3D" unique_id=639223408]
+script = ExtResource("13_nature")
 
 [node name="Den" parent="NavigationRegion3D/Environment" unique_id=834735283 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
 
 [node name="Kid" parent="NavigationRegion3D/Environment/Den" unique_id=52582032 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0.75, -0.54089713)
+visible = false
 
 [node name="Kid2" parent="NavigationRegion3D/Environment/Den" unique_id=80892995 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.48865962)
+visible = false
 
 [node name="Kid3" parent="NavigationRegion3D/Environment/Den" unique_id=1644969824 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Environment/Den" unique_id=702877438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0854616, 0)
+physics_material_override = SubResource("PhysicsMaterial_qanqi")
+
+[node name="stump_low" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=1757837621 instance=ExtResource("5_ycdy4")]
 
 [node name="House" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2042364361]
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House" unique_id=1313397918]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1.721)
@@ -210,31 +205,6 @@ material_trunk = SubResource("StandardMaterial3D_5vw27")
 material_twig = ExtResource("11_dg77c")
 collision_enabled = true
 transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.731186e-05, -3.374937e-05, -1.731186e-05, 1, 3.180275, 0, 19.946564)
-
-[node name="Tree3D" type="Tree3D" parent="NavigationRegion3D/Environment" unique_id=1370372849]
-trunk_segments = 10
-trunk_branches_count = 8
-trunk_height = 7
-trunk_branch_length = 0.55
-trunk_branch_length_falloff = 1.0
-trunk_branch_clump_max = 0.1
-trunk_branch_clump_min = 0.02
-trunk_drop_amount = 0.089
-trunk_grow_amount = 0.201
-trunk_sweep_amount = 0.0
-trunk_kink = 0.107
-trunk_twist = 2.03
-twig_scale = 0.25
-material_trunk = SubResource("StandardMaterial3D_5vw27")
-material_twig = SubResource("ShaderMaterial_kek77")
-collision_enabled = true
-wind_blur = 0.41
-wind_branch_wind_strength = 2.07
-wind_branch_wind_blur = 0.52
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.180275, 0, 3.9190898)
-
-[node name="Pumpkin_1" parent="NavigationRegion3D/Environment/Tree3D" unique_id=1440053990 instance=ExtResource("9_kek77")]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -4.5383644, 0, 6.7070584)
 
 [node name="Terrain" parent="NavigationRegion3D/Environment" unique_id=1207053157 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
 flat_spots = [NodePath("../House"), NodePath("../Den")]
