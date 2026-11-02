@@ -3,27 +3,11 @@
 [ext_resource type="Script" uid="uid://jen2u0ggq21g" path="res://ui/hud.gd" id="1_rbyyf"]
 [ext_resource type="Texture2D" uid="uid://bmeibrecbthmw" path="res://icon.svg" id="2_276te"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_276te"]
+load_path = "res://.godot/imported/staminabar.png-e3ccb6eb56b5f4154e13f4f476932e15.ctex"
+
 [node name="Hud" type="CanvasLayer" unique_id=1355711614]
 script = ExtResource("1_rbyyf")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=249142225]
-custom_minimum_size = Vector2(200, 0)
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -58.0
-offset_right = 200.0
-grow_vertical = 0
-offset_transform_enabled = true
-offset_transform_position = Vector2(16, -16)
-
-[node name="HungerBar" type="ProgressBar" parent="VBoxContainer" unique_id=1179333631]
-self_modulate = Color(0.95281494, 0.7373294, 0.3491902, 1)
-layout_mode = 2
-
-[node name="FatigueBar" type="ProgressBar" parent="VBoxContainer" unique_id=1689084637]
-self_modulate = Color(0.36248228, 0.6328748, 0.2672309, 1)
-layout_mode = 2
 
 [node name="Hotbar" type="HBoxContainer" parent="." unique_id=1130170654]
 anchors_preset = 7
@@ -31,8 +15,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_right = 100.0
+offset_left = 324.0
+offset_top = -89.0
+offset_right = 532.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
 offset_transform_enabled = true
@@ -86,3 +72,35 @@ grow_vertical = 2
 texture = ExtResource("2_276te")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Energy" type="MarginContainer" parent="." unique_id=1485922930]
+offset_left = 25.0
+offset_top = 550.0
+offset_right = 425.0
+offset_bottom = 600.0
+
+[node name="Bar" type="NinePatchRect" parent="Energy" unique_id=5770898]
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_276te")
+region_rect = Rect2(3, 28, 58, 8)
+
+[node name="Segments" type="HBoxContainer" parent="Energy" unique_id=981266653]
+texture_filter = 3
+custom_minimum_size = Vector2(370, 22)
+custom_maximum_size = Vector2(370, 22)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="FreeStamina" type="Panel" parent="Energy/Segments" unique_id=1357039034]
+layout_mode = 2
+
+[node name="UsedStamina" type="Panel" parent="Energy/Segments" unique_id=709554404]
+layout_mode = 2
+
+[node name="HungerPenalty" type="Panel" parent="Energy/Segments" unique_id=1295794710]
+layout_mode = 2
+
+[node name="FatiguePenalty" type="Panel" parent="Energy/Segments" unique_id=889686302]
+layout_mode = 2

@@ -42,7 +42,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func process_input(delta: float) -> void:
-	# Capturing/Freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel") and !den_ui.visible:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -65,7 +64,10 @@ func process_input(delta: float) -> void:
 func apply_gravity(delta: float) -> void:
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump") and not den_ui.visible:
-			velocity.y = JUMP_SPEED
+			if needs.stamina >= 10.0:
+				velocity.y = JUMP_SPEED
+				needs.stamina = maxf(needs.stamina - 10.0, 0.0)
+				needs.stamina_changed.emit(needs.stamina)
 		else:
 			velocity.y = -0.5
 	else:
@@ -89,11 +91,16 @@ func process_movement(delta: float) -> void:
 	
 	var acceleration: float = DECEL
 	if dir != Vector3.ZERO:
-		# Turn quickly when the current momentum points against the new input.
 		acceleration = TURN_ACCEL if hvel.dot(dir) < 0.0 else ACCEL
 	hvel = hvel.move_toward(target, acceleration * delta)
 	velocity.x = hvel.x
 	velocity.z = hvel.z
+	
+	if Input.is_action_pressed("sprint") and dir != Vector3.ZERO:
+		if needs.stamina > 0.0:
+			current_speed *= SPEED_MULTIPLIER
+			needs.stamina = maxf(needs.stamina - 25.0 * delta, 0.0)
+			needs.stamina_changed.emit(needs.stamina)
 
 func toggle_den() -> void:
 	den_ui.visible = !den_ui.visible
