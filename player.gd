@@ -50,7 +50,11 @@ func process_input(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("interact") and current_den:
 		toggle_den()
-		
+	
+	if den_ui.visible:
+		pickup_progress = 0.0
+		return
+	
 	if Input.is_action_pressed("point") and not nearby_food.is_empty() and not inventory.is_full():
 		pickup_progress += delta
 	elif Input.is_action_just_pressed("point") and not nearby_food.is_empty() and inventory.is_full():
