@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://dk4wm7wchvrs6" path="res://ui/game_over.tscn" id="8_dw050"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
-radius = 0.25
-height = 0.5
+radius = 0.125
+height = 0.25
 
 [sub_resource type="Gradient" id="Gradient_1jxqw"]
 interpolation_mode = 2
@@ -31,7 +31,7 @@ shape = SubResource("CapsuleShape3D_et6nl")
 [node name="Rotation_Helper" type="Node3D" parent="." unique_id=375243117]
 
 [node name="Camera3D" type="Camera3D" parent="Rotation_Helper" unique_id=1863197516]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 
 [node name="Needs" type="Node" parent="." unique_id=1485875694]
 script = ExtResource("2_onrkg")
@@ -47,10 +47,8 @@ visible = false
 [node name="Inventory" type="Node" parent="." unique_id=671944091]
 script = ExtResource("5_sweqy")
 
-
 [node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=928126395]
 stream = ExtResource("6_2hs0m")
-
 
 [node name="DenPrompt" type="Label" parent="." unique_id=2145479249]
 visible = false
@@ -75,4 +73,3 @@ texture = SubResource("GradientTexture2D_pm0ju")
 visible = false
 z_index = 5
 z_as_relative = false
->>>>>>> aceab301ffb8c76689d0244fe0c261a379085cba

@@ -168,6 +168,7 @@ mesh = SubResource("PrismMesh_et6nl")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House" unique_id=2117067737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("BoxShape3D_et6nl")
+disabled = true
 
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 3, 8)

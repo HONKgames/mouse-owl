@@ -46,6 +46,7 @@ func _ready() -> void:
 		_teleport_to_spawn.call_deferred()
 		
 func _process(delta: float) -> void:
+	den_prompt.visible = current_den != null and not den_ui.visible
 	if is_dead:
 		return
 		
@@ -100,9 +101,6 @@ func _physics_process(delta: float) -> void:
 		process_movement(delta)
 	apply_gravity(delta)
 	move_and_slide()
-
-func _process(_delta: float) -> void:
-	den_prompt.visible = current_den != null and not den_ui.visible
 
 func process_input(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and !den_ui.visible:
