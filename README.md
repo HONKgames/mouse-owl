@@ -1,4 +1,6 @@
 # mouse-owl
+![mouse-owl screenshot](screenshots/ss.png)
+
 a spooky survival game! play as a mouse, gather food, bring it back to your den, and keep your Children alive. made by H.O.N.K. for the GoedWare Halloween Gamejam.
 
 ## how do i play?
