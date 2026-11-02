@@ -87,10 +87,7 @@ func update_label() -> void:
 	food_label.text = "food: " + str(den.stored_food)
 
 func _on_eat_pressed() -> void:
-	if den.stored_food > 0:
-		den.stored_food -= 1
-		player_needs.eat(FOOD_VALUE)
-		update_label()
+	feed(player_needs)
 
 func _on_feed_pressed() -> void:
 	if den.stored_food <= 0:
@@ -103,9 +100,14 @@ func _on_feed_pressed() -> void:
 		if hungriest == null or hungriest.hunger < child_needs.hunger:
 			hungriest = child_needs
 	if hungriest != null:
-		den.stored_food -= 1
-		hungriest.eat(FOOD_VALUE)
-		update_label()
+		feed(hungriest)
+
+func feed(target_needs: Node) -> void:
+	if den.stored_food <= 0 or target_needs.hunger <= 0:
+		return
+	den.stored_food -= 1
+	target_needs.eat(FOOD_VALUE)
+	update_label()
 
 func _input(event: InputEvent) -> void:
 	if not visible:
@@ -114,3 +116,11 @@ func _input(event: InputEvent) -> void:
 		TimeGlobal.start_sleeping()
 	elif event.is_action_released("jump"):
 		TimeGlobal.stop_sleeping()
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var reverse_children: Array = children.get_children()
+		reverse_children.reverse()
+		for child: MouseBaby in reverse_children:
+			if child.is_hit(event.position):
+				feed(child.needs)
+				get_viewport().set_input_as_handled()
+				return

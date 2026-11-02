@@ -56,3 +56,7 @@ func _pop_jump() -> void:
 
 func _reset_jump_timer() -> void:
 	jump_timer = randf_range(jump_interval_min, jump_interval_max)
+
+func is_hit(screen_pos: Vector2) -> bool:
+	var local: Vector2 = sprite.to_local(screen_pos)
+	return sprite.get_rect().has_point(local)
