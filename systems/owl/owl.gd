@@ -3,6 +3,7 @@ extends CharacterBody3D
 @export var fov_degree: float = 60.0
 @export var detection_area: float = 25.0
 @export var speed: float = 4.0
+@export var turn_speed: float = 8.0
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
@@ -28,6 +29,7 @@ func _physics_process(delta: float) -> void:
 		var direction := nav_agent.get_follow_direction()
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		_face_player_or_direction(direction, delta)
 	else:
 		velocity.x = 0.0
 		velocity.z = 0.0
@@ -43,6 +45,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		debug_timer -= delta
 	move_and_slide()
+
+func _face_player_or_direction(direction: Vector3, delta: float) -> void:
+	var facing := direction
+	if facing.length_squared() <= 0.001 and player != null:
+		facing = player.global_position - global_position
+		facing.y = 0.0
+	if facing.length_squared() <= 0.001:
+		return
+
+	facing = facing.normalized()
+	var target_yaw := atan2(-facing.x, -facing.z)
+	rotation.y = lerp_angle(rotation.y, target_yaw, minf(turn_speed * delta, 1.0))
 
 func _find_player() -> void:
 	if not player_path.is_empty():
