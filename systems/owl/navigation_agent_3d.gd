@@ -47,8 +47,10 @@ func update_phase() -> void:
 
 func _ready() -> void:
 	var player_group := get_tree().get_nodes_in_group("player")
-	if player_group.size() > 0:
-		player = player_group[0] as CharacterBody3D
+	for candidate in player_group:
+		if candidate is CharacterBody3D and candidate != owl:
+			player = candidate as CharacterBody3D
+			break
 
 func _process(delta: float) -> void:
 	if owl == null:
@@ -62,14 +64,16 @@ func _process(delta: float) -> void:
 
 	distance = owl.get_distance()
 	dist_val = get_dist_value(distance.length())
-	target_position = player.global_position
 	
 
 func set_player(target: CharacterBody3D) -> void:
+	if target == player:
+		if not target_position.is_equal_approx(target.global_position):
+			target_position = target.global_position
+		return
 	player = target
 	if player != null:
 		curr_state = STATES.STALK
-		# CODEX: Set the target immediately before Owl.gd asks for a direction.
 		target_position = player.global_position
 
 func get_follow_direction() -> Vector3:

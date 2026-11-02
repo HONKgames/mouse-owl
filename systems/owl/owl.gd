@@ -3,6 +3,10 @@ extends CharacterBody3D
 @export var fov_degree: float = 60.0
 @export var detection_area: float = 25.0
 @export var speed: float = 4.0
+@export var turn_speed: float = 8.0
+@export var follow_stop_distance: float = 1.5
+@export var follow_acceleration: float = 14.0
+@export var use_navigation_path: bool = false
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
@@ -25,20 +29,57 @@ func _physics_process(delta: float) -> void:
 	if player != null:
 		nav_agent.set_player(player)
 		detection()
-		var direction := nav_agent.get_follow_direction()
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		var direction := _get_follow_direction()
+		var desired_velocity := direction * speed
+		velocity.x = move_toward(velocity.x, desired_velocity.x, follow_acceleration * delta)
+		velocity.z = move_toward(velocity.z, desired_velocity.z, follow_acceleration * delta)
+		_face_player_or_direction(direction, delta)
 	else:
-		velocity.x = 0.0
-		velocity.z = 0.0
+		velocity.x = move_toward(velocity.x, 0.0, follow_acceleration * delta)
+		velocity.z = move_toward(velocity.z, 0.0, follow_acceleration * delta)
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
 		velocity.y = 0.0
 		
-	print("Owl\n state=", nav_agent.get_state(), "\n phase=", nav_agent.get_phase(), "\n velocity", velocity)
+	if debug_enabled and debug_timer <= 0.0:
+		print("Owl state=", nav_agent.get_state(), " phase=", nav_agent.get_phase(), " velocity=", velocity)
+		debug_timer = 0.5
+	else:
+		debug_timer -= delta
 	move_and_slide()
+
+func _get_direct_follow_direction() -> Vector3:
+	if player == null:
+		return Vector3.ZERO
+	var to_player := player.global_position - global_position
+	to_player.y = 0.0
+	if to_player.length() <= follow_stop_distance:
+		return Vector3.ZERO
+	return to_player.normalized()
+
+func _get_follow_direction() -> Vector3:
+	var direct_direction := _get_direct_follow_direction()
+	if not use_navigation_path:
+		return direct_direction
+
+	var navigation_direction := nav_agent.get_follow_direction()
+	if navigation_direction.length_squared() <= 0.001:
+		return direct_direction
+	return navigation_direction
+
+func _face_player_or_direction(direction: Vector3, delta: float) -> void:
+	var facing := direction
+	if facing.length_squared() <= 0.001 and player != null:
+		facing = player.global_position - global_position
+		facing.y = 0.0
+	if facing.length_squared() <= 0.001:
+		return
+
+	facing = facing.normalized()
+	var target_yaw := atan2(-facing.x, -facing.z)
+	rotation.y = lerp_angle(rotation.y, target_yaw, minf(turn_speed * delta, 1.0))
 
 func _find_player() -> void:
 	if not player_path.is_empty():
@@ -46,8 +87,10 @@ func _find_player() -> void:
 
 	if player == null:
 		var player_group := get_tree().get_nodes_in_group("player")
-		if player_group.size() > 0:
-			player = player_group[0] as CharacterBody3D
+		for candidate in player_group:
+			if candidate is CharacterBody3D and candidate != self:
+				player = candidate as CharacterBody3D
+				break
 
 func detection() -> void:
 	is_player_visible = false

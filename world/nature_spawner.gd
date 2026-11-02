@@ -1,5 +1,9 @@
 extends Node3D
 
+signal generation_finished
+
+var generation_complete: bool = false
+
 @export var terrain_path: NodePath = NodePath("Terrain")
 @export var tree_region_path: NodePath = NodePath("TreeSpawnRegion")
 @export var pumpkin_region_path: NodePath = NodePath("PumpkingSpawnRegion")
@@ -37,7 +41,11 @@ func _ready() -> void:
 func _spawn_nature(terrain: Node) -> void:
 	await _spawn_trees(terrain)
 	await _spawn_pumpkins(terrain)
+
 	await _spawn_grass(terrain)
+
+	generation_complete = true
+	generation_finished.emit()
 
 func _spawn_trees(terrain: Node) -> void:
 	var region: Node3D = get_node(tree_region_path)
