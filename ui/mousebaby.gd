@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var horizontal_speed_range: float = 100.0
 @export var jump_interval_min: float = 0.1
 @export var jump_interval_max: float = 0.5
+@export var fed_jump_power: float = 3.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_timer: float = 0.0
@@ -38,13 +39,13 @@ func _physics_process(delta: float) -> void:
 		
 		jump_timer -= delta
 		if jump_timer <= 0.0:
-			_pop_jump()
+			pop_jump()
 
 	move_and_slide()
 
-func _pop_jump() -> void:
-	velocity.y = randf_range(jump_velocity_min, jump_velocity_max)
-	velocity.x = randf_range(-horizontal_speed_range, horizontal_speed_range)
+func pop_jump(power: float = 1.0) -> void:
+	velocity.y = randf_range(jump_velocity_min, jump_velocity_max) * power
+	velocity.x = randf_range(-horizontal_speed_range, horizontal_speed_range) * power
 	
 	if randf() > 0.5:
 		sprite.flip_h = not sprite.flip_h

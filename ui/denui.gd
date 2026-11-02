@@ -102,12 +102,13 @@ func _on_feed_pressed() -> void:
 	if hungriest != null:
 		feed(hungriest)
 
-func feed(target_needs: Node) -> void:
+func feed(target_needs: Node) -> bool:
 	if den.stored_food <= 0 or target_needs.hunger <= 0:
-		return
+		return false
 	den.stored_food -= 1
 	target_needs.eat(FOOD_VALUE)
 	update_label()
+	return true
 
 func _input(event: InputEvent) -> void:
 	if not visible:
@@ -121,6 +122,7 @@ func _input(event: InputEvent) -> void:
 		reverse_children.reverse()
 		for child: MouseBaby in reverse_children:
 			if child.is_hit(event.position):
-				feed(child.needs)
+				if feed(child.needs):
+					child.pop_jump(child.fed_jump_power)
 				get_viewport().set_input_as_handled()
 				return
