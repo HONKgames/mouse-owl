@@ -14,10 +14,14 @@
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
 [ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
+[ext_resource type="Script" path="res://systems/navigation_setup.gd" id="14_navigation"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
-vertices = PackedVector3Array(-10.681719, 1.9986035, 0.062232018, -10.181719, 1.9986035, 0.812232, -9.681719, 1.9986035, 0.562232, -9.681719, 1.9986035, -0.18776798, 4.568281, 7.4986033, 3.812232, 3.8182812, 7.4986033, 3.062232, 3.3182812, 7.7486033, 3.562232, 3.8182812, 7.7486033, 5.062232, 4.568281, 7.2486033, 4.812232, -1.9317188, 1.9986035, 10.562232, -1.6817188, 2.2486033, 11.062232, -0.9317188, 1.9986035, 11.062232, -1.1817188, 1.9986035, 10.062232, 6.818281, 8.248604, 15.312232, 7.568281, 8.998604, 16.562233, 8.068281, 8.998604, 16.312233, -0.43171883, 13.998604, 22.562233, 0.8182812, 13.498604, 23.312233, 0.8182812, 13.248604, 22.062233, -1.1817188, 13.998604, 21.062233, -0.43171883, 11.498604, 22.812233, -0.43171883, 11.248604, 23.562233, 0.06828117, 11.498604, 23.812233, 2.0682812, 14.248604, 24.062233, 2.8182812, 13.998604, 24.062233, 3.0682812, 13.998604, 23.562233, 3.0682812, 13.748604, 22.812233, 1.8182812, 14.248604, 23.062233)
-polygons = [PackedInt32Array(2, 1, 3), PackedInt32Array(3, 1, 0), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 8), PackedInt32Array(6, 8, 7), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(22, 21, 20), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 26), PackedInt32Array(26, 23, 27)]
+geometry_source_geometry_mode = 0
+cell_size = 0.25
+cell_height = 0.25
+agent_height = 1.0
+agent_radius = 0.4
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qanqi"]
 
@@ -114,7 +118,7 @@ shader_parameter/wind_strength = 0.350000016625
 shader_parameter/wind_speed = 0.94700004172262
 shader_parameter/wind_direction = Vector3(1, 0, 0)
 
-[node name="main" type="Node3D" unique_id=1661839361 groups=["player"]]
+[node name="main" type="Node3D" unique_id=1661839361]
 
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
@@ -129,9 +133,11 @@ offset_bottom = 655.0
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
 [node name="Owl" parent="." unique_id=2075625185 instance=ExtResource("9_4c57u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2418265, 6.0832977, 26.098814)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2418265, 2.0, 26.098814)
+player_path = NodePath("../Player")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=207479146]
+script = ExtResource("14_navigation")
 navigation_mesh = SubResource("NavigationMesh_et6nl")
 
 [node name="Environment" type="Node3D" parent="NavigationRegion3D" unique_id=639223408]

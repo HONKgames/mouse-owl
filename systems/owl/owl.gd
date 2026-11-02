@@ -37,7 +37,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = 0.0
 		
-	print("Owl\n state=", nav_agent.get_state(), "\n phase=", nav_agent.get_phase(), "\n velocity", velocity)
+	if debug_enabled and debug_timer <= 0.0:
+		print("Owl state=", nav_agent.get_state(), " phase=", nav_agent.get_phase(), " velocity=", velocity)
+		debug_timer = 0.5
+	else:
+		debug_timer -= delta
 	move_and_slide()
 
 func _find_player() -> void:
@@ -46,8 +50,10 @@ func _find_player() -> void:
 
 	if player == null:
 		var player_group := get_tree().get_nodes_in_group("player")
-		if player_group.size() > 0:
-			player = player_group[0] as CharacterBody3D
+		for candidate in player_group:
+			if candidate is CharacterBody3D and candidate != self:
+				player = candidate as CharacterBody3D
+				break
 
 func detection() -> void:
 	is_player_visible = false

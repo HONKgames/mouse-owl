@@ -30,3 +30,8 @@ sprite_frames = SubResource("SpriteFrames_et6nl")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=27819783]
 script = ExtResource("2_wmkke")
+path_desired_distance = 0.5
+target_desired_distance = 1.5
+radius = 0.4
+height = 1.0
+avoidance_enabled = false
