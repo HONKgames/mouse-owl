@@ -1,113 +1,118 @@
 [gd_scene format=3 uid="uid://c1nwfla6yxgn1"]
 
 [ext_resource type="Script" uid="uid://bfce50t6w68la" path="res://ui/denui.gd" id="1_gnf06"]
-[ext_resource type="Texture2D" uid="uid://hcpel4qht2tr" path="res://assets/art/sleep.png" id="1_sq3tw"]
 [ext_resource type="PackedScene" uid="uid://bo2itqwt7bg54" path="res://ui/mouse_baby.tscn" id="2_p5g6x"]
-[ext_resource type="Texture2D" uid="uid://cy471u1iiv7x2" path="res://assets/art/time_indicator.png" id="3_gnf06"]
 [ext_resource type="Texture2D" uid="uid://bwakgri7kftw" path="res://assets/art/den.png" id="4_cnmp4"]
+[ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="4_p5g6x"]
+[ext_resource type="Texture2D" uid="uid://ll6da1lyd5u" path="res://assets/art/time_indicator_new.png" id="5_p5g6x"]
+[ext_resource type="Texture2D" uid="uid://77mfpcb7dtlg" path="res://assets/art/adult mouse.png" id="6_52eyo"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p5g6x"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="LabelSettings" id="LabelSettings_52eyo"]
+font = ExtResource("4_p5g6x")
+font_size = 50
+font_color = Color(0.44068116, 0.10165999, 0.12945458, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_52eyo"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 0, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxepu"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 0, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_brrhs"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 0, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hnj4f"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 32, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vj2s7"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 32, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s3csu"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 32, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tkmh6"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 32, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2ayya"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 64, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_130rw"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 64, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_egdq7"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 64, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ti0ma"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 64, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5okij"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 96, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xsxbq"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 96, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bimml"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 96, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nsni3"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 96, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n0hjy"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 128, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4k8g2"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 128, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4eogp"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 128, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14py7"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 128, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xta2f"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(0, 160, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yo6oc"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(32, 160, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(0, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6d0er"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(64, 160, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(64, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hn5ci"]
-atlas = ExtResource("3_gnf06")
-region = Rect2(96, 160, 32, 32)
+atlas = ExtResource("5_p5g6x")
+region = Rect2(128, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmmj2"]
+atlas = ExtResource("5_p5g6x")
+region = Rect2(192, 320, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pm0ju"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p5g6x")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_52eyo")
 }, {
@@ -176,6 +181,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hn5ci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmmj2")
 }],
 "loop": 1,
 "name": &"default",
@@ -184,14 +192,27 @@ animations = [{
 
 [sub_resource type="Gradient" id="Gradient_gnf06"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.0055555557, 0.98888886)
-colors = PackedColorArray(1, 1, 1, 0, 0.91717654, 0.91717654, 0.91717654, 0.06983157, 0, 0, 0, 0.84313726)
+offsets = PackedFloat32Array(0, 0.030120483, 0.8012048)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.06983157, 0, 0, 0, 0.7176471)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_pm0ju"]
 gradient = SubResource("Gradient_gnf06")
 use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bwaga"]
+font = ExtResource("4_p5g6x")
+font_size = 40
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pm0ju"]
+font = ExtResource("4_p5g6x")
+font_size = 25
+font_color = Color(0.44068116, 0.10165999, 0.12945458, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" unique_id=1661196179]
 layout_mode = 3
@@ -208,20 +229,41 @@ position = Vector2(576, 324)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("4_cnmp4")
 
-[node name="TextureButton" type="TextureButton" parent="." unique_id=1634372620]
+[node name="TextureButton" type="Button" parent="." unique_id=1773269804]
 texture_filter = 3
 layout_mode = 0
-offset_left = 850.0
-offset_top = 467.0
-offset_right = 1152.0
-offset_bottom = 648.0
-texture_normal = ExtResource("1_sq3tw")
-ignore_texture_size = true
+offset_left = 833.0
+offset_top = 568.0
+offset_right = 1134.0
+offset_bottom = 620.0
+flat = true
+
+[node name="Label2" type="Label" parent="TextureButton" unique_id=1864579319]
+layout_mode = 0
+offset_left = 16.0
+offset_top = -7.0
+offset_right = 316.0
+offset_bottom = 60.0
+text = "Sleep"
+label_settings = SubResource("LabelSettings_52eyo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="TextureButton" unique_id=1465431075]
+layout_mode = 0
+offset_left = 57.0
+offset_top = -32.0
+offset_right = 97.0
+offset_bottom = 35.0
+text = "␣"
+label_settings = SubResource("LabelSettings_52eyo")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=128171099]
 texture_filter = 3
-position = Vector2(80, 80)
-scale = Vector2(5, 5)
+position = Vector2(119.00001, 108.00001)
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_pm0ju")
 
 [node name="Vignette" type="TextureRect" parent="." unique_id=650886681]
@@ -239,9 +281,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -23.5
-offset_bottom = 23.5
+offset_left = -179.0
+offset_top = 58.0
+offset_right = 1.0
+offset_bottom = 218.0
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 12
@@ -250,6 +293,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Food: 0"
+label_settings = SubResource("LabelSettings_bwaga")
 horizontal_alignment = 1
 
 [node name="EatButton" type="Button" parent="VBoxContainer" unique_id=1000828080]
@@ -257,14 +301,36 @@ custom_minimum_size = Vector2(180, 48)
 custom_maximum_size = Vector2(180, 48)
 layout_mode = 2
 focus_mode = 0
-text = "Eat"
+text = "
+"
+flat = true
+
+[node name="Label" type="Label" parent="VBoxContainer/EatButton" unique_id=1899487839]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 48.0
+text = "Eat Food"
+label_settings = SubResource("LabelSettings_pm0ju")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FeedButton" type="Button" parent="VBoxContainer" unique_id=1645537402]
 custom_minimum_size = Vector2(180, 48)
 custom_maximum_size = Vector2(180, 48)
 layout_mode = 2
 focus_mode = 0
+text = "
+"
+flat = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/FeedButton" unique_id=1522245042]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 48.0
 text = "Feed Child"
+label_settings = SubResource("LabelSettings_pm0ju")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=1824680762]
 
@@ -273,3 +339,10 @@ build_mode = 1
 polygon = PackedVector2Array(359, 57, 270, 125, 262, 147, 185, 227, 174, 304, 175, 385, 199, 413, 208, 487, 288, 529, 305, 564, 519, 618, 726, 614, 936, 488, 953, 446, 961, 372, 991, 257, 1031, 204, 1147, 141, 1149, -103, 751, 41, 472, 24)
 
 [node name="Children" type="Node2D" parent="." unique_id=301913046]
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1682395504]
+texture_filter = 3
+position = Vector2(1085, 145.99998)
+rotation = -0.43530917
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("6_52eyo")
