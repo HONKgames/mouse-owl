@@ -17,7 +17,7 @@ extends Node3D
 
 @export_group("Grass")
 @export var grass_count: int = 1000
-@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 46.0
+@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 5.0
 @export_range(0.0, 100.0, 0.5) var grass_outer_radius: float = 65.0
 @onready var grouping: Node3D = $GrassSpawnRegion
 @onready var grass: Sprite3D = $GrassSpawnRegion/Grass
