@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ldbcuyt4b8wf" path="res://ui/hud.tscn" id="3_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://c1nwfla6yxgn1" path="res://ui/denui.tscn" id="4_hqtel"]
 [ext_resource type="Script" uid="uid://d1045d07a7k2x" path="res://systems/inventory.gd" id="5_sweqy"]
+[ext_resource type="AudioStream" uid="uid://cw4c5u8530nij" path="res://assets/sounds/sfx/Mouse squeak 🐁 4.mp3" id="6_2hs0m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
 radius = 0.25
@@ -34,3 +35,6 @@ visible = false
 
 [node name="Inventory" type="Node" parent="." unique_id=671944091]
 script = ExtResource("5_sweqy")
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=928126395]
+stream = ExtResource("6_2hs0m")

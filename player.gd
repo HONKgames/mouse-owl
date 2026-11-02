@@ -20,6 +20,7 @@ var pickup_progress: float
 @onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
 @onready var inventory: Inventory = $Inventory
+@onready var pickup_sound: AudioStreamPlayer = $PickupSound
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -66,6 +67,8 @@ func process_input(delta: float) -> void:
 			var f: Area3D = nearby_food.back()
 			nearby_food.erase(f)
 			f.queue_free()
+			pickup_sound.pitch_scale = randf_range(0.9, 1.1)
+			pickup_sound.play()
 		pickup_progress = 0.0
 
 func apply_gravity(delta: float) -> void:

@@ -19,8 +19,10 @@ const COLOR_HUNGER: Color = Color("e3c543ff")
 const COLOR_FATIGUE: Color = Color("86604fff")
 
 var corner_radius: int = 4
+var last_count: int = 0
 var tween: Tween
 var reject_tween: Tween
+var pop_tween: Tween
 
 func _ready() -> void:
 	if inventory and inventory.changed.is_connected(_on_inventory_changed) == false:
@@ -52,6 +54,15 @@ func _on_inventory_changed() -> void:
 		var texture_rect: TextureRect = slots[x].get_node_or_null("TextureRect")
 		if texture_rect:
 			texture_rect.visible = x < inventory.items.size()
+	if inventory.items.size() > last_count:
+		var slot: Control = slots[inventory.items.size() - 1]
+		slot.pivot_offset = slot.size / 2
+		if pop_tween and pop_tween.is_valid():
+			pop_tween.kill()
+		pop_tween = create_tween()
+		pop_tween.tween_property(slot, "scale", Vector2(1.25, 1.25), 0.08)
+		pop_tween.tween_property(slot, "scale", Vector2.ONE, 0.12)
+	last_count = inventory.items.size()
 
 func _setup_panel_style(panel: Panel, color: Color, round_left: bool, round_right: bool) -> void:
 	if not panel:
