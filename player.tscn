@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://d1045d07a7k2x" path="res://systems/inventory.gd" id="5_sweqy"]
 [ext_resource type="AudioStream" uid="uid://cw4c5u8530nij" path="res://assets/sounds/sfx/Mouse squeak 🐁 4.mp3" id="6_2hs0m"]
 [ext_resource type="PackedScene" uid="uid://tl1yk1ktryu7" path="res://assets/Meshes/dead_mouse/scene.gltf" id="7_1jxqw"]
+[ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="7_b26j0"]
 [ext_resource type="PackedScene" uid="uid://dk4wm7wchvrs6" path="res://ui/game_over.tscn" id="8_dw050"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
@@ -56,6 +57,7 @@ offset_left = 471.0
 offset_top = 302.0
 offset_right = 626.0
 offset_bottom = 325.0
+theme_override_fonts/font = ExtResource("7_b26j0")
 text = "Press E to enter den"
 horizontal_alignment = 1
 vertical_alignment = 1
