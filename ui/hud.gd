@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @export var needs: Node
 @export var inventory: Inventory
+@export var player: Node
 
 @onready var hotbar: HBoxContainer = $Hotbar
 @onready var slots: Array[Node] = $Hotbar.get_children()
@@ -10,6 +11,7 @@ extends CanvasLayer
 @onready var used_stamina_panel: Panel = $Energy/Segments/UsedStamina
 @onready var hunger_panel: Panel = $Energy/Segments/HungerPenalty
 @onready var fatigue_panel: Panel = $Energy/Segments/FatiguePenalty
+@onready var pickup_bar: ProgressBar = $ProgressBar
 
 const COLOR_FREE: Color = Color("aefc96ff")
 const COLOR_USED: Color = Color("3d3d42ff")
@@ -40,7 +42,8 @@ func _ready() -> void:
 	update_bar(false)
 
 func _process(_delta: float) -> void:
-	pass
+	pickup_bar.value = player.pickup_progress / player.PICKUP_TIME * 100
+	pickup_bar.visible = pickup_bar.value != 0
 
 func _on_inventory_changed() -> void:
 	if not inventory:
