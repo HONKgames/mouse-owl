@@ -68,7 +68,7 @@ func process_input(delta: float) -> void:
 			nearby_food.erase(f)
 			f.queue_free()
 			pickup_sound.pitch_scale = randf_range(0.9, 1.1)
-			pickup_sound.play()
+			#pickup_sound.play() we need a pickup sfx lol
 		pickup_progress = 0.0
 
 func apply_gravity(delta: float) -> void:
