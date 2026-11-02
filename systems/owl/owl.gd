@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var detection_area: float = 25.0
 @export var speed: float = 4.0
 @export var turn_speed: float = 8.0
+@export var follow_stop_distance: float = 1.5
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
@@ -27,6 +28,11 @@ func _physics_process(delta: float) -> void:
 		nav_agent.set_player(player)
 		detection()
 		var direction := nav_agent.get_follow_direction()
+		# A freshly baked map can take a frame to synchronize, and a target can
+		# briefly be outside the mesh. Keep following directly in that window so
+		# the owl never freezes while the navigation path is unavailable.
+		if direction.length_squared() <= 0.001:
+			direction = _get_direct_follow_direction()
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		_face_player_or_direction(direction, delta)
@@ -45,6 +51,15 @@ func _physics_process(delta: float) -> void:
 	else:
 		debug_timer -= delta
 	move_and_slide()
+
+func _get_direct_follow_direction() -> Vector3:
+	if player == null:
+		return Vector3.ZERO
+	var to_player := player.global_position - global_position
+	to_player.y = 0.0
+	if to_player.length() <= follow_stop_distance:
+		return Vector3.ZERO
+	return to_player.normalized()
 
 func _face_player_or_direction(direction: Vector3, delta: float) -> void:
 	var facing := direction
