@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://dk4wm7wchvrs6"]
+
+[ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="1_j1fe5"]
+[ext_resource type="Texture2D" uid="uid://c546a5bn7uj3x" path="res://assets/art/mouse newborn.png" id="2_xjda6"]
+[ext_resource type="Texture2D" uid="uid://br3i7rxgl7cu3" path="res://assets/art/flying owl.png" id="3_akjlf"]
+
+[sub_resource type="Gradient" id="Gradient_55k1u"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.2611111, 0.6888889)
+colors = PackedColorArray(0.34781694, 0.34781697, 0.3478169, 0.7490196, 0.14509805, 0.02745098, 0.22745098, 0.41568628)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3h6ce"]
+gradient = SubResource("Gradient_55k1u")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_u0541"]
+font = ExtResource("1_j1fe5")
+font_size = 100
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8651"]
+atlas = ExtResource("3_akjlf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pm0ju"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8651")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j1fe5"]
+font = ExtResource("1_j1fe5")
+font_size = 45
+font_color = Color(0.6334909, 0.06101609, 0.17572346, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="GameOver" type="Node2D" unique_id=1162549157]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2125227152]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.14391336, 0.027358806, 0.22808191, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2053677835]
+offset_left = 81.81357
+offset_top = 228.04231
+offset_right = 650.8136
+offset_bottom = 476.04236
+texture = SubResource("GradientTexture2D_3h6ce")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=1319298405]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 689.0
+offset_top = 135.0
+offset_right = 1021.0
+offset_bottom = 385.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "G A M E
+O V E R"
+label_settings = SubResource("LabelSettings_u0541")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1441511183]
+texture_filter = 3
+position = Vector2(309.48825, 328.2895)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_xjda6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=643659616]
+texture_filter = 3
+position = Vector2(396.48825, 341.2895)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_xjda6")
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=742077082]
+texture_filter = 3
+position = Vector2(368.48825, 283.28943)
+rotation = 0.2617994
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_xjda6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=797135452]
+modulate = Color(0, 0, 0, 0.23921569)
+texture_filter = 3
+position = Vector2(343.67465, 327.2472)
+rotation = 1.7453293
+scale = Vector2(7.119676, 15.859284)
+sprite_frames = SubResource("SpriteFrames_pm0ju")
+
+[node name="restart" type="Button" parent="." unique_id=220124630]
+offset_left = 689.0
+offset_top = 350.0
+offset_right = 1021.0
+offset_bottom = 503.0
+text = "
+"
+flat = true
+
+[node name="Label2" type="Label" parent="." unique_id=885820045]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 689.0
+offset_top = 400.0
+offset_right = 1021.0
+offset_bottom = 446.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "R E S T A R T"
+label_settings = SubResource("LabelSettings_j1fe5")
+horizontal_alignment = 1
+vertical_alignment = 1

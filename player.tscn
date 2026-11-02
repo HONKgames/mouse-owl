@@ -6,10 +6,21 @@
 [ext_resource type="PackedScene" uid="uid://c1nwfla6yxgn1" path="res://ui/denui.tscn" id="4_hqtel"]
 [ext_resource type="Script" uid="uid://d1045d07a7k2x" path="res://systems/inventory.gd" id="5_sweqy"]
 [ext_resource type="AudioStream" uid="uid://cw4c5u8530nij" path="res://assets/sounds/sfx/Mouse squeak 🐁 4.mp3" id="6_2hs0m"]
+[ext_resource type="PackedScene" uid="uid://tl1yk1ktryu7" path="res://assets/Meshes/dead_mouse/scene.gltf" id="7_1jxqw"]
+[ext_resource type="PackedScene" uid="uid://dk4wm7wchvrs6" path="res://ui/game_over.tscn" id="8_dw050"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_et6nl"]
 radius = 0.25
 height = 0.5
+
+[sub_resource type="Gradient" id="Gradient_1jxqw"]
+interpolation_mode = 2
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pm0ju"]
+gradient = SubResource("Gradient_1jxqw")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Player" type="CharacterBody3D" unique_id=1106861229 groups=["player"]]
 script = ExtResource("1_4flbx")
@@ -38,3 +49,17 @@ script = ExtResource("5_sweqy")
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=928126395]
 stream = ExtResource("6_2hs0m")
+
+[node name="MouseModel" parent="." unique_id=1838323824 instance=ExtResource("7_1jxqw")]
+visible = false
+
+[node name="DeathVignette" type="TextureRect" parent="." unique_id=140247802]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = SubResource("GradientTexture2D_pm0ju")
+
+[node name="GameOver" parent="." unique_id=1162549157 instance=ExtResource("8_dw050")]
+visible = false
+z_index = 5
+z_as_relative = false

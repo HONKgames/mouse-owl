@@ -8,6 +8,7 @@ const TURN_ACCEL: float = 60.0
 const DECEL: float = 100.0
 const SPEED_MULTIPLIER: float = 1.6
 const PICKUP_TIME: float = 0.5
+const TIME_TO_DEATH: float = 5.0
 
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
@@ -15,24 +16,80 @@ const PICKUP_TIME: float = 0.5
 var current_den: Area3D = null
 var nearby_food: Array[Area3D] = []
 var pickup_progress: float
+var is_dead: bool = false
+var death_timer: float = 0.0
+var death_camera: Camera3D = null
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
+@onready var camera_3D: Camera3D = $Rotation_Helper/Camera3D
 @onready var den_ui: Control = $DenUI
 @onready var needs: Node = $Needs
 @onready var inventory: Inventory = $Inventory
 @onready var pickup_sound: AudioStreamPlayer = $PickupSound
+@onready var death_model: Node3D = $MouseModel
+@onready var death_vignette: Control = $DeathVignette
+@onready var game_over: Node2D = $GameOver
+@onready var restart_button: Button = $GameOver/restart
+@onready var hud: CanvasLayer = $Hud
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
+	if death_vignette and death_vignette.texture is GradientTexture2D:
+		death_vignette.texture.gradient = death_vignette.texture.gradient.duplicate()
+	if restart_button:
+		restart_button.pressed.connect(_reset)
+	
 	if spawn_point:
 		_teleport_to_spawn.call_deferred()
+		
+func _process(delta: float) -> void:
+	if is_dead:
+		return
+		
+	var max_cap: float = maxf(0.0, 100.0 - needs.fatigue - needs.hunger)
+	
+	if max_cap <= 0.0:
+		death_timer += delta
+		
+		var darken_progress: float = clampf(death_timer / TIME_TO_DEATH, 0.0, 1.0)
+		
+		if death_vignette:
+			death_vignette.visible = true
+			
+			death_vignette.modulate.a = clampf(darken_progress * 1.5, 0.0, 1.0)
+			
+			var texture: GradientTexture2D = death_vignette.texture as GradientTexture2D
+			if texture and texture.gradient:
+				var current_offset: float = lerpf(1.0, 0.2, darken_progress)
+				texture.gradient.set_offset(1, current_offset)
+			
+		if death_timer >= TIME_TO_DEATH:
+			start_death_sequence()
+	else:
+		death_timer = maxf(death_timer - delta * 3.0, 0.0)
+		
+		var darken_progress: float = clampf(death_timer / TIME_TO_DEATH, 0.0, 1.0)
+		
+		if death_vignette:
+			death_vignette.modulate.a = clampf(darken_progress * 1.5, 0.0, 1.0)
+			
+			var texture: GradientTexture2D = death_vignette.texture as GradientTexture2D
+			if texture and texture.gradient:
+				var current_offset: float = lerpf(1.0, 0.2, darken_progress)
+				texture.gradient.set_offset(1, current_offset)
+				
+			if death_timer <= 0.0:
+				death_vignette.visible = false
 
 func _teleport_to_spawn() -> void:
 	global_position = spawn_point.global_position
 	velocity = Vector3.ZERO # Reset any leftover velocity
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+		
 	process_input(delta)
 	if den_ui.visible:
 		velocity.x = 0.0
@@ -130,3 +187,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotation_helper.rotate_x(deg_to_rad(-event.relative.y * mouse_sensitivity))
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		rotation_helper.rotation.x = clampf(rotation_helper.rotation.x, deg_to_rad(-70), deg_to_rad(70))
+
+func start_death_sequence() -> void:
+	is_dead = true
+	hud.visible = false
+	death_model.visible = true
+	death_model.position = rotation_helper.position
+	death_vignette.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	rotation_helper.rotation = Vector3.ZERO
+	rotation_helper.rotation.x = deg_to_rad(-90)
+	
+	if camera_3D:
+		var tween: Tween = create_tween().set_parallel(true)
+		tween.tween_property(camera_3D, "position:z", 5.0, 3.0)
+	
+	await get_tree().create_timer(5.0).timeout
+	game_over_screen()
+
+func game_over_screen() -> void:
+	game_over.visible = true
+
+func _reset() -> void:
+	get_tree().reload_current_scene()
