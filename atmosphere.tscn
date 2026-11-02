@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ccexngh4sfxb0" path="res://atmosphere.gd" id="1_1kep5"]
 [ext_resource type="Material" uid="uid://dqyu5eg6572lw" path="res://assets/shaders/clouds.tres" id="2_itjcu"]
 [ext_resource type="Texture2D" uid="uid://t3gd721kgbb6" path="res://assets/art/moon.png" id="3_ilkcg"]
+[ext_resource type="Texture2D" uid="uid://bow52bhilgc8e" path="res://assets/art/sun.png" id="3_kw3df"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s04jw"]
 sky_top_color = Color(0.07058824, 0.03137255, 0.10980392, 1)
@@ -23,9 +24,6 @@ fog_height = 2.0
 adjustment_enabled = true
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_itjcu"]
-load_path = "res://.godot/imported/sun.png-8bae438e467b461130510d24b573217e.ctex"
 
 [node name="Atmosphere" type="Node3D" unique_id=957738652 node_paths=PackedStringArray("sun", "moon", "world_env", "sun_sprite", "moon_sprite", "clouds")]
 script = ExtResource("1_1kep5")
@@ -49,7 +47,7 @@ environment = SubResource("Environment_itjcu")
 [node name="SunSprite" type="Sprite3D" parent="." unique_id=653447690]
 pixel_size = 2.5
 texture_filter = 2
-texture = SubResource("CompressedTexture2D_itjcu")
+texture = ExtResource("3_kw3df")
 
 [node name="MoonSprite" type="Sprite3D" parent="." unique_id=808465055]
 pixel_size = 2.5
