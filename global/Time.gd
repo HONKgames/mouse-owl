@@ -4,6 +4,9 @@ signal hour_changed(hour: int )
 signal day_changed(day: int)
 
 @export var seconds_per_hour: float = 60.0
+@export var roundNum: int = 0 
+@export var nightPhase = "EARLY"
+var phaseTransitions := [20, 23, 2, 7]
 var second: float = 0.0
 var minute: int = 0
 var hour: int = 8
@@ -35,6 +38,7 @@ func advance_hour() -> void:
 		hour = 0
 		day += 1
 		emit_signal("day_changed", day)
+		advance_round()
 		
 func start_sleeping() -> void:
 	target_time_scale = max_time_scale
@@ -44,4 +48,13 @@ func stop_sleeping() -> void:
 	
 func get_time() -> float: #0.0 to 1.0
 	return (hour*3600+minute*60+second)/86400
+
+func advance_round() -> void:
+	roundNum+=1
+
+func get_night_phase():
+	if hour > phaseTransitions[0] and hour < phaseTransitions[1]: return "EARLY"
+	if hour >= phaseTransitions[1] and hour < phaseTransitions[2]: return "MIDDLE"
+	if hour >= phaseTransitions[2] and hour < phaseTransitions[3]: return "LATE"
+	return null
 	

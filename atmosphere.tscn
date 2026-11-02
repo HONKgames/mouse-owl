@@ -25,6 +25,12 @@ adjustment_enabled = true
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
 
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_itjcu"]
+load_path = "res://.godot/imported/sun.png-8bae438e467b461130510d24b573217e.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ilkcg"]
+
 [node name="Atmosphere" type="Node3D" unique_id=957738652 node_paths=PackedStringArray("sun", "moon", "world_env", "sun_sprite", "moon_sprite", "clouds")]
 script = ExtResource("1_1kep5")
 sun = NodePath("Sunlight")
@@ -45,11 +51,13 @@ sky_mode = 1
 environment = SubResource("Environment_itjcu")
 
 [node name="SunSprite" type="Sprite3D" parent="." unique_id=653447690]
+visible = false
 pixel_size = 2.5
 texture_filter = 2
 texture = ExtResource("3_kw3df")
 
 [node name="MoonSprite" type="Sprite3D" parent="." unique_id=808465055]
+visible = false
 pixel_size = 2.5
 texture_filter = 2
 texture = ExtResource("3_ilkcg")
