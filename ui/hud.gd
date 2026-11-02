@@ -3,6 +3,7 @@ extends CanvasLayer
 @export var needs: Node
 @export var inventory: Inventory
 
+@onready var hotbar: HBoxContainer = $Hotbar
 @onready var slots: Array[Node] = $Hotbar.get_children()
 
 @onready var free_stamina_panel: Panel = $Energy/Segments/FreeStamina
@@ -17,10 +18,12 @@ const COLOR_FATIGUE: Color = Color("86604fff")
 
 var corner_radius: int = 4
 var tween: Tween
+var reject_tween: Tween
 
 func _ready() -> void:
 	if inventory and inventory.changed.is_connected(_on_inventory_changed) == false:
 		inventory.changed.connect(_on_inventory_changed)
+	inventory.rejected.connect(_on_inventory_rejected)
 	_on_inventory_changed()
 	
 	if not needs and Engine.has_singleton("Needs"):
@@ -33,7 +36,7 @@ func _ready() -> void:
 			needs.fatigue_changed.connect(_on_needs_changed)
 		if needs.has_signal("stamina_changed"):
 			needs.stamina_changed.connect(_on_needs_changed)
-			
+	
 	update_bar(false)
 
 func _process(_delta: float) -> void:
@@ -123,3 +126,11 @@ func update_bar(animate: bool = true) -> void:
 
 func _on_needs_changed(_new_val: float) -> void:
 	update_bar(true)
+
+func _on_inventory_rejected() -> void:
+	if reject_tween and reject_tween.is_valid():
+		reject_tween.kill()
+	reject_tween = create_tween()
+	reject_tween.tween_property(hotbar, "modulate", Color(1.0, 0.4, 0.4), 0.2)
+	reject_tween.tween_interval(0.2)
+	reject_tween.tween_property(hotbar, "modulate", Color.WHITE, 0.2)

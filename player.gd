@@ -13,7 +13,7 @@ const PICKUP_TIME: float = 0.5
 @export var spawn_point: Node3D
 
 var current_den: Area3D = null
-var nearby_food: Area3D
+var nearby_food: Array[Area3D] = []
 var pickup_progress: float
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
@@ -51,14 +51,17 @@ func process_input(delta: float) -> void:
 	if Input.is_action_just_pressed("interact") and current_den:
 		toggle_den()
 		
-	if Input.is_action_pressed("point") and nearby_food:
+	if Input.is_action_pressed("point") and not nearby_food.is_empty() and not inventory.is_full():
 		pickup_progress += delta
+	elif Input.is_action_just_pressed("point") and not nearby_food.is_empty() and inventory.is_full():
+		inventory.rejected.emit()
 	else:
 		pickup_progress = 0.0
 	if pickup_progress >= PICKUP_TIME:
 		if inventory.add("food"):
-			nearby_food.queue_free()
-			nearby_food = null
+			var f: Area3D = nearby_food.back()
+			nearby_food.erase(f)
+			f.queue_free()
 		pickup_progress = 0.0
 
 func apply_gravity(delta: float) -> void:
