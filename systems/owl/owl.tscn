@@ -12,8 +12,6 @@ radius = 5.9947014
 
 [node name="Owl" type="CharacterBody3D" unique_id=1619061527]
 script = ExtResource("1_5a64n")
-fov_degree = null
-detection_area = null
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=553197226]
 
@@ -32,5 +30,3 @@ sprite_frames = SubResource("SpriteFrames_et6nl")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=27819783]
 script = ExtResource("2_wmkke")
-
-[node name="NavigationLink3D" type="NavigationLink3D" parent="." unique_id=1081938557]
