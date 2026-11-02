@@ -17,6 +17,7 @@ const FOOD_VALUE: float = 25.0
 var was_sleeping: bool = false
 var den: Area3D = null
 var player_needs: Node = null
+var label_tween: Tween
 
 func _ready() -> void:
 	if sleep_button:
@@ -69,10 +70,17 @@ func fade_sleep_effects(active: bool) -> void:
 			tween.tween_property(sleep_button, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.3)
 			tween.tween_property(sleep_button, "scale", Vector2(1.0, 1.0), 0.3)
 
-func open(d: Area3D, n: Node) -> void:
+func open(d: Area3D, n: Node, deposited: int = 0) -> void:
 	den = d
 	player_needs = n
-	update_label()
+	if deposited > 0:
+		if label_tween and label_tween.is_valid():
+			label_tween.kill()
+		_set_food_label(den.stored_food - deposited)
+		label_tween = create_tween()
+		label_tween.tween_method(_set_food_label, float(den.stored_food - deposited), float(den.stored_food), 0.4)
+	else:
+		update_label()
 	for child in children.get_children():
 		child.queue_free()
 	for child in den.get_children():
@@ -85,6 +93,9 @@ func open(d: Area3D, n: Node) -> void:
 
 func update_label() -> void:
 	food_label.text = "food: " + str(den.stored_food)
+
+func _set_food_label(value: float) -> void:
+	food_label.text = "food: " + str(roundi(value))
 
 func _on_eat_pressed() -> void:
 	feed(player_needs)
@@ -105,6 +116,8 @@ func _on_feed_pressed() -> void:
 func feed(target_needs: Node) -> bool:
 	if den.stored_food <= 0 or target_needs.hunger <= 0:
 		return false
+	if label_tween and label_tween.is_valid():
+		label_tween.kill()
 	den.stored_food -= 1
 	target_needs.eat(FOOD_VALUE)
 	update_label()
