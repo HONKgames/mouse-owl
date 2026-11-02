@@ -27,6 +27,12 @@ you get hungry and tired as time goes on. your Children also hunger. food spawns
 - trexhaydor - Programmer
 - ScarletMirage - Artist
 
+# why?
+to participate in GoedWare's halloween jam, and just for fun! we're a small studio of friends and wanted to do another jam together.
+
+# how?
+we used Godot 4.7 with GDScript. we split the work between the three programmers using git branches and had the artist work with them to make assets.
+
 
 this is a big work in progress right now.
 built with Godot 4.7.
