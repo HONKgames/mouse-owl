@@ -5,6 +5,8 @@ extends CharacterBody3D
 @export var speed: float = 4.0
 @export var turn_speed: float = 8.0
 @export var follow_stop_distance: float = 1.5
+@export var follow_acceleration: float = 14.0
+@export var use_navigation_path: bool = false
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
@@ -27,18 +29,14 @@ func _physics_process(delta: float) -> void:
 	if player != null:
 		nav_agent.set_player(player)
 		detection()
-		var direction := nav_agent.get_follow_direction()
-		# A freshly baked map can take a frame to synchronize, and a target can
-		# briefly be outside the mesh. Keep following directly in that window so
-		# the owl never freezes while the navigation path is unavailable.
-		if direction.length_squared() <= 0.001:
-			direction = _get_direct_follow_direction()
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		var direction := _get_follow_direction()
+		var desired_velocity := direction * speed
+		velocity.x = move_toward(velocity.x, desired_velocity.x, follow_acceleration * delta)
+		velocity.z = move_toward(velocity.z, desired_velocity.z, follow_acceleration * delta)
 		_face_player_or_direction(direction, delta)
 	else:
-		velocity.x = 0.0
-		velocity.z = 0.0
+		velocity.x = move_toward(velocity.x, 0.0, follow_acceleration * delta)
+		velocity.z = move_toward(velocity.z, 0.0, follow_acceleration * delta)
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -60,6 +58,16 @@ func _get_direct_follow_direction() -> Vector3:
 	if to_player.length() <= follow_stop_distance:
 		return Vector3.ZERO
 	return to_player.normalized()
+
+func _get_follow_direction() -> Vector3:
+	var direct_direction := _get_direct_follow_direction()
+	if not use_navigation_path:
+		return direct_direction
+
+	var navigation_direction := nav_agent.get_follow_direction()
+	if navigation_direction.length_squared() <= 0.001:
+		return direct_direction
+	return navigation_direction
 
 func _face_player_or_direction(direction: Vector3, delta: float) -> void:
 	var facing := direction
