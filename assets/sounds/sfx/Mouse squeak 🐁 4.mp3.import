@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cw4c5u8530nij"
+path="res://.godot/imported/Mouse squeak 🐁 4.mp3-081dd07c575662c2422d1348996f8456.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/sfx/Mouse squeak 🐁 4.mp3"
+dest_files=["res://.godot/imported/Mouse squeak 🐁 4.mp3-081dd07c575662c2422d1348996f8456.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
