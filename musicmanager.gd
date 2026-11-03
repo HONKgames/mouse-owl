@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 	var current_time: float = TimeGlobal.get_time()
 	var is_day: bool = current_time >= DAY_START and current_time < DAY_END
 	
-	var target_volume: float = 0.0 if is_day else -80.0
+	var target_volume: float = -5.0 if is_day else -80.0
 	
 	if is_day and not music_player.playing:
 		music_player.volume_db = -80.0

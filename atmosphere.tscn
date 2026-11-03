@@ -64,8 +64,6 @@ texture = ExtResource("3_ilkcg")
 
 [node name="Clouds" type="Node3D" parent="." unique_id=1789887744]
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=96659337]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.49650002, 12.104345, -0.1663456)
-
 [node name="ExtraLight" type="DirectionalLight3D" parent="." unique_id=1878418916]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+visible = false

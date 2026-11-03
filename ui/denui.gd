@@ -6,6 +6,7 @@ extends Control
 @onready var time_indicator: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sleep_button: Button = $Button
 @onready var vignette: TextureRect = $Vignette
+@onready var day_label: Label = $AnimatedSprite2D/DayLabel
 
 @onready var hunger_bar: ProgressBar = $VBoxContainer/HungerBar
 @onready var food_needed_label: Label = $VBoxContainer/FoodNeededLabel
@@ -56,6 +57,8 @@ func update_time_indicator() -> void:
 	time_indicator.stop()
 	time_indicator.frame = target_frame
 	
+	day_label.text = "Day: " + str(TimeGlobal.day) + "/7"
+	
 func _on_sleep_button_down() -> void:
 	TimeGlobal.start_sleeping()
 
@@ -88,8 +91,11 @@ func update_labels() -> void:
 		food_label.text = "Food: " + str(current_den.stored_food)
 	
 	if food_needed_label and mouse_manager:
-		var hunger_per_percent: float = 100.0 / (mouse_manager.child_count * TimeGlobal.day)
-		var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / hunger_per_percent)
+		var day_progress: float = clampf(float(TimeGlobal.day - 1) / float(mouse_manager.adult_day_target - 1), 0.0, 1.0)
+		var required_food_today: float = lerpf(5.0, 15.0, day_progress)
+		var percent_per_food: float = 100.0 / required_food_today
+		
+		var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / percent_per_food)
 		food_needed_label.text = "Food Needed: " + str(food_needed)
 
 func _on_eat_pressed() -> void:
@@ -105,8 +111,10 @@ func _on_feed_pressed() -> void:
 		return
 	
 	var food_to_feed: int = current_den.stored_food
-	var hunger_per_percent: float = 100.0 / (mouse_manager.child_count * TimeGlobal.day)
-	var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / hunger_per_percent)
+	var day_progress: float = clampf(float(TimeGlobal.day - 1) / float(mouse_manager.adult_day_target - 1), 0.0, 1.0)
+	var required_food_today: float = lerpf(5.0, 15.0, day_progress)
+	var percent_per_food: float = 100.0 / required_food_today
+	var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / percent_per_food)
 	var food_fed: int
 	if food_needed >= food_to_feed:
 		food_fed = food_to_feed

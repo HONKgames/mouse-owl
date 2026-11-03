@@ -318,4 +318,4 @@ stream = ExtResource("24_1u8w0")
 volume_db = 5.0
 
 [node name="AmbiencePlayer" type="AudioStreamPlayer" parent="MusicManager" unique_id=558198765]
-volume_db = 5.0
+volume_db = -10.0

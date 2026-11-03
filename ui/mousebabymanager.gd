@@ -55,8 +55,12 @@ func update_hunger(hours: float) -> void:
 			mouse.update_hunger_visual(collective_hunger)
 
 func feed_mice(amount: int) -> void:
-	var percent_restored: float = 100.0 / (child_count * TimeGlobal.day)
+	var day_progress: float = clampf(float(TimeGlobal.day - 1) / float(adult_day_target - 1), 0.0, 1.0)
+	var required_food_today: float = lerpf(5.0, 15.0, day_progress)
+	
+	var percent_restored: float = 100.0 / required_food_today
 	var restore: float = amount * percent_restored
+	
 	collective_hunger = clampf(collective_hunger + restore, 0.0, 100.0)
 
 func update_growth_and_scaling() -> void:

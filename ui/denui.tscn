@@ -191,6 +191,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_pkrlc"]
+font = ExtResource("4_p5g6x")
+font_size = 15
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [sub_resource type="Gradient" id="Gradient_gnf06"]
 interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.030120483, 0.8012048)
@@ -272,6 +278,14 @@ texture_filter = 3
 position = Vector2(119.00001, 108.00001)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_pm0ju")
+
+[node name="DayLabel" type="Label" parent="AnimatedSprite2D" unique_id=693892482]
+offset_left = -21.666668
+offset_top = -1.6666694
+offset_right = 25.333332
+offset_bottom = 21.33333
+text = "Day: 1/7"
+label_settings = SubResource("LabelSettings_pkrlc")
 
 [node name="Vignette" type="TextureRect" parent="." unique_id=650886681]
 visible = false

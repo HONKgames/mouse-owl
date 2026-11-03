@@ -57,3 +57,15 @@ func get_night_phase() -> String:
 	if hour >= phaseTransitions[1] and hour < phaseTransitions[2]: return "MIDDLE"
 	if hour >= phaseTransitions[2] and hour < phaseTransitions[3]: return "LATE"
 	return ""
+	
+func reset() -> void:
+	second = 0.0
+	minute = 0
+	hour = 8
+	day = 1
+	roundNum = 0
+	time_scale = 1.0
+	target_time_scale = 1.0
+	
+	emit_signal("hour_changed", hour)
+	emit_signal("day_changed", day)

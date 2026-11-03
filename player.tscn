@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b0wadkrpsdcw6"]
 
 [ext_resource type="Script" uid="uid://bgtvrl6l8l72v" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="PackedScene" uid="uid://ckwvcnijghrop" path="res://assets/Meshes/mushroomnew/mushroomnew.fbx" id="2_n7ghd"]
 [ext_resource type="Script" uid="uid://dlujedv8es71p" path="res://systems/needs.gd" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://ldbcuyt4b8wf" path="res://ui/hud.tscn" id="3_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://c1nwfla6yxgn1" path="res://ui/denui.tscn" id="4_hqtel"]
@@ -23,10 +24,6 @@ gradient = SubResource("Gradient_1jxqw")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="SphereMesh" id="SphereMesh_held"]
-radius = 0.3
-height = 0.6
-
 [node name="Player" type="CharacterBody3D" unique_id=1106861229 groups=["player"]]
 collision_mask = 3
 script = ExtResource("1_4flbx")
@@ -40,11 +37,9 @@ transform = Transform3D(1, 0, 0, 0, 0.4, 0, 0, 0, 1, 0, 0, 0)
 [node name="Camera3D" type="Camera3D" parent="Rotation_Helper" unique_id=1863197516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 
-[node name="HeldFood" type="MeshInstance3D" parent="Rotation_Helper/Camera3D" unique_id=1739204551]
+[node name="HeldFood" parent="Rotation_Helper/Camera3D" unique_id=848709004 instance=ExtResource("2_n7ghd")]
+transform = Transform3D(0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, 0.05, -0.08, -0.13)
 visible = false
-transform = Transform3D(0.08, 0, 0, 0, 0.2, 0, 0, 0, 0.08, 0.05, -0.0875, -0.13)
-cast_shadow = 0
-mesh = SubResource("SphereMesh_held")
 
 [node name="Needs" type="Node" parent="." unique_id=1485875694]
 script = ExtResource("2_onrkg")

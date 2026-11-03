@@ -50,7 +50,7 @@ func _ready() -> void:
 	update_bar(false)
 	
 	var hint_tween: Tween = create_tween()
-	hint_tween.tween_interval(12.0)
+	hint_tween.tween_interval(25.0)
 	hint_tween.tween_property(controls_hint, "modulate:a", 0.0, 1.5)
 	hint_tween.tween_callback(controls_hint.hide)
 

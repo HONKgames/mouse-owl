@@ -94,8 +94,6 @@ func _process(delta: float) -> void:
 func update_behavior(player_visible: bool) -> void:
 	if not automatic_state_changes:
 		return
-	# Once a dive has started, finish the attack even if the owl briefly loses
-	# line of sight while moving over the player.
 	if curr_state == STATES.ATTACK and dive_phase != DIVE_PHASE.COOLDOWN:
 		return
 	if player == null or not player_visible:
@@ -159,7 +157,7 @@ func get_speed_multiplier() -> float:
 	return 1.0
 
 func is_diving() -> bool:
-	return curr_state == STATES.ATTACK and dive_phase == DIVE_PHASE.DIVE
+	return curr_state == STATES.ATTACK and (dive_phase == DIVE_PHASE.DIVE or dive_phase == DIVE_PHASE.APPROACH)
 
 func is_attack_run() -> bool:
 	return curr_state == STATES.ATTACK
@@ -176,27 +174,34 @@ func reset_behavior() -> void:
 
 func _get_dive_direction(delta: float) -> Vector3:
 	var player_position := player.global_position
-	var target := player_position + Vector3.UP * dive_height
+	var high_target := player_position + Vector3.UP * dive_height
+	var low_target := player_position + Vector3.UP * 0.5 # Aim closer to body/center
 
 	match dive_phase:
 		DIVE_PHASE.APPROACH:
-			if owl.global_position.distance_to(target) <= 1.5:
+			if owl.global_position.distance_to(high_target) <= 2.5:
 				dive_phase = DIVE_PHASE.DIVE
-				target = player_position + Vector3.UP * 0.8
+			return owl.global_position.direction_to(high_target)
+
 		DIVE_PHASE.DIVE:
-			target = player_position + Vector3.UP * 0.8
-			if owl.global_position.distance_to(target) <= 1.2:
+			if owl.global_position.distance_to(low_target) <= 1.8:
 				dive_phase = DIVE_PHASE.PULL_UP
+				register_dive_impact()
+			return owl.global_position.direction_to(low_target)
+
 		DIVE_PHASE.PULL_UP:
-			if owl.global_position.distance_to(target) <= 1.5:
+			if owl.global_position.distance_to(high_target) <= 3.0:
 				dive_phase = DIVE_PHASE.COOLDOWN
 				dive_cooldown_timer = dive_cooldown
+			return owl.global_position.direction_to(high_target)
+
 		DIVE_PHASE.COOLDOWN:
 			dive_cooldown_timer -= delta
 			if dive_cooldown_timer <= 0.0:
 				dive_phase = DIVE_PHASE.APPROACH
+			return owl.global_position.direction_to(high_target)
 
-	return owl.global_position.direction_to(target)
+	return owl.global_position.direction_to(high_target)
 
 func _reset_dive_if_needed() -> void:
 	if previous_state != STATES.PATROL:

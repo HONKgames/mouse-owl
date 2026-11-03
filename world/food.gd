@@ -4,7 +4,7 @@ extends Area3D
 @export var bob_speed: float = 2.0
 @export var spin_speed: float = 1.0
 
-@onready var mesh: MeshInstance3D = $MeshInstance3D
+@onready var mesh: Node3D = $mushroomnew
 
 var base_y: float
 var phase: float
@@ -24,7 +24,7 @@ func _on_body_entered(body: Node3D) -> void:
 		if highlight_tween and highlight_tween.is_valid():
 			highlight_tween.kill()
 		highlight_tween = create_tween()
-		highlight_tween.tween_property(mesh, "scale", Vector3.ONE * 1.3, 0.15)
+		#highlight_tween.tween_property(mesh, "scale", Vector3.ONE * 1.05, 0.15)
 		highlight_tween.tween_interval(0.15)
 
 func _on_body_exited(body: Node3D) -> void:
@@ -33,5 +33,5 @@ func _on_body_exited(body: Node3D) -> void:
 		if highlight_tween and highlight_tween.is_valid():
 			highlight_tween.kill()
 		highlight_tween = create_tween()
-		highlight_tween.tween_property(mesh, "scale", Vector3.ONE, 0.15)
+		#highlight_tween.tween_property(mesh, "scale", Vector3.ONE, 0.15)
 		highlight_tween.tween_interval(0.15)

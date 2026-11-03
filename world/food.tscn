@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://d4lbwl3yhr7r3"]
 
 [ext_resource type="Script" uid="uid://dunp6so6lffwm" path="res://world/food.gd" id="1_rba1q"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_o33cc"]
-radius = 0.3
-height = 0.6
+[ext_resource type="PackedScene" uid="uid://ckwvcnijghrop" path="res://assets/Meshes/mushroomnew/mushroomnew.fbx" id="2_0de5e"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o33cc"]
 radius = 0.75
@@ -12,12 +9,11 @@ radius = 0.75
 [node name="Food" type="Area3D" unique_id=1070793160 groups=["food"]]
 script = ExtResource("1_rba1q")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1092255499]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-mesh = SubResource("SphereMesh_o33cc")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1239324741]
 shape = SubResource("SphereShape3D_o33cc")
+
+[node name="mushroomnew" parent="." unique_id=1465964603 instance=ExtResource("2_0de5e")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

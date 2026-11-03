@@ -14,6 +14,9 @@ const TIME_TO_DEATH: float = 5.0
 
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
+@export var food_scenes: Dictionary = {
+	"food": preload("res://assets/Meshes/mushroomnew/mushroomnew.fbx")
+}
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var camera_3D: Camera3D = $Rotation_Helper/Camera3D
@@ -33,7 +36,7 @@ const TIME_TO_DEATH: float = 5.0
 @onready var hud: CanvasLayer = $Hud
 
 @onready var den_prompt: Label = $DenPrompt
-@onready var held_food: MeshInstance3D = $Rotation_Helper/Camera3D/HeldFood
+@onready var held_food: Node3D = $Rotation_Helper/Camera3D/HeldFood
 
 var current_den: Area3D = null
 var nearby_food: Array[Area3D] = []
@@ -290,6 +293,7 @@ func game_over_screen(type: String) -> void:
 		texture.gradient.set_color(0, floor_color)
 
 func _reset() -> void:
+	TimeGlobal.reset()
 	get_tree().reload_current_scene()
 
 func _update_held_food() -> void:

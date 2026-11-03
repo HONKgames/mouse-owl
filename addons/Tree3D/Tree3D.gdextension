@@ -26,3 +26,4 @@ linux.debug.x86_32 = "res://addons/Tree3D/libTree3D.linux.template_debug.x86_32.
 linux.release.x86_32 = "res://addons/Tree3D/libTree3D.linux.template_release.x86_32.so"
 linux.debug.x86_64 = "res://addons/Tree3D/libTree3D.linux.template_debug.x86_64.so"
 linux.release.x86_64 = "res://addons/Tree3D/libTree3D.linux.template_release.x86_64.so"
+web.wasm32 = "res://addons/Tree3D/libTree3D.web.template_release.wasm32.wasm"

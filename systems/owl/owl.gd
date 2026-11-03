@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 @export_group("Night schedule")
 @export var night_only: bool = true
-@export_range(0, 23, 1) var night_start_hour: int = 20
-@export_range(0, 23, 1) var night_end_hour: int = 7
+@export_range(0, 23, 1) var night_start_hour: int = 21
+@export_range(0, 23, 1) var night_end_hour: int = 6
 @export_group("Aggression")
 @export var fov_degree: float = 120.0
 @export var detection_area: float = 45.0
@@ -60,18 +60,21 @@ func _check_dive_impact(previous_position: Vector3) -> void:
 	if bool(player.get("is_dead")):
 		return
 
+	var player_center := player.global_position + Vector3.UP * 1.0
+
 	var movement := global_position - previous_position
 	var movement_length_squared := movement.length_squared()
 	var closest_point := global_position
+	
 	if movement_length_squared > 0.0:
 		var hit_progress := clampf(
-			(player.global_position - previous_position).dot(movement) / movement_length_squared,
+			(player_center - previous_position).dot(movement) / movement_length_squared,
 			0.0,
 			1.0
 		)
 		closest_point = previous_position + movement * hit_progress
 
-	if closest_point.distance_to(player.global_position) > dive_hit_radius:
+	if closest_point.distance_to(player_center) > (dive_hit_radius + 0.5):
 		return
 
 	nav_agent.register_dive_impact()

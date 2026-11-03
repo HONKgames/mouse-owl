@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ldbcuyt4b8wf"]
 
 [ext_resource type="Script" uid="uid://jen2u0ggq21g" path="res://ui/hud.gd" id="1_rbyyf"]
-[ext_resource type="Texture2D" uid="uid://bmeibrecbthmw" path="res://icon.svg" id="2_276te"]
+[ext_resource type="Texture2D" uid="uid://ci40gn5dd7rbg" path="res://assets/art/mushroom.png" id="2_546lt"]
 [ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="3_kiwi"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_276te"]
@@ -36,9 +36,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_276te")
+texture = ExtResource("2_546lt")
 expand_mode = 1
 stretch_mode = 5
 
@@ -52,9 +56,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_276te")
+texture = ExtResource("2_546lt")
 expand_mode = 1
 stretch_mode = 5
 
@@ -68,9 +76,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_276te")
+texture = ExtResource("2_546lt")
 expand_mode = 1
 stretch_mode = 5
 
