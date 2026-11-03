@@ -9,17 +9,11 @@ const TURN_ACCEL: float = 60.0
 const DECEL: float = 100.0
 const SPEED_MULTIPLIER: float = 1.6
 const PICKUP_TIME: float = 0.5
+const EAT_TIME: float = 1.0
 const TIME_TO_DEATH: float = 5.0
 
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
-
-var current_den: Area3D = null
-var nearby_food: Array[Area3D] = []
-var pickup_progress: float
-var is_dead: bool = false
-var death_timer: float = 0.0
-var death_camera: Camera3D = null
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var camera_3D: Camera3D = $Rotation_Helper/Camera3D
@@ -40,6 +34,14 @@ var death_camera: Camera3D = null
 
 @onready var den_prompt: Label = $DenPrompt
 
+var current_den: Area3D = null
+var nearby_food: Array[Area3D] = []
+var pickup_progress: float = 0.0
+var eat_progress: float = 0.0
+var is_dead: bool = false
+var death_timer: float = 0.0
+var death_camera: Camera3D = null
+
 func _ready() -> void:
 	add_to_group("player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -53,6 +55,7 @@ func _ready() -> void:
 		_teleport_to_spawn.call_deferred()
 		
 func _process(delta: float) -> void:
+	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	den_prompt.visible = current_den != null and not den_ui.visible
 	if is_dead:
 		return
@@ -123,6 +126,13 @@ func process_input(delta: float) -> void:
 		pickup_progress = 0.0
 		return
 	
+	if Input.is_action_just_pressed("slot_1"):
+		inventory.select(0)
+	if Input.is_action_just_pressed("slot_2"):
+		inventory.select(1)
+	if Input.is_action_just_pressed("slot_3"):
+		inventory.select(2)
+	
 	if Input.is_action_pressed("point") and not nearby_food.is_empty() and not inventory.is_full():
 		pickup_progress += delta
 	elif Input.is_action_just_pressed("point") and not nearby_food.is_empty() and inventory.is_full():
@@ -137,6 +147,14 @@ func process_input(delta: float) -> void:
 			pickup_sound.pitch_scale = randf_range(0.9, 1.1)
 			#pickup_sound.play() we need a pickup sfx lol
 		pickup_progress = 0.0
+	if Input.is_action_pressed("interact") and current_den == null and inventory.selected_item() != "":
+		eat_progress += delta
+	else:
+		eat_progress = 0.0
+	if eat_progress >= EAT_TIME:
+		needs.eat(Inventory.FOOD_VALUE)
+		inventory.remove_at(inventory.selected)
+		eat_progress = 0.0
 
 func apply_gravity(delta: float) -> void:
 	if is_on_floor():
@@ -184,6 +202,7 @@ func toggle_den() -> void:
 		return
 		
 	den_ui.visible = !den_ui.visible
+	hud.set_hotbar_visible(!den_ui.visible)
 	needs.in_den = den_ui.visible
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -203,6 +222,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotation_helper.rotate_x(deg_to_rad(-event.relative.y * mouse_sensitivity))
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		rotation_helper.rotation.x = clampf(rotation_helper.rotation.x, deg_to_rad(-70), deg_to_rad(70))
+	elif not is_dead and not den_ui.visible:
+		if event.is_action_pressed("slot_next"):
+			inventory.select(inventory.selected + 1)
+		elif event.is_action_pressed("slot_prev"):
+			inventory.select(inventory.selected - 1)
 
 func start_death_sequence(type: String) -> void:
 	is_dead = true
@@ -224,6 +248,11 @@ func start_death_sequence(type: String) -> void:
 	game_over_screen(type)
 
 func game_over_screen(type: String) -> void:
+	hud.visible = false
+	den_ui.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	TimeGlobal.stop_sleeping()
+	is_dead = true
 	game_over.visible = true
 	var texture: GradientTexture2D = death_floor.texture as GradientTexture2D
 	var floor_color: Color
