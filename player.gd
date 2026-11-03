@@ -122,6 +122,13 @@ func process_input(delta: float) -> void:
 		pickup_progress = 0.0
 		return
 	
+	if Input.is_action_just_pressed("slot_1"):
+		inventory.select(0)
+	if Input.is_action_just_pressed("slot_2"):
+		inventory.select(1)
+	if Input.is_action_just_pressed("slot_3"):
+		inventory.select(2)
+	
 	if Input.is_action_pressed("point") and not nearby_food.is_empty() and not inventory.is_full():
 		pickup_progress += delta
 	elif Input.is_action_just_pressed("point") and not nearby_food.is_empty() and inventory.is_full():
@@ -202,6 +209,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotation_helper.rotate_x(deg_to_rad(-event.relative.y * mouse_sensitivity))
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		rotation_helper.rotation.x = clampf(rotation_helper.rotation.x, deg_to_rad(-70), deg_to_rad(70))
+	elif not is_dead and not den_ui.visible:
+		if event.is_action_pressed("slot_next"):
+			inventory.select(inventory.selected + 1)
+		elif event.is_action_pressed("slot_prev"):
+			inventory.select(inventory.selected - 1)
 
 func start_death_sequence(type: String) -> void:
 	is_dead = true
@@ -223,6 +235,11 @@ func start_death_sequence(type: String) -> void:
 	game_over_screen(type)
 
 func game_over_screen(type: String) -> void:
+	hud.visible = false
+	den_ui.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	TimeGlobal.stop_sleeping()
+	is_dead = true
 	game_over.visible = true
 	var texture: GradientTexture2D = death_floor.texture as GradientTexture2D
 	var floor_color: Color
