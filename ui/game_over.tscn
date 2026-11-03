@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c546a5bn7uj3x" path="res://assets/art/mouse newborn.png" id="2_xjda6"]
 [ext_resource type="Texture2D" uid="uid://br3i7rxgl7cu3" path="res://assets/art/flying owl.png" id="3_akjlf"]
 [ext_resource type="Texture2D" uid="uid://bf5lyxpynamva" path="res://assets/art/mouse newborn skeleton.png" id="4_akjlf"]
+[ext_resource type="Texture2D" uid="uid://cd20nixyl21sp" path="res://assets/art/stump-new.png" id="4_k8651"]
 [ext_resource type="Texture2D" uid="uid://77mfpcb7dtlg" path="res://assets/art/adult mouse.png" id="5_k8651"]
 
 [sub_resource type="Gradient" id="Gradient_55k1u"]
@@ -55,9 +56,6 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tb368"]
-load_path = "res://.godot/imported/trunk top.png-af1bfac04a6efed8cec516d34e3b764e.ctex"
 
 [node name="GameOver" type="Node2D" unique_id=1162549157]
 
@@ -171,13 +169,13 @@ visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="death_children" unique_id=1011782691]
 modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)
-position = Vector2(370, 348)
+position = Vector2(373, 290.00003)
 rotation = 0.054915376
-scale = Vector2(1.5989679, 0.8028848)
-texture = SubResource("CompressedTexture2D_tb368")
+scale = Vector2(1.5989679, 1.1591327)
+texture = ExtResource("4_k8651")
 
 [node name="Sprite2D2" type="Sprite2D" parent="death_children" unique_id=2055305516]
-position = Vector2(368.82343, 320.03262)
+position = Vector2(379.99997, 280.99997)
 rotation = 0.21190189
 scale = Vector2(1.0935259, 1.0195751)
 texture = ExtResource("4_akjlf")

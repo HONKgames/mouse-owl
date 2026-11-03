@@ -218,6 +218,8 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_bxepu"]
 font = ExtResource("4_p5g6x")
 font_size = 20
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" unique_id=1661196179]
 layout_mode = 3

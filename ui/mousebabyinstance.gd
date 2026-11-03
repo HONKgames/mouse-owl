@@ -59,4 +59,6 @@ func is_hit(screen_pos: Vector2) -> bool:
 
 func update_hunger_visual(hunger_0_to_100: float) -> void:
 	if sprite:
-		sprite.modulate = Color.WHITE.lerp(Color(0.5, 0.5, 0.5), hunger_0_to_100 / 100.0)
+		var hunger_progress: float = 1.0 - (clampf(hunger_0_to_100, 0.0, 100.0) / 100.0)
+		var starving_color: Color = Color(0.15, 0.15, 0.15, 1.0)
+		sprite.modulate = Color.WHITE.lerp(starving_color, hunger_progress)

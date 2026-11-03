@@ -11,7 +11,7 @@ const FOOD_VALUE: float = 25.0
 
 @onready var hunger_bar: ProgressBar = $VBoxContainer/HungerBar
 @onready var food_needed_label: Label = $VBoxContainer/FoodNeededLabel
-@onready var food_label: Label = $Buttons/FoodLabel # FIXED PATH TO MATCH HIERARCHY
+@onready var food_label: Label = $Buttons/FoodLabel
 @onready var feed_button: Button = $Buttons/FeedButton
 @onready var eat_button: Button = $Buttons/EatButton
 
@@ -90,8 +90,8 @@ func update_labels() -> void:
 		food_label.text = "Food: " + str(current_den.stored_food)
 	
 	if food_needed_label and mouse_manager:
-		var hunger_per_food: float = 10.0
-		var food_needed: int = ceili(mouse_manager.collective_hunger / hunger_per_food)
+		var hunger_per_percent: float = 100.0 / (mouse_manager.child_count * TimeGlobal.day)
+		var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / hunger_per_percent)
 		food_needed_label.text = "Food Needed: " + str(food_needed)
 
 func _on_eat_pressed() -> void:
@@ -107,9 +107,17 @@ func _on_feed_pressed() -> void:
 		return
 	
 	var food_to_feed: int = current_den.stored_food
-	mouse_manager.feed_mice(food_to_feed)
-	current_den.stored_food = 0
-	
+	var hunger_per_percent: float = 100.0 / (mouse_manager.child_count * TimeGlobal.day)
+	var food_needed: int = ceili((100.0 - mouse_manager.collective_hunger) / hunger_per_percent)
+	var food_fed: int
+	if food_needed >= food_to_feed:
+		food_fed = food_to_feed
+		current_den.stored_food = 0
+	else:
+		food_fed = food_needed
+		current_den.stored_food = food_to_feed - food_needed
+		
+	mouse_manager.feed_mice(food_fed)
 	update_labels()
 
 func _input(event: InputEvent) -> void:
@@ -119,9 +127,3 @@ func _input(event: InputEvent) -> void:
 		TimeGlobal.start_sleeping()
 	elif event.is_action_released("jump"):
 		TimeGlobal.stop_sleeping()
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if current_den and current_den.stored_food > 0 and mouse_manager:
-			mouse_manager.feed_mice(1)
-			current_den.stored_food -= 1
-			update_labels()
-			get_viewport().set_input_as_handled()

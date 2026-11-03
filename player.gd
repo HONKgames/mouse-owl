@@ -179,6 +179,9 @@ func process_movement(delta: float) -> void:
 			needs.stamina_changed.emit(needs.stamina)
 
 func toggle_den() -> void:
+	if TimeGlobal.time_scale > 1.0:
+		return
+		
 	den_ui.visible = !den_ui.visible
 	needs.in_den = den_ui.visible
 	if den_ui.visible:
@@ -203,6 +206,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func start_death_sequence(type: String) -> void:
 	is_dead = true
 	hud.visible = false
+	den_ui.visible = false
 	death_model.visible = true
 	death_model.position = rotation_helper.position
 	death_vignette.visible = false
