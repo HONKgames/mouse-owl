@@ -138,6 +138,10 @@ func _spawn_trees(terrain: Node) -> void:
 func _clone_baked_tree(template: Node3D, parent: Node3D, tree_name: String) -> Node3D:
 	var tree := MeshCollision.new()
 	tree.name = tree_name
+	# Use the native trunk radii, rather than collision generated from the
+	# foliage triangles. The cylinder is scaled along with the visual tree.
+	tree.trunk_radius = 0.46 if template.name == "MediumTree" else 0.29
+	tree.trunk_height = 11.0 if template.name == "MediumTree" else 6.0
 	# Generate at native scale, then enlarge the baked result so the procedural
 	# generator does not process oversized geometry for every tree.
 	var visual_scale := rng.randf_range(tree_scale_min, tree_scale_max)

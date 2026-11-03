@@ -32,6 +32,14 @@ agent_radius = 0.4
 [sub_resource type="BoxShape3D" id="BoxShape3D_house_door"]
 size = Vector3(3, 3, 2)
 
+[sub_resource type="BoxMesh" id="BoxMesh_night_door"]
+size = Vector3(2.5, 3.0, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_night_door"]
+albedo_color = Color(0.12, 0.035, 0.02, 1)
+metallic = 0.1
+roughness = 0.75
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("7_5vw27")
 
@@ -183,18 +191,21 @@ transform = Transform3D(0.06155146, 0, -0.9981039, 0, 1, 0, 0.9981039, 0, 0.0615
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 3, 8)
 
-[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1716695612]
+[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1716695612 node_paths=PackedStringArray("door_panel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8)
 script = ExtResource("17_house_door")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=748918943]
+door_panel = NodePath("DoorPanel")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=469907962]
 shape = SubResource("BoxShape3D_house_door")
 
-[node name="HouseDoor2" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1824792840]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8)
-script = ExtResource("17_house_door")
+[node name="DoorPanel" type="Node3D" parent="NavigationRegion3D/Environment/House/HouseDoor"]
+position = Vector3(-1.25, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House/HouseDoor/DoorPanel"]
+position = Vector3(1.25, 0, 0)
+mesh = SubResource("BoxMesh_night_door")
+material_override = SubResource("StandardMaterial3D_night_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 

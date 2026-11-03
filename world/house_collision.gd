@@ -12,6 +12,9 @@ func _attach_imported_collisions() -> void:
 
 func _collect_collision_shapes(node: Node, result: Array[CollisionShape3D]) -> void:
 	for child in node.get_children(true):
+		# Area3D collision shapes belong to their area so signals keep working.
+		if child is Area3D:
+			continue
 		if child is CollisionShape3D:
 			result.append(child as CollisionShape3D)
 		else:

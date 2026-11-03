@@ -12,9 +12,11 @@ radius = 5.9947014
 [sub_resource type="SpriteFrames" id="SpriteFrames_et6nl"]
 
 [node name="Owl" type="CharacterBody3D" unique_id=1619061527]
+collision_mask = 1
 script = ExtResource("1_5a64n")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=553197226]
+collision_mask = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=94275418]
 shape = SubResource("CapsuleShape3D_x1w1a")

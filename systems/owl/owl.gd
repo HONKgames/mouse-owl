@@ -1,10 +1,15 @@
 extends CharacterBody3D
 
-@export var fov_degree: float = 60.0
-@export var detection_area: float = 25.0
-@export var speed: float = 4.0
-@export var flight_acceleration: float = 6.0
-@export var turn_speed: float = 8.0
+@export_group("Night schedule")
+@export var night_only: bool = true
+@export_range(0, 23, 1) var night_start_hour: int = 20
+@export_range(0, 23, 1) var night_end_hour: int = 7
+@export_group("Aggression")
+@export var fov_degree: float = 120.0
+@export var detection_area: float = 45.0
+@export var speed: float = 8.0
+@export var flight_acceleration: float = 12.0
+@export var turn_speed: float = 12.0
 @export var movement_animation: StringName = &"ArmatureAction"
 @export var movement_threshold: float = 0.05
 @export var debug_enabled: bool = true
@@ -18,11 +23,18 @@ extends CharacterBody3D
 var is_player_visible: bool = false
 var player: CharacterBody3D = null
 var debug_timer: float = 0.0
+var night_active: bool = true
 
 func _ready() -> void:
 	_find_player()
+	_update_night_state(true)
 
 func _physics_process(delta: float) -> void:
+	_update_night_state()
+	if not night_active:
+		velocity = Vector3.ZERO
+		return
+
 	if player == null:
 		_find_player()
 
@@ -32,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	nav_agent.update_behavior(is_player_visible)
 
 	var direction := nav_agent.get_flight_direction(delta)
-	var desired_velocity := direction * speed
+	var desired_velocity := direction * speed * nav_agent.get_speed_multiplier()
 	velocity = velocity.move_toward(desired_velocity, flight_acceleration * delta)
 	_face_player_or_direction(direction, delta)
 		
@@ -42,7 +54,17 @@ func _physics_process(delta: float) -> void:
 	else:
 		debug_timer -= delta
 	move_and_slide()
+	_check_dive_impact()
 	_update_movement_animation()
+
+func _check_dive_impact() -> void:
+	if player == null or not nav_agent.is_diving():
+		return
+	if global_position.distance_to(player.global_position) > 1.5:
+		return
+	nav_agent.register_dive_impact()
+	if not bool(player.get("is_dead")) and player.has_method("start_death_sequence"):
+		player.call("start_death_sequence", "ENEMY")
 
 func _update_movement_animation() -> void:
 	if animation_player == null or not animation_player.has_animation(movement_animation):
@@ -113,3 +135,24 @@ func _on_vision_area_body_exited(body: Node3D) -> void:
 	if body == player:
 		player = null
 		is_player_visible = false
+
+func _is_night() -> bool:
+	if not night_only:
+		return true
+	var hour: int = int(TimeGlobal.hour)
+	return hour >= night_start_hour or hour < night_end_hour
+
+func _update_night_state(force: bool = false) -> void:
+	var should_be_active := _is_night()
+	if not force and should_be_active == night_active:
+		return
+
+	night_active = should_be_active
+	visible = night_active
+	$CollisionShape3D.disabled = not night_active
+	$Area3D.monitoring = night_active
+	$Area3D.monitorable = night_active
+	if not night_active:
+		velocity = Vector3.ZERO
+		is_player_visible = false
+		nav_agent.reset_behavior()
