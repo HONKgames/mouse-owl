@@ -14,7 +14,13 @@ sky_material = SubResource("ProceduralSkyMaterial_s04jw")
 [sub_resource type="Environment" id="Environment_itjcu"]
 background_mode = 2
 sky = SubResource("Sky_f3jpl")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 15.0
+reflected_light_source = 2
 tonemap_mode = 3
+sdfgi_enabled = true
+sdfgi_energy = 5.0
 glow_enabled = true
 glow_intensity = 1.2
 glow_blend_mode = 0
@@ -25,27 +31,21 @@ adjustment_enabled = true
 adjustment_contrast = 1.15
 adjustment_saturation = 1.2
 
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_itjcu"]
-load_path = "res://.godot/imported/sun.png-8bae438e467b461130510d24b573217e.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ilkcg"]
-
-[node name="Atmosphere" type="Node3D" unique_id=957738652 node_paths=PackedStringArray("sun", "moon", "world_env", "sun_sprite", "moon_sprite", "clouds")]
+[node name="Atmosphere" type="Node3D" unique_id=957738652 node_paths=PackedStringArray("sun", "moon", "extra", "world_env", "sun_sprite", "moon_sprite", "clouds")]
 script = ExtResource("1_1kep5")
 sun = NodePath("Sunlight")
 moon = NodePath("Moonlight")
+extra = NodePath("ExtraLight")
 world_env = NodePath("Environment")
 sun_sprite = NodePath("SunSprite")
 moon_sprite = NodePath("MoonSprite")
 clouds = NodePath("Clouds")
+night_color = Color(0.10664009, 0.031013632, 0.19282448, 1)
 cloud_material = ExtResource("2_itjcu")
 
 [node name="Sunlight" type="DirectionalLight3D" parent="." unique_id=1805883158]
-sky_mode = 1
 
 [node name="Moonlight" type="DirectionalLight3D" parent="." unique_id=2056782194]
-sky_mode = 1
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1985895199]
 environment = SubResource("Environment_itjcu")
@@ -66,3 +66,6 @@ texture = ExtResource("3_ilkcg")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=96659337]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.49650002, 12.104345, -0.1663456)
+
+[node name="ExtraLight" type="DirectionalLight3D" parent="." unique_id=1878418916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)

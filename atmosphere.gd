@@ -3,6 +3,7 @@ extends Node3D
 @export_category("Lights")
 @export var sun: DirectionalLight3D
 @export var moon: DirectionalLight3D
+@export var extra: DirectionalLight3D
 @export var world_env: WorldEnvironment
 
 @export_category("Sprites")
@@ -65,7 +66,7 @@ func _update_sun(time_progress: float) -> void:
 	sun.look_at(global_position - dir, Vector3.UP)
 	
 	var sun_intensity: float = clamp(cos((time_progress - 0.5) * TAU), 0.0, 1.0)
-	sun.light_energy = sun_intensity * 1.5
+	sun.light_energy = sun_intensity * 3.0
 	sun.shadow_enabled = sun_intensity > 0.05
 	
 	if sun_sprite:
@@ -84,7 +85,7 @@ func _update_moon(time_progress: float) -> void:
 	moon.look_at(global_position - moon_dir, Vector3.UP)
 	
 	var moon_intensity: float = clamp(-cos((time_progress - 0.5) * TAU), 0.0, 1.0)
-	moon.light_energy = moon_intensity * 0.3
+	moon.light_energy = moon_intensity * 0.05
 	moon.shadow_enabled = moon_intensity > 0.05
 	
 	if moon_sprite:
@@ -102,10 +103,12 @@ func _update_sky_color(time_progress: float) -> void:
 	var day_factor: float = clamp(cos((time_progress - 0.5) * TAU), 0.0, 1.0)
 	var current_sky_color: Color = night_color.lerp(day_color, day_factor)
 	
+	env.sdfgi_enabled = day_factor > 0.05
+	extra.visible = day_factor > 0.05
 	env.background_color = current_sky_color
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_color = current_sky_color
-	env.ambient_light_energy = 1.0
+	env.ambient_light_energy = lerp(0.1, 0.9, day_factor)
 
 	var night_factor: float = clamp(-cos((time_progress - 0.5) * TAU), 0.0, 1.0)
 	if env.fog_enabled:

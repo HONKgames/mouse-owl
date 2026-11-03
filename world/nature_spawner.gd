@@ -23,14 +23,15 @@ var generation_complete: bool = false
 @export_range(0.0, 100.0, 0.5) var pumpkin_outer_radius: float = 65.0
 
 @export_group("Grass")
-@export var grass_count: int = 400
-@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 1.0
-@export_range(0.0, 100.0, 0.5) var grass_outer_radius: float = 18.0
+@export var grass_count: int = 25000
+@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 5.0
+@export_range(0.0, 100.0, 0.5) var grass_outer_radius: float = 65.0
 @export var house_exclusion_half_size: Vector2 = Vector2(10.0, 8.0)
 @export var house_exclusion_margin: float = 2.0
 @onready var grouping: Node3D = $GrassSpawnRegion
 @onready var grass: Sprite3D = $GrassSpawnRegion/Grass
 @onready var grass_template: Node3D = $GrassSpawnRegion/GrassNode
+@export var multimesh_path: NodePath = NodePath("GrassSpawnRegion/GrassMultiMesh")
 
 ## Number of objects to create before yielding back to the main loop.
 ## Keeping this small prevents procedural trees from blocking scene loading.
@@ -56,8 +57,9 @@ func _spawn_nature(terrain: Node) -> void:
 	_cache_house_exclusion()
 	await _spawn_trees(terrain)
 	await _spawn_pumpkins(terrain)
-
-	await _spawn_grass_prisms(terrain)
+	#await _spawn_grass(terrain)
+	#await _spawn_grass_prisms(terrain)
+	await _spawn_grass_multimesh(terrain)
 
 	generation_complete = true
 	last_night_factor = -1.0
@@ -233,6 +235,53 @@ func _spawn_grass_prisms(terrain: Node) -> void:
 			await get_tree().process_frame
 
 	grass_template.queue_free()
+	
+func _spawn_grass_multimesh(terrain: Node) -> void:
+	var multimesh_node := get_node_or_null(multimesh_path) as MultiMeshInstance3D
+	if not multimesh_node:
+		return
+	
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+
+	var cylinder_mesh := CylinderMesh.new()
+	cylinder_mesh.top_radius = 0.05
+	cylinder_mesh.bottom_radius = 0.25
+	cylinder_mesh.height = 4.0
+	cylinder_mesh.radial_segments = 3
+	cylinder_mesh.rings = 1
+	
+	multimesh.mesh = cylinder_mesh
+	multimesh.instance_count = grass_count
+	multimesh_node.multimesh = multimesh
+	
+	var valid_instances: int = 0
+	
+	for index in range(grass_count):
+		var point := _random_clear_annulus_point(grass_inner_radius, grass_outer_radius)
+		if is_inf(point.x):
+			continue
+			
+		var terrain_height: float = terrain.get_height_at(point.x, point.y)
+		var pos := Vector3(point.x, terrain_height, point.y)
+		
+		var t := Transform3D()
+		t.origin = pos
+		
+		t = t.rotated_local(Vector3.UP, rng.randf_range(0.0, TAU))
+		
+		var sx := rng.randf_range(0.7, 1.3)
+		var sy := rng.randf_range(0.6, 1.5)
+		var sz := rng.randf_range(0.7, 1.3)
+		t = t.scaled_local(Vector3(sx, sy, sz))
+		
+		multimesh.set_instance_transform(valid_instances, t)
+		valid_instances += 1
+		
+		if (index + 1) % spawn_batch_size == 0:
+			await get_tree().process_frame
+
+	multimesh.instance_count = valid_instances
 
 func _place_on_terrain(item: Node3D, terrain: Node, point: Vector2) -> void:
 	var step: float = 0.3

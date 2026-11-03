@@ -17,6 +17,7 @@
 [ext_resource type="Shader" uid="uid://d18xn6g2jfee2" path="res://assets/shaders/grass.gdshader" id="13_getpj"]
 [ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
 [ext_resource type="Script" uid="uid://brkc4y5753k4q" path="res://systems/navigation_setup.gd" id="14_navigation"]
+[ext_resource type="Texture2D" uid="uid://1qgvqe8lp7j2" path="res://assets/art/grass texture.png" id="14_ryguw"]
 [ext_resource type="Script" uid="uid://hr0q1q6qak88" path="res://world/terrain_object_placer.gd" id="15_terrain_placer"]
 [ext_resource type="Texture2D" uid="uid://de8l6cqagxkk5" path="res://assets/art/grass.png" id="15_vivmo"]
 [ext_resource type="Script" uid="uid://by8bopn5p3ysi" path="res://world/house_collision.gd" id="16_house_collision"]
@@ -49,6 +50,12 @@ size = Vector3(0.1, 0.5, 0.1)
 render_priority = 0
 shader = ExtResource("13_getpj")
 shader_parameter/grass_color = Color(0.06, 0.15, 0.08, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pkrlc"]
+render_priority = 0
+shader = ExtResource("13_getpj")
+shader_parameter/grass_color = Color(0.145, 0.322, 0.157, 1)
+shader_parameter/grass_texture = ExtResource("14_ryguw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 cull_mode = 1
@@ -219,7 +226,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0)
 material_override = SubResource("StandardMaterial3D_night_door")
 mesh = SubResource("BoxMesh_night_door")
-mesh = SubResource("BoxMesh_night_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 
@@ -240,11 +246,15 @@ texture = ExtResource("15_vivmo")
 
 [node name="GrassNode" type="Node3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion" unique_id=241286986]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9116058, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion/GrassNode" unique_id=514133251]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 mesh = SubResource("BoxMesh_pm0ju")
 surface_material_override/0 = SubResource("ShaderMaterial_getpj")
+
+[node name="GrassMultiMesh" type="MultiMeshInstance3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion" unique_id=1446611739]
+material_override = SubResource("ShaderMaterial_pkrlc")
 
 [node name="TreeSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=1310804942]
 
