@@ -94,6 +94,10 @@ func _process(delta: float) -> void:
 func update_behavior(player_visible: bool) -> void:
 	if not automatic_state_changes:
 		return
+	# Once a dive has started, finish the attack even if the owl briefly loses
+	# line of sight while moving over the player.
+	if curr_state == STATES.ATTACK and dive_phase != DIVE_PHASE.COOLDOWN:
+		return
 	if player == null or not player_visible:
 		curr_state = STATES.PATROL
 		_reset_dive_if_needed()
@@ -132,8 +136,6 @@ func get_flight_direction(delta: float) -> Vector3:
 	var orbit_speed := patrol_orbit_speed
 	var altitude := patrol_altitude
 	if curr_state == STATES.STALK and player != null:
-		# Close the distance directly so stalking can actually reach attack_distance.
-		# Orbiting here left the owl circling forever outside dive range.
 		var stalk_target := player.global_position + Vector3.UP * stalk_altitude
 		return owl.global_position.direction_to(stalk_target)
 	elif curr_state == STATES.ATTACK and player != null:
@@ -159,6 +161,9 @@ func get_speed_multiplier() -> float:
 func is_diving() -> bool:
 	return curr_state == STATES.ATTACK and dive_phase == DIVE_PHASE.DIVE
 
+func is_attack_run() -> bool:
+	return curr_state == STATES.ATTACK
+
 func register_dive_impact() -> void:
 	if is_diving():
 		dive_phase = DIVE_PHASE.PULL_UP
@@ -175,7 +180,6 @@ func _get_dive_direction(delta: float) -> Vector3:
 
 	match dive_phase:
 		DIVE_PHASE.APPROACH:
-			# Get above the mouse before committing to the dive.
 			if owl.global_position.distance_to(target) <= 1.5:
 				dive_phase = DIVE_PHASE.DIVE
 				target = player_position + Vector3.UP * 0.8

@@ -14,6 +14,7 @@ extends CharacterBody3D
 @export var movement_threshold: float = 0.05
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
+@export var dive_hit_radius: float = 1.5
 
 @onready var vision_area: Area3D = $Area3D
 @onready var raycast: RayCast3D = $RayCast3D
@@ -21,7 +22,7 @@ extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = find_child("AnimationPlayer", true, false) as AnimationPlayer
 
 var is_player_visible: bool = false
-var player: CharacterBody3D = null
+var player: MousePlayer = null
 var debug_timer: float = 0.0
 var night_active: bool = true
 
@@ -43,28 +44,38 @@ func _physics_process(delta: float) -> void:
 		detection()
 	nav_agent.update_behavior(is_player_visible)
 
+	var previous_position := global_position
 	var direction := nav_agent.get_flight_direction(delta)
 	var desired_velocity := direction * speed * nav_agent.get_speed_multiplier()
 	velocity = velocity.move_toward(desired_velocity, flight_acceleration * delta)
 	_face_player_or_direction(direction, delta)
 		
-	if debug_enabled and debug_timer <= 0.0:
-		print("Owl state=", nav_agent.get_state(), " phase=", nav_agent.get_phase(), " velocity=", velocity)
-		debug_timer = 0.5
-	else:
-		debug_timer -= delta
 	move_and_slide()
-	_check_dive_impact()
+	_check_dive_impact(previous_position)
 	_update_movement_animation()
 
-func _check_dive_impact() -> void:
-	if player == null or not nav_agent.is_diving():
+func _check_dive_impact(previous_position: Vector3) -> void:
+	if player == null or not nav_agent.is_attack_run():
 		return
-	if global_position.distance_to(player.global_position) > 1.5:
+	if bool(player.get("is_dead")):
 		return
+
+	var movement := global_position - previous_position
+	var movement_length_squared := movement.length_squared()
+	var closest_point := global_position
+	if movement_length_squared > 0.0:
+		var hit_progress := clampf(
+			(player.global_position - previous_position).dot(movement) / movement_length_squared,
+			0.0,
+			1.0
+		)
+		closest_point = previous_position + movement * hit_progress
+
+	if closest_point.distance_to(player.global_position) > dive_hit_radius:
+		return
+
 	nav_agent.register_dive_impact()
-	if not bool(player.get("is_dead")) and player.has_method("start_death_sequence"):
-		player.call("start_death_sequence", "ENEMY")
+	player.start_death_sequence("ENEMY")
 
 func _update_movement_animation() -> void:
 	if animation_player == null or not animation_player.has_animation(movement_animation):
@@ -88,13 +99,13 @@ func _face_player_or_direction(direction: Vector3, delta: float) -> void:
 
 func _find_player() -> void:
 	if not player_path.is_empty():
-		player = get_node_or_null(player_path) as CharacterBody3D
+		player = get_node_or_null(player_path) as MousePlayer
 
 	if player == null:
 		var player_group := get_tree().get_nodes_in_group("player")
 		for candidate in player_group:
-			if candidate is CharacterBody3D and candidate != self:
-				player = candidate as CharacterBody3D
+			if candidate is MousePlayer and candidate != self:
+				player = candidate as MousePlayer
 				break
 
 func detection() -> void:
@@ -129,7 +140,7 @@ func inLOS(distance: Vector3) -> bool:
 
 func _on_vision_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
-		player = body as CharacterBody3D
+		player = body as MousePlayer
 
 func _on_vision_area_body_exited(body: Node3D) -> void:
 	if body == player:

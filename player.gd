@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name MousePlayer
 
 const GRAVITY: float = -24.8
 const MAX_SPEED: float = 8.0
