@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cc5akoronw65t"]
+
+[ext_resource type="PackedScene" uid="uid://b0wadkrpsdcw6" path="res://player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="2_terrain"]
+[ext_resource type="Script" uid="uid://cs63y05saoxd" path="res://systems/food_spawner.gd" id="3_food"]
+[ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="4_food_scene"]
+[ext_resource type="PackedScene" uid="uid://dbg26dvey3ied" path="res://systems/owl/owl.tscn" id="5_cat"]
+
+[node name="Maze" type="Node3D" unique_id=1398521419]
+
+[node name="Player" parent="." unique_id=1853872102 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_player")]
+spawn_point = NodePath("../PlayerSpawn")
+
+[node name="PlayerSpawn" type="Marker3D" parent="." unique_id=622619198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Terrain" parent="." unique_id=198076037 node_paths=PackedStringArray("flat_spots") instance=ExtResource("2_terrain")]
+flat_spots = []
+edge_width = 30.0
+edge_height = 20.0
+
+[node name="FoodSpawner" type="Node3D" parent="." unique_id=1904383699 node_paths=PackedStringArray("terrain")]
+script = ExtResource("3_food")
+food_scene = ExtResource("4_food_scene")
+terrain = NodePath("../Terrain")
+count = 30
+max_food = 60
+spawn_range = 70.0
+
+[node name="HouseCat" parent="." unique_id=1257595623 instance=ExtResource("5_cat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 14, 8)
+debug_enabled = false
+player_path = NodePath("../Player")

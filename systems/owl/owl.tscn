@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://bl0o14brm6wb1"]
+[gd_scene format=3 uid="uid://dbg26dvey3ied"]
 
 [ext_resource type="Script" uid="uid://kkdpqlh1d6tk" path="res://systems/owl/owl.gd" id="1_5a64n"]
 [ext_resource type="Script" uid="uid://dklm1vtf7u2e0" path="res://systems/owl/navigation_agent_3d.gd" id="2_wmkke"]
+[ext_resource type="PackedScene" uid="uid://dqmuffkp0jty7" path="res://bird.tscn" id="3_ladfl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x1w1a"]
 
@@ -23,10 +24,17 @@ shape = SubResource("CapsuleShape3D_x1w1a")
 [node name="Area3D" type="Area3D" parent="." unique_id=1688298435]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1081924752]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 shape = SubResource("SphereShape3D_uetk2")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=483436991]
 sprite_frames = SubResource("SpriteFrames_et6nl")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=27819783]
+path_desired_distance = 0.5
+target_desired_distance = 1.5
+radius = 0.4
 script = ExtResource("2_wmkke")
+
+[node name="Bird" parent="." unique_id=1689244126 instance=ExtResource("3_ladfl")]
+transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0)

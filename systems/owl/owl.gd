@@ -3,6 +3,8 @@ extends CharacterBody3D
 @export var fov_degree: float = 60.0
 @export var detection_area: float = 25.0
 @export var speed: float = 4.0
+@export var flight_acceleration: float = 6.0
+@export var turn_speed: float = 8.0
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
@@ -12,7 +14,6 @@ extends CharacterBody3D
 
 var is_player_visible: bool = false
 var player: CharacterBody3D = null
-var gravity: float = 9.81
 var debug_timer: float = 0.0
 
 func _ready() -> void:
@@ -25,20 +26,28 @@ func _physics_process(delta: float) -> void:
 	if player != null:
 		nav_agent.set_player(player)
 		detection()
-		var direction := nav_agent.get_follow_direction()
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
-	else:
-		velocity.x = 0.0
-		velocity.z = 0.0
+	nav_agent.update_behavior(is_player_visible)
 
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	else:
-		velocity.y = 0.0
+	var direction := nav_agent.get_flight_direction(delta)
+	var desired_velocity := direction * speed
+	velocity = velocity.move_toward(desired_velocity, flight_acceleration * delta)
+	_face_player_or_direction(direction, delta)
 		
-	print("Owl\n state=", nav_agent.get_state(), "\n phase=", nav_agent.get_phase(), "\n velocity", velocity)
+	if debug_enabled and debug_timer <= 0.0:
+		print("Owl state=", nav_agent.get_state(), " phase=", nav_agent.get_phase(), " velocity=", velocity)
+		debug_timer = 0.5
+	else:
+		debug_timer -= delta
 	move_and_slide()
+
+func _face_player_or_direction(direction: Vector3, delta: float) -> void:
+	var facing := direction
+	if facing.length_squared() <= 0.001:
+		return
+
+	facing = facing.normalized()
+	var target_yaw := atan2(-facing.x, -facing.z)
+	rotation.y = lerp_angle(rotation.y, target_yaw, minf(turn_speed * delta, 1.0))
 
 func _find_player() -> void:
 	if not player_path.is_empty():
@@ -46,8 +55,10 @@ func _find_player() -> void:
 
 	if player == null:
 		var player_group := get_tree().get_nodes_in_group("player")
-		if player_group.size() > 0:
-			player = player_group[0] as CharacterBody3D
+		for candidate in player_group:
+			if candidate is CharacterBody3D and candidate != self:
+				player = candidate as CharacterBody3D
+				break
 
 func detection() -> void:
 	is_player_visible = false
