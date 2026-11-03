@@ -120,9 +120,8 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="main" type="Node3D" unique_id=1661839361 groups=["player"]]
 
-[node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
+[node name="Player" parent="." unique_id=1106861229 instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
-spawn_point = NodePath("../NavigationRegion3D/Environment/House/SpawnPoint")
 
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false

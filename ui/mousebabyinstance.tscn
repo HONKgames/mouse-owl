@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bo2itqwt7bg54"]
 
-[ext_resource type="Script" uid="uid://io8fyuriql44" path="res://ui/mousebaby.gd" id="1_tatvj"]
-[ext_resource type="Texture2D" uid="uid://c546a5bn7uj3x" path="res://assets/art/mouse newborn.png" id="2_dvuus"]
+[ext_resource type="Script" uid="uid://d3gr3e52oxhoc" path="res://ui/mousebabyinstance.gd" id="1_rwsad"]
+[ext_resource type="Texture2D" uid="uid://c546a5bn7uj3x" path="res://assets/art/mouse newborn.png" id="1_ypqfp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pm0ju"]
 radius = 20.0
 height = 88.0
 
 [node name="MouseBaby" type="CharacterBody2D" unique_id=1164464790]
-script = ExtResource("1_tatvj")
+script = ExtResource("1_rwsad")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=472825469]
 position = Vector2(-5, 4)
@@ -17,4 +17,4 @@ shape = SubResource("CapsuleShape2D_pm0ju")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1095494688]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_dvuus")
+texture = ExtResource("1_ypqfp")
