@@ -32,13 +32,13 @@ agent_radius = 0.4
 [sub_resource type="BoxShape3D" id="BoxShape3D_house_door"]
 size = Vector3(3, 3, 2)
 
-[sub_resource type="BoxMesh" id="BoxMesh_night_door"]
-size = Vector3(2.5, 3.0, 0.18)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_night_door"]
 albedo_color = Color(0.12, 0.035, 0.02, 1)
 metallic = 0.1
 roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_night_door"]
+size = Vector3(2.5, 3, 0.18)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("7_5vw27")
@@ -199,13 +199,13 @@ door_panel = NodePath("DoorPanel")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=469907962]
 shape = SubResource("BoxShape3D_house_door")
 
-[node name="DoorPanel" type="Node3D" parent="NavigationRegion3D/Environment/House/HouseDoor"]
-position = Vector3(-1.25, 0, 0)
+[node name="DoorPanel" type="Node3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=787387039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House/HouseDoor/DoorPanel"]
-position = Vector3(1.25, 0, 0)
-mesh = SubResource("BoxMesh_night_door")
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House/HouseDoor/DoorPanel" unique_id=1673366293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0)
 material_override = SubResource("StandardMaterial3D_night_door")
+mesh = SubResource("BoxMesh_night_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 
