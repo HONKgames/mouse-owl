@@ -10,10 +10,12 @@ var generation_complete: bool = false
 @export var house_path: NodePath = NodePath("House")
 
 @export_group("Trees")
-@export var tree_count: int = 80
+@export var tree_count: int = 50
 @export_range(0.0, 100.0, 0.5) var tree_inner_radius: float = 8.0
 @export_range(0.0, 100.0, 0.5) var tree_outer_radius: float = 40.0
 @export_range(0.0, 1.0, 0.05) var small_tree_probability: float = 0.4
+@export_range(1.0, 6.0, 0.1) var tree_scale_min: float = 2.5
+@export_range(1.0, 6.0, 0.1) var tree_scale_max: float = 3.5
 
 @export_group("Pumpkins")
 @export var pumpkin_count: int = 50
@@ -134,10 +136,13 @@ func _spawn_trees(terrain: Node) -> void:
 	medium_template.queue_free()
 
 func _clone_baked_tree(template: Node3D, parent: Node3D, tree_name: String) -> Node3D:
-	var tree := Node3D.new()
+	var tree := MeshCollision.new()
 	tree.name = tree_name
+	# Generate at native scale, then enlarge the baked result so the procedural
+	# generator does not process oversized geometry for every tree.
+	var visual_scale := rng.randf_range(tree_scale_min, tree_scale_max)
+	tree.scale = template.scale * visual_scale
 	parent.add_child(tree)
-	# Tree3D keeps its mesh and collision nodes as internal children.
 	for child: Node in template.get_children(true):
 		tree.add_child(child.duplicate())
 	return tree
@@ -153,6 +158,9 @@ func _spawn_pumpkins(terrain: Node) -> void:
 		var pumpkin: Node3D = template.duplicate()
 		pumpkin.name = "Pumpkin_%02d" % index
 		region.add_child(pumpkin)
+		# The template is hidden so it does not render in the spawn region. Each
+		# spawned pumpkin must be explicitly shown after duplication.
+		pumpkin.visible = true
 		_place_on_terrain(pumpkin, terrain, point)
 		if (index + 1) % spawn_batch_size == 0:
 			await get_tree().process_frame

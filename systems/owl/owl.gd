@@ -5,12 +5,15 @@ extends CharacterBody3D
 @export var speed: float = 4.0
 @export var flight_acceleration: float = 6.0
 @export var turn_speed: float = 8.0
+@export var movement_animation: StringName = &"ArmatureAction"
+@export var movement_threshold: float = 0.05
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 
 @onready var vision_area: Area3D = $Area3D
 @onready var raycast: RayCast3D = $RayCast3D
 @onready var nav_agent: OwlNavigationAgent = $NavigationAgent3D
+@onready var animation_player: AnimationPlayer = find_child("AnimationPlayer", true, false) as AnimationPlayer
 
 var is_player_visible: bool = false
 var player: CharacterBody3D = null
@@ -39,6 +42,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		debug_timer -= delta
 	move_and_slide()
+	_update_movement_animation()
+
+func _update_movement_animation() -> void:
+	if animation_player == null or not animation_player.has_animation(movement_animation):
+		return
+
+	var is_moving := velocity.length_squared() > movement_threshold * movement_threshold
+	if is_moving:
+		if animation_player.current_animation != movement_animation or not animation_player.is_playing():
+			animation_player.play(movement_animation)
+	elif animation_player.current_animation == movement_animation:
+		animation_player.stop()
 
 func _face_player_or_direction(direction: Vector3, delta: float) -> void:
 	var facing := direction
