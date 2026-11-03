@@ -31,6 +31,8 @@ func _ready() -> void:
 		if not inventory.rejected.is_connected(_on_inventory_rejected):
 			inventory.rejected.connect(_on_inventory_rejected)
 		_on_inventory_changed()
+		
+		inventory.selected_changed.connect(_on_selected_changed)
 	
 	if not needs and Engine.has_singleton("Needs"):
 		needs = get_node("/root/Needs")
@@ -43,6 +45,7 @@ func _ready() -> void:
 		if needs.has_signal("stamina_changed"):
 			needs.stamina_changed.connect(_on_needs_changed)
 	
+	_on_selected_changed()
 	update_bar(false)
 
 func _process(_delta: float) -> void:
@@ -143,8 +146,15 @@ func update_bar(animate: bool = true) -> void:
 		hunger_panel.size_flags_stretch_ratio = maxf(hunger, 0.01)
 		fatigue_panel.size_flags_stretch_ratio = maxf(fatigue, 0.01)
 
+func set_hotbar_visible(v: bool) -> void:
+	hotbar.visible = v
+
 func _on_needs_changed(_new_val: float) -> void:
 	update_bar(true)
+
+func _on_selected_changed() -> void:
+	for x in slots.size():
+		slots[x].modulate = Color.WHITE if x == inventory.selected else Color(1, 1, 1, 0.5)
 
 func _on_inventory_rejected() -> void:
 	if reject_tween and reject_tween.is_valid():

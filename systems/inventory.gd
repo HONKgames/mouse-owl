@@ -6,6 +6,7 @@ signal rejected
 signal selected_changed
 
 @export var max_items: int = 3
+const FOOD_VALUE: float = 25.0
 
 var items: Array[String]
 var selected: int = 0
@@ -21,7 +22,7 @@ func selected_item() -> String:
 	return items[selected] if selected < items.size() else ""
 
 func remove_at(i: int) -> void:
-	if i >= max_items or i < 0:
+	if i >= items.size() or i < 0:
 		return
 	items.remove_at(i)
 	changed.emit()
