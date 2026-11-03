@@ -146,6 +146,9 @@ func update_bar(animate: bool = true) -> void:
 		hunger_panel.size_flags_stretch_ratio = maxf(hunger, 0.01)
 		fatigue_panel.size_flags_stretch_ratio = maxf(fatigue, 0.01)
 
+func set_hotbar_visible(v: bool) -> void:
+	hotbar.visible = v
+
 func _on_needs_changed(_new_val: float) -> void:
 	update_bar(true)
 

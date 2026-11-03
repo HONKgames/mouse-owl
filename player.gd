@@ -8,17 +8,11 @@ const TURN_ACCEL: float = 60.0
 const DECEL: float = 100.0
 const SPEED_MULTIPLIER: float = 1.6
 const PICKUP_TIME: float = 0.5
+const EAT_TIME: float = 1.0
 const TIME_TO_DEATH: float = 5.0
 
 @export var mouse_sensitivity: float = 0.2
 @export var spawn_point: Node3D
-
-var current_den: Area3D = null
-var nearby_food: Array[Area3D] = []
-var pickup_progress: float
-var is_dead: bool = false
-var death_timer: float = 0.0
-var death_camera: Camera3D = null
 
 @onready var rotation_helper: Node3D = $Rotation_Helper
 @onready var camera_3D: Camera3D = $Rotation_Helper/Camera3D
@@ -39,6 +33,14 @@ var death_camera: Camera3D = null
 
 @onready var den_prompt: Label = $DenPrompt
 
+var current_den: Area3D = null
+var nearby_food: Array[Area3D] = []
+var pickup_progress: float = 0.0
+var eat_progress: float = 0.0
+var is_dead: bool = false
+var death_timer: float = 0.0
+var death_camera: Camera3D = null
+
 func _ready() -> void:
 	add_to_group("player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -52,6 +54,7 @@ func _ready() -> void:
 		_teleport_to_spawn.call_deferred()
 		
 func _process(delta: float) -> void:
+	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	den_prompt.visible = current_den != null and not den_ui.visible
 	if is_dead:
 		return
@@ -143,6 +146,14 @@ func process_input(delta: float) -> void:
 			pickup_sound.pitch_scale = randf_range(0.9, 1.1)
 			#pickup_sound.play() we need a pickup sfx lol
 		pickup_progress = 0.0
+	if Input.is_action_pressed("interact") and current_den == null and inventory.selected_item() != "":
+		eat_progress += delta
+	else:
+		eat_progress = 0.0
+	if eat_progress >= EAT_TIME:
+		needs.eat(Inventory.FOOD_VALUE)
+		inventory.remove_at(inventory.selected)
+		eat_progress = 0.0
 
 func apply_gravity(delta: float) -> void:
 	if is_on_floor():
@@ -190,6 +201,7 @@ func toggle_den() -> void:
 		return
 		
 	den_ui.visible = !den_ui.visible
+	hud.set_hotbar_visible(!den_ui.visible)
 	needs.in_den = den_ui.visible
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

@@ -1,7 +1,5 @@
 extends Control
 
-const FOOD_VALUE: float = 25.0
-
 @export var children_scene: PackedScene
 
 @onready var mouse_manager: MouseBabyManager = $Children
@@ -99,7 +97,7 @@ func _on_eat_pressed() -> void:
 		return
 	
 	current_den.stored_food -= 1
-	player_needs.eat(1)
+	player_needs.eat(Inventory.FOOD_VALUE)
 	update_labels()
 
 func _on_feed_pressed() -> void:

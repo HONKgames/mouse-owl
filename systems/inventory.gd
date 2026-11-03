@@ -6,6 +6,7 @@ signal rejected
 signal selected_changed
 
 @export var max_items: int = 3
+const FOOD_VALUE: float = 25.0
 
 var items: Array[String]
 var selected: int = 0
