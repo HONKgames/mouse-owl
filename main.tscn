@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://c772h3nnlgmxx" path="res://house.tscn" id="8_yaehf"]
-[ext_resource type="PackedScene" uid="uid://bl0o14brm6wb1" path="res://systems/owl/owl.tscn" id="9_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dbg26dvey3ied" path="res://systems/owl/owl.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 [ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="10_efxa6"]
 [ext_resource type="Material" uid="uid://nbufyjjbwrxk" path="res://assets/art/fluffy_trees_material.tres" id="11_dg77c"]
@@ -131,7 +131,6 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="Player" parent="." unique_id=1106861229 instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
-spawn_point = NodePath("../NavigationRegion3D/Environment/Den/SpawnPoint")
 
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false

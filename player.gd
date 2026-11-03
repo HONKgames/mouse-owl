@@ -237,7 +237,7 @@ func game_over_screen(type: String) -> void:
 		floor_color = Color.from_hsv(0.122, 0.006, 0.709, 0.502)
 	
 	if texture and texture.gradient and floor_color:
-		texture.gradient.set_color(1, floor_color)
+		texture.gradient.set_color(0, floor_color)
 
 func _reset() -> void:
 	get_tree().reload_current_scene()

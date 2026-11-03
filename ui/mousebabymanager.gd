@@ -54,8 +54,8 @@ func update_hunger(delta: float) -> void:
 	var age_factor: float = 1.0 + (float(TimeGlobal.day) / float(adult_day_target))
 	var population_factor: float = 1.0 + (child_count * 0.05)
 
-	var hunger_increase: float = base_hunger_rate * current_night_mult * age_factor * population_factor * delta * TimeGlobal.time_scale
-	collective_hunger = clampf(collective_hunger + hunger_increase, 0.0, 100.0)
+	var hunger_decrease: float = base_hunger_rate * current_night_mult * age_factor * population_factor * delta * TimeGlobal.time_scale
+	collective_hunger = clampf(collective_hunger - hunger_decrease, 0.0, 100.0)
 
 	for mouse in active_mice:
 		if is_instance_valid(mouse):
