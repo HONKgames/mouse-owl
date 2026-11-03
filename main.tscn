@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dx4p7oofcglum" path="res://stump_low.tscn" id="5_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
+[ext_resource type="PackedScene" uid="uid://c772h3nnlgmxx" path="res://house.tscn" id="8_yaehf"]
 [ext_resource type="PackedScene" uid="uid://bl0o14brm6wb1" path="res://systems/owl/owl.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 [ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="10_efxa6"]
@@ -14,15 +15,15 @@
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
 [ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
-
+[ext_resource type="Script" uid="uid://brkc4y5753k4q" path="res://systems/navigation_setup.gd" id="14_navigation"]
+[ext_resource type="Script" path="res://world/house_collision.gd" id="16_house_collision"]
+[ext_resource type="Script" uid="uid://hr0q1q6qak88" path="res://world/terrain_object_placer.gd" id="15_terrain_placer"]
+[ext_resource type="Script" path="res://world/house_door.gd" id="17_house_door"]
 [ext_resource type="Texture2D" uid="uid://de8l6cqagxkk5" path="res://assets/art/grass.png" id="15_vivmo"]
 
-[ext_resource type="Script" path="res://systems/navigation_setup.gd" id="14_navigation"]
-
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
-geometry_source_geometry_mode = 0
-cell_size = 0.25
-cell_height = 0.25
+vertices = PackedVector3Array(-10.681719, 1.9986035, 0.062232018, -10.181719, 1.9986035, 0.812232, -9.681719, 1.9986035, 0.562232, -9.681719, 1.9986035, -0.18776798, 4.568281, 7.4986033, 3.812232, 3.8182812, 7.4986033, 3.062232, 3.3182812, 7.7486033, 3.562232, 3.8182812, 7.7486033, 5.062232, 4.568281, 7.2486033, 4.812232, -1.9317188, 1.9986035, 10.562232, -1.6817188, 2.2486033, 11.062232, -0.9317188, 1.9986035, 11.062232, -1.1817188, 1.9986035, 10.062232, 6.818281, 8.248604, 15.312232, 7.568281, 8.998604, 16.562233, 8.068281, 8.998604, 16.312233, -0.43171883, 13.998604, 22.562233, 0.8182812, 13.498604, 23.312233, 0.8182812, 13.248604, 22.062233, -1.1817188, 13.998604, 21.062233, -0.43171883, 11.498604, 22.812233, -0.43171883, 11.248604, 23.562233, 0.06828117, 11.498604, 23.812233, 2.0682812, 14.248604, 24.062233, 2.8182812, 13.998604, 24.062233, 3.0682812, 13.998604, 23.562233, 3.0682812, 13.748604, 22.812233, 1.8182812, 14.248604, 23.062233)
+polygons = [PackedInt32Array(2, 1, 3), PackedInt32Array(3, 1, 0), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 8), PackedInt32Array(6, 8, 7), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(22, 21, 20), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 26), PackedInt32Array(26, 23, 27)]
 agent_height = 1.0
 agent_radius = 0.4
 
@@ -31,9 +32,11 @@ agent_radius = 0.4
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_pm0ju"]
 radius = 1.0
 
-[sub_resource type="PrismMesh" id="PrismMesh_et6nl"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_house"]
+size = Vector3(12, 8, 12)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_et6nl"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_house_door"]
+size = Vector3(3, 3, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("7_5vw27")
@@ -128,7 +131,7 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
-spawn_point = NodePath("../NavigationRegion3D/Environment/House/SpawnPoint")
+spawn_point = NodePath("../NavigationRegion3D/Environment/Den/SpawnPoint")
 
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false
@@ -139,12 +142,13 @@ offset_bottom = 655.0
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
 [node name="Owl" parent="." unique_id=2075625185 instance=ExtResource("9_4c57u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.0, 4.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 14, 4)
+scale = Vector3(2, 2, 2)
 player_path = NodePath("../Player")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=207479146]
-script = ExtResource("14_navigation")
 navigation_mesh = SubResource("NavigationMesh_et6nl")
+script = ExtResource("14_navigation")
 
 [node name="Environment" type="Node3D" parent="NavigationRegion3D" unique_id=639223408]
 script = ExtResource("13_nature")
@@ -166,6 +170,8 @@ visible = false
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Environment/Den" unique_id=702877438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0854616, 0)
+collision_layer = 1
+collision_mask = 1
 physics_material_override = SubResource("PhysicsMaterial_qanqi")
 
 [node name="stump_low" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=1757837621 instance=ExtResource("5_ycdy4")]
@@ -174,20 +180,31 @@ physics_material_override = SubResource("PhysicsMaterial_qanqi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09800506, 0, 0)
 shape = SubResource("CylinderShape3D_pm0ju")
 
+[node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/Den" unique_id=834735284]
+position = Vector3(0, 1.4, 1.6)
+
 [node name="House" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2042364361]
-visible = false
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -55, 0, 0)
+script = ExtResource("16_house_collision")
+collision_layer = 1
+collision_mask = 1
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House" unique_id=1313397918]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1.721)
-mesh = SubResource("PrismMesh_et6nl")
+[node name="HouseCollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House" unique_id=2042364362]
+position = Vector3(0, 4, 0)
+shape = SubResource("BoxShape3D_house")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House" unique_id=2117067737]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("BoxShape3D_et6nl")
-disabled = true
+[node name="house" parent="NavigationRegion3D/Environment/House" unique_id=1533688866 instance=ExtResource("8_yaehf")]
+transform = Transform3D(0.06155146, 0, -0.9981039, 0, 1, 0, 0.9981039, 0, 0.06155146, -9.094947e-13, 0.05962062, 0.35690308)
 
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 3, 8)
+
+[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" node_paths=PackedStringArray()]
+position = Vector3(0, 1.5, 8)
+script = ExtResource("17_house_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor"]
+shape = SubResource("BoxShape3D_house_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 
@@ -218,6 +235,7 @@ wind_blur = 0.41
 wind_branch_wind_strength = 2.07
 wind_branch_wind_blur = 0.52
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.180275, 0, 12.950891)
+visible = false
 
 [node name="MediumTree" type="Tree3D" parent="NavigationRegion3D/Environment/TreeSpawnRegion" unique_id=35086244]
 seed = 258
@@ -232,6 +250,7 @@ material_trunk = SubResource("StandardMaterial3D_5vw27")
 material_twig = ExtResource("11_dg77c")
 collision_enabled = true
 transform = Transform3D(1, -7.672238e-06, 3.374937e-05, 7.672238e-06, 1, 1.731186e-05, -3.374937e-05, -1.731186e-05, 1, 3.180275, 0, 19.946564)
+visible = false
 
 [node name="Terrain" parent="NavigationRegion3D/Environment" unique_id=1207053157 node_paths=PackedStringArray("flat_spots") instance=ExtResource("8_kek77")]
 flat_spots = [NodePath("../House"), NodePath("../Den")]
@@ -239,10 +258,14 @@ blend_radius = 25.0
 edge_width = 30.0
 edge_height = 20.0
 
+[node name="TerrainObjectPlacer" type="Node3D" parent="NavigationRegion3D/Environment" unique_id=1689773905]
+script = ExtResource("15_terrain_placer")
+
 [node name="FoodSpawner" type="Node3D" parent="." unique_id=2050113089 node_paths=PackedStringArray("terrain")]
 script = ExtResource("11_ycdy4")
 food_scene = ExtResource("12_ycdy4")
 terrain = NodePath("../NavigationRegion3D/Environment/Terrain")
+house_path = NodePath("../NavigationRegion3D/Environment/House")
 
 [node name="Atmosphere" parent="." unique_id=957738652 instance=ExtResource("12_dg77c")]
 day_color = Color(0.35819095, 0.6171973, 0.92147624, 1)

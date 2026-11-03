@@ -56,6 +56,16 @@ func get_height_at(world_x: float, world_z: float) -> float:
 	var gz: int = clampi(roundi(world_z + offset), 0, size)
 	return get_height(gx, gz)
 
+## Returns the generated terrain normal at a world-space X/Z position.
+## Keeping this in the terrain script means placed props use the same surface
+## data as the mesh and HeightMapShape3D instead of doing a second raycast.
+func get_normal_at(world_x: float, world_z: float, sample_distance: float = 1.0) -> Vector3:
+	var left: float = get_height_at(world_x - sample_distance, world_z)
+	var right: float = get_height_at(world_x + sample_distance, world_z)
+	var forward: float = get_height_at(world_x, world_z - sample_distance)
+	var back: float = get_height_at(world_x, world_z + sample_distance)
+	return Vector3(left - right, sample_distance * 2.0, forward - back).normalized()
+
 func flatten(x: float, z: float, h: float) -> float:
 	var pos: Vector2 = Vector2(x - offset, z - offset)
 	for spot in flat_spots:

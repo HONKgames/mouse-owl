@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dqmuffkp0jty7"]
+
+[ext_resource type="PackedScene" uid="uid://dl7vi55uvay1" path="res://assets/Meshes/owl/Bird.glb" id="1_g5k2s"]
+
+[node name="Bird" unique_id=1689244126 instance=ExtResource("1_g5k2s")]
+
+[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(1001568715) index="0" unique_id=230619561]
+bones/1/rotation = Quaternion(-0.55458975, -0.52363616, -0.25104043, 0.59599847)
+bones/2/rotation = Quaternion(-0.034572497, 0.058822244, 0.04445319, 0.9966788)
+bones/3/rotation = Quaternion(-0.015127758, 0.03483922, 0.105646, 0.9936782)
+bones/4/rotation = Quaternion(-0.5559877, 0.5222782, 0.2407383, 0.6001235)
+bones/5/rotation = Quaternion(-0.050003435, -0.07182347, -0.037818693, 0.995445)
+bones/6/rotation = Quaternion(0.004525954, -0.013242034, -0.10531745, 0.9943402)
+bones/7/rotation = Quaternion(-5.437792e-09, 0.9974028, -0.07202573, 7.530182e-08)
+bones/8/rotation = Quaternion(-7.5379056e-08, -0.056087293, 0.99842596, 4.2344683e-09)
