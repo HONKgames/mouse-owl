@@ -15,6 +15,7 @@ extends CharacterBody3D
 @export var debug_enabled: bool = true
 @export var player_path: NodePath
 @export var dive_hit_radius: float = 1.5
+@export var night_spawn_position: Vector3 = Vector3(0, 25, 0)
 
 @onready var vision_area: Area3D = $Area3D
 @onready var raycast: RayCast3D = $RayCast3D
@@ -40,9 +41,17 @@ func _physics_process(delta: float) -> void:
 		_find_player()
 
 	if player != null:
+		var den_ui = player.get_node_or_null("DenUI")
+		if den_ui != null and den_ui.visible:
+			velocity = Vector3.ZERO
+			if animation_player != null and animation_player.is_playing():
+				animation_player.stop()
+			return
+
+	if player != null:
 		nav_agent.set_player(player)
 		detection()
-	nav_agent.update_behavior(is_player_visible)
+	nav_agent.update_behavior(is_player_visible, delta)
 
 	var previous_position := global_position
 	var direction := nav_agent.get_flight_direction(delta)
@@ -166,7 +175,12 @@ func _update_night_state(force: bool = false) -> void:
 	$CollisionShape3D.disabled = not night_active
 	$Area3D.monitoring = night_active
 	$Area3D.monitorable = night_active
+	
 	if not night_active:
 		velocity = Vector3.ZERO
 		is_player_visible = false
 		nav_agent.reset_behavior()
+	else:
+		global_position = night_spawn_position
+		velocity = Vector3.ZERO
+		nav_agent.set_patrol_center(night_spawn_position)

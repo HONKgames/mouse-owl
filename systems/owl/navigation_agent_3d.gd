@@ -31,6 +31,16 @@ const PHASE_DICT := {
 @export var dive_speed_multiplier: float = 4.5
 @export var pull_up_speed_multiplier: float = 2.0
 @export var dive_cooldown: float = 0.75
+@export_group("Ignore Behavior")
+@export var enable_random_ignore: bool = true
+@export var ignore_chance: float = 0.35
+@export var min_ignore_time: float = 3.0
+@export var max_ignore_time: float = 6.0
+@export var check_interval: float = 5.0
+
+var ignore_timer: float = 0.0
+var check_timer: float = 0.0
+var is_ignoring_player: bool = false
 
 @onready var owl: CharacterBody3D = get_parent() as CharacterBody3D
 
@@ -91,11 +101,32 @@ func _process(delta: float) -> void:
 	distance = owl.get_distance()
 	dist_val = get_dist_value(distance.length())
 
-func update_behavior(player_visible: bool) -> void:
+func update_behavior(player_visible: bool, delta: float = 0.016) -> void:
 	if not automatic_state_changes:
 		return
 	if curr_state == STATES.ATTACK and dive_phase != DIVE_PHASE.COOLDOWN:
 		return
+
+	if is_ignoring_player:
+		ignore_timer -= delta
+		if ignore_timer <= 0.0:
+			is_ignoring_player = false
+		else:
+			curr_state = STATES.PATROL
+			_reset_dive_if_needed()
+			return
+
+	if enable_random_ignore and player_visible:
+		check_timer += delta
+		if check_timer >= check_interval:
+			check_timer = 0.0
+			if randf() < ignore_chance:
+				is_ignoring_player = true
+				ignore_timer = randf_range(min_ignore_time, max_ignore_time)
+				curr_state = STATES.PATROL
+				_reset_dive_if_needed()
+				return
+
 	if player == null or not player_visible:
 		curr_state = STATES.PATROL
 		_reset_dive_if_needed()
@@ -171,6 +202,9 @@ func reset_behavior() -> void:
 	previous_state = STATES.PATROL
 	dive_phase = DIVE_PHASE.APPROACH
 	dive_cooldown_timer = 0.0
+	is_ignoring_player = false
+	ignore_timer = 0.0
+	check_timer = 0.0
 
 func _get_dive_direction(delta: float) -> Vector3:
 	var player_position := player.global_position
@@ -219,3 +253,8 @@ func get_follow_direction() -> Vector3:
 	if direction.length_squared() > 0.0:
 		return direction.normalized()
 	return Vector3.ZERO
+	
+func set_patrol_center(new_center: Vector3) -> void:
+	patrol_center = new_center
+	patrol_center.y = patrol_altitude
+	orbit_angle = 0.0
