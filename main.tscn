@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cs63y05saoxd" path="res://systems/food_spawner.gd" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://c87nauh5y0ps3" path="res://atmosphere.tscn" id="12_dg77c"]
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
+[ext_resource type="Shader" uid="uid://d18xn6g2jfee2" path="res://assets/shaders/grass.gdshader" id="13_getpj"]
 [ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
 [ext_resource type="Script" uid="uid://brkc4y5753k4q" path="res://systems/navigation_setup.gd" id="14_navigation"]
 [ext_resource type="Script" uid="uid://hr0q1q6qak88" path="res://world/terrain_object_placer.gd" id="15_terrain_placer"]
@@ -32,16 +33,27 @@ agent_radius = 0.4
 [sub_resource type="BoxShape3D" id="BoxShape3D_house_door"]
 size = Vector3(3, 3, 2)
 
-[sub_resource type="BoxMesh" id="BoxMesh_night_door"]
-size = Vector3(2.5, 3.0, 0.18)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_night_door"]
 albedo_color = Color(0.12, 0.035, 0.02, 1)
 metallic = 0.1
 roughness = 0.75
 
+[sub_resource type="BoxMesh" id="BoxMesh_night_door"]
+size = Vector3(2.5, 3, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pm0ju"]
+lightmap_size_hint = Vector2i(5, 16)
+size = Vector3(0.1, 0.5, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_getpj"]
+render_priority = 0
+shader = ExtResource("13_getpj")
+shader_parameter/grass_color = Color(0.06, 0.15, 0.08, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+cull_mode = 1
 albedo_texture = ExtResource("7_5vw27")
+texture_filter = 2
 
 [sub_resource type="Shader" id="Shader_efxa6"]
 code = "shader_type spatial;
@@ -132,7 +144,7 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 [node name="main" type="Node3D" unique_id=1661839361]
 
 [node name="Player" parent="." unique_id=1106861229 instance=ExtResource("1_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.214, 0)
 
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false
@@ -174,6 +186,7 @@ physics_material_override = SubResource("PhysicsMaterial_qanqi")
 script = ExtResource("16_house_collision")
 
 [node name="stump_low" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=1757837621 instance=ExtResource("5_ycdy4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/Den" unique_id=834735284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.6)
@@ -199,13 +212,13 @@ door_panel = NodePath("DoorPanel")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=469907962]
 shape = SubResource("BoxShape3D_house_door")
 
-[node name="DoorPanel" type="Node3D" parent="NavigationRegion3D/Environment/House/HouseDoor"]
-position = Vector3(-1.25, 0, 0)
+[node name="DoorPanel" type="Node3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=1677454035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House/HouseDoor/DoorPanel"]
-position = Vector3(1.25, 0, 0)
-mesh = SubResource("BoxMesh_night_door")
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Environment/House/HouseDoor/DoorPanel" unique_id=457580280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0)
 material_override = SubResource("StandardMaterial3D_night_door")
+mesh = SubResource("BoxMesh_night_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 
@@ -218,10 +231,19 @@ visible = false
 [node name="Grass" type="Sprite3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion" unique_id=1779473124]
 visible = false
 transparency = 0.2
-pixel_size = 0.02
+centered = false
+pixel_size = 0.005
 billboard = 2
 shaded = true
 texture = ExtResource("15_vivmo")
+
+[node name="GrassNode" type="Node3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion" unique_id=241286986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9116058, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Environment/GrassSpawnRegion/GrassNode" unique_id=514133251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_pm0ju")
+surface_material_override/0 = SubResource("ShaderMaterial_getpj")
 
 [node name="TreeSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=1310804942]
 

@@ -12,7 +12,7 @@ extends Node2D
 	set(value):
 		collective_hunger = value
 		if collective_hunger <= 0:
-			player.game_over_screen("CHILDREN")
+			player.start_death_sequence("CHILDREN")
 
 @export var adult_day_target: int = 7
 

@@ -23,13 +23,14 @@ var generation_complete: bool = false
 @export_range(0.0, 100.0, 0.5) var pumpkin_outer_radius: float = 65.0
 
 @export_group("Grass")
-@export var grass_count: int = 1000
-@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 5.0
-@export_range(0.0, 100.0, 0.5) var grass_outer_radius: float = 65.0
+@export var grass_count: int = 400
+@export_range(0.0, 100.0, 0.5) var grass_inner_radius: float = 1.0
+@export_range(0.0, 100.0, 0.5) var grass_outer_radius: float = 18.0
 @export var house_exclusion_half_size: Vector2 = Vector2(10.0, 8.0)
 @export var house_exclusion_margin: float = 2.0
 @onready var grouping: Node3D = $GrassSpawnRegion
 @onready var grass: Sprite3D = $GrassSpawnRegion/Grass
+@onready var grass_template: Node3D = $GrassSpawnRegion/GrassNode
 
 ## Number of objects to create before yielding back to the main loop.
 ## Keeping this small prevents procedural trees from blocking scene loading.
@@ -56,7 +57,7 @@ func _spawn_nature(terrain: Node) -> void:
 	await _spawn_trees(terrain)
 	await _spawn_pumpkins(terrain)
 
-	await _spawn_grass(terrain)
+	await _spawn_grass_prisms(terrain)
 
 	generation_complete = true
 	last_night_factor = -1.0
@@ -175,9 +176,7 @@ func _spawn_grass(terrain: Node) -> void:
 	if not grass:
 		return
 	
-	var base_half_height: float = 0.5
-	if grass.texture:
-		base_half_height = (grass.texture.get_height() * grass.pixel_size) * 0.5
+	var base_half_height: float = 0.005
 
 	for index in range(grass_count):
 		var point := _random_clear_annulus_point(grass_inner_radius, grass_outer_radius)
@@ -193,17 +192,61 @@ func _spawn_grass(terrain: Node) -> void:
 		grouping.add_child(grass_instance)
 		
 		var terrain_height: float = terrain.get_height_at(point.x, point.y)
-		var vertical_offset := base_half_height * random_scale * 0.9
 		
-		grass_instance.global_position = Vector3(point.x, terrain_height + vertical_offset, point.y)
+		grass_instance.global_position = Vector3(point.x, terrain_height + base_half_height, point.y)
 		
 		if (index + 1) % spawn_batch_size == 0:
 			await get_tree().process_frame
 
 	grass.queue_free()
+	
+func _spawn_grass_prisms(terrain: Node) -> void:
+	if not grass_template:
+		return
+	
+	grass_template.visible = false
+
+	var player: CharacterBody3D = get_tree().get_first_node_in_group("player")
+	var center_pos := Vector2(player.global_position.x, player.global_position.z) if player else house_center
+
+	for index in range(grass_count):
+		var angle := rng.randf_range(0.0, TAU)
+		var radius := sqrt(rng.randf_range(grass_inner_radius * grass_inner_radius, grass_outer_radius * grass_outer_radius))
+		var point: Vector2 = center_pos + (Vector2(cos(angle), sin(angle)) * radius)
+		
+		if _is_inside_house(point):
+			continue
+			
+		var grass_node: Node3D = grass_template.duplicate() as Node3D
+		grass_node.name = "GrassNode_%02d" % index
+		grass_node.visible = true
+		
+		grass_node.scale = Vector3(rng.randf_range(0.8, 1.2), rng.randf_range(0.7, 1.4), rng.randf_range(0.8, 1.2))
+		grass_node.rotation.y = rng.randf_range(0.0, TAU)
+		
+		grouping.add_child(grass_node)
+		
+		var target_y: float = terrain.get_height_at(point.x, point.y)
+		grass_node.global_position = Vector3(point.x, target_y, point.y)
+		
+		if (index + 1) % spawn_batch_size == 0:
+			await get_tree().process_frame
+
+	grass_template.queue_free()
 
 func _place_on_terrain(item: Node3D, terrain: Node, point: Vector2) -> void:
-	item.global_position = Vector3(point.x, terrain.get_height_at(point.x, point.y), point.y)
+	var step: float = 0.3
+	var target_y: float = terrain.get_height_at(point.x, point.y)
+	
+	for x in range(-2, 3):
+		for z in range(-2, 3):
+			var sample_x: float = point.x + (x * step)
+			var sample_z: float = point.y + (z * step)
+			var h: float = terrain.get_height_at(sample_x, sample_z)
+			if h < target_y:
+				target_y = h
+
+	item.global_position = Vector3(point.x, target_y - 0.4, point.y)
 
 func _random_annulus_point(inner_radius: float, outer_radius: float) -> Vector2:
 	var angle := rng.randf_range(0.0, TAU)
