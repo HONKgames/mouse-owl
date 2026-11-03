@@ -40,6 +40,7 @@ var death_camera: Camera3D = null
 @onready var den_prompt: Label = $DenPrompt
 
 func _ready() -> void:
+	add_to_group("player")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	if death_vignette and death_vignette.texture is GradientTexture2D:
@@ -183,9 +184,12 @@ func toggle_den() -> void:
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		var deposited: int = inventory.items.size()
-		current_den.stored_food += deposited
+		
+		if current_den:
+			current_den.stored_food += deposited
+			
 		inventory.clear_items()
-		den_ui.open(current_den, needs, deposited)
+		den_ui.open(current_den, needs)
 	else:
 		TimeGlobal.stop_sleeping()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -233,7 +237,7 @@ func game_over_screen(type: String) -> void:
 		floor_color = Color.from_hsv(0.122, 0.006, 0.709, 0.502)
 	
 	if texture and texture.gradient and floor_color:
-		texture.gradient.set_color(1, floor_color)
+		texture.gradient.set_color(0, floor_color)
 
 func _reset() -> void:
 	get_tree().reload_current_scene()

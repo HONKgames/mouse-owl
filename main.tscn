@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dxqr3ixl75ajv" path="res://assets/art/trunk_texture.png" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bxuixkaihwvwp" path="res://world/terrain.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://c772h3nnlgmxx" path="res://house.tscn" id="8_yaehf"]
-[ext_resource type="PackedScene" uid="uid://bl0o14brm6wb1" path="res://systems/owl/owl.tscn" id="9_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dbg26dvey3ied" path="res://systems/owl/owl.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://tfmpiu5l2exf" path="res://pumpkin_1.tscn" id="9_kek77"]
 [ext_resource type="Texture2D" uid="uid://blb0smgmx3d6p" path="res://assets/art/foilagetexture1.png" id="10_efxa6"]
 [ext_resource type="Material" uid="uid://nbufyjjbwrxk" path="res://assets/art/fluffy_trees_material.tres" id="11_dg77c"]
@@ -18,7 +18,11 @@
 [ext_resource type="Script" uid="uid://brkc4y5753k4q" path="res://systems/navigation_setup.gd" id="14_navigation"]
 [ext_resource type="Script" uid="uid://hr0q1q6qak88" path="res://world/terrain_object_placer.gd" id="15_terrain_placer"]
 [ext_resource type="Texture2D" uid="uid://de8l6cqagxkk5" path="res://assets/art/grass.png" id="15_vivmo"]
+
+[ext_resource type="Script" uid="uid://02utkkhrttqe" path="res://world/mesh_collision.gd" id="16_house_collision"]
+
 [ext_resource type="Script" uid="uid://by8bopn5p3ysi" path="res://world/house_collision.gd" id="16_house_collision"]
+
 [ext_resource type="Script" uid="uid://cjqf0w0v0lpua" path="res://world/house_door.gd" id="17_house_door"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
@@ -28,12 +32,6 @@ agent_height = 1.0
 agent_radius = 0.4
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qanqi"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_pm0ju"]
-radius = 1.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_house"]
-size = Vector3(12, 8, 12)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_house_door"]
 size = Vector3(3, 3, 2)
@@ -129,9 +127,8 @@ shader_parameter/wind_direction = Vector3(1, 0, 0)
 
 [node name="main" type="Node3D" unique_id=1661839361]
 
-[node name="Player" parent="." unique_id=1106861229 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_0xm2m")]
+[node name="Player" parent="." unique_id=1106861229 instance=ExtResource("1_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7271233, 4.2140636, 1.3040218)
-spawn_point = NodePath("../NavigationRegion3D/Environment/Den/SpawnPoint")
 
 [node name="Vision" type="ColorRect" parent="." unique_id=242354737]
 visible = false
@@ -153,7 +150,7 @@ script = ExtResource("14_navigation")
 script = ExtResource("13_nature")
 
 [node name="Den" parent="NavigationRegion3D/Environment" unique_id=834735283 instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1468706)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18208712, -0.45818007, -0.48913765)
 
 [node name="Kid" parent="NavigationRegion3D/Environment/Den" unique_id=52582032 instance=ExtResource("5_kid")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45867276, 0.75, -0.54089713)
@@ -170,12 +167,9 @@ visible = false
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Environment/Den" unique_id=702877438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0854616, 0)
 physics_material_override = SubResource("PhysicsMaterial_qanqi")
+script = ExtResource("16_house_collision")
 
 [node name="stump_low" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=1757837621 instance=ExtResource("5_ycdy4")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=617407275]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09800506, 0, 0)
-shape = SubResource("CylinderShape3D_pm0ju")
 
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/Den" unique_id=834735284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.6)
@@ -183,10 +177,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.6)
 [node name="House" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2042364361]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -55, 0, 0)
 script = ExtResource("16_house_collision")
+<<<<<<< HEAD
+=======
 
 [node name="HouseCollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House" unique_id=2042364362]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 shape = SubResource("BoxShape3D_house")
+>>>>>>> d2d63e347209fedc7cae85a25afa8c37a7f38552
 
 [node name="house" parent="NavigationRegion3D/Environment/House" unique_id=1533688866 instance=ExtResource("8_yaehf")]
 transform = Transform3D(0.06155146, 0, -0.9981039, 0, 1, 0, 0.9981039, 0, 0.06155146, -9.094947e-13, 0.05962062, 0.35690308)
@@ -194,17 +191,26 @@ transform = Transform3D(0.06155146, 0, -0.9981039, 0, 1, 0, 0.9981039, 0, 0.0615
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 3, 8)
 
+<<<<<<< HEAD
+[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1716695612]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8)
+script = ExtResource("17_house_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=748918943]
+=======
 [node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1824792840]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8)
 script = ExtResource("17_house_door")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=469907962]
+>>>>>>> d2d63e347209fedc7cae85a25afa8c37a7f38552
 shape = SubResource("BoxShape3D_house_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
 
 [node name="Pumpkin_1" parent="NavigationRegion3D/Environment/PumpkingSpawnRegion" unique_id=1444960331 instance=ExtResource("9_kek77")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -10.112246, 0, 0.22724915)
+visible = false
 
 [node name="GrassSpawnRegion" type="Node3D" parent="NavigationRegion3D/Environment" unique_id=1692777697]
 
