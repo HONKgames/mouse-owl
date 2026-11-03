@@ -1,4 +1,4 @@
-class_name MouseBaby
+class_name MouseBabyInstance
 extends CharacterBody2D
 
 @export var jump_velocity_min: float = -200.0
@@ -6,11 +6,9 @@ extends CharacterBody2D
 @export var horizontal_speed_range: float = 100.0
 @export var jump_interval_min: float = 0.1
 @export var jump_interval_max: float = 0.5
-@export var fed_jump_power: float = 3.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_timer: float = 0.0
-var needs: Node
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -18,8 +16,6 @@ func _ready() -> void:
 	_reset_jump_timer()
 
 func _physics_process(delta: float) -> void:
-	if needs:
-		sprite.modulate = Color.WHITE.lerp(Color(0.5, 0.5, 0.5), needs.hunger / 100.0)
 	if TimeGlobal.time_scale > 1.5:
 		if not is_on_floor():
 			velocity.y += gravity * delta
@@ -34,7 +30,6 @@ func _physics_process(delta: float) -> void:
 		rotation += velocity.x * delta * 0.01
 	else:
 		velocity.x = move_toward(velocity.x, 0, 500 * delta)
-		
 		rotation = move_toward(rotation, 0.0, 15.0 * delta)
 		
 		jump_timer -= delta
@@ -61,3 +56,7 @@ func _reset_jump_timer() -> void:
 func is_hit(screen_pos: Vector2) -> bool:
 	var local: Vector2 = sprite.to_local(screen_pos)
 	return sprite.get_rect().has_point(local)
+
+func update_hunger_visual(hunger_0_to_100: float) -> void:
+	if sprite:
+		sprite.modulate = Color.WHITE.lerp(Color(0.5, 0.5, 0.5), hunger_0_to_100 / 100.0)

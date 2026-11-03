@@ -4,18 +4,19 @@ const FOOD_VALUE: float = 25.0
 
 @export var children_scene: PackedScene
 
-@onready var children: Node2D = $Children
-
+@onready var mouse_manager: MouseBabyManager = $Children
 @onready var time_indicator: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sleep_button: Button = $Button
 @onready var vignette: TextureRect = $Vignette
 
-@onready var food_label: Label = $VBoxContainer/FoodLabel
-@onready var eat_button: Button = $VBoxContainer/EatButton
-@onready var feed_button: Button = $VBoxContainer/FeedButton
+@onready var hunger_bar: ProgressBar = $VBoxContainer/HungerBar
+@onready var food_needed_label: Label = $VBoxContainer/FoodNeededLabel
+@onready var food_label: Label = $Buttons/FoodLabel # FIXED PATH TO MATCH HIERARCHY
+@onready var feed_button: Button = $Buttons/FeedButton
+@onready var eat_button: Button = $Buttons/EatButton
 
 var was_sleeping: bool = false
-var den: Area3D = null
+var current_den: Area3D = null
 var player_needs: Node = null
 var label_tween: Tween
 
@@ -29,18 +30,27 @@ func _ready() -> void:
 		vignette.visible = true
 		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	eat_button.pressed.connect(_on_eat_pressed)
-	feed_button.pressed.connect(_on_feed_pressed)
+	if feed_button:
+		feed_button.pressed.connect(_on_feed_pressed)
+	if eat_button:
+		eat_button.pressed.connect(_on_eat_pressed)
 
 func _process(_delta: float) -> void:
 	update_time_indicator()
 	
+	if mouse_manager:
+		if hunger_bar:
+			hunger_bar.value = mouse_manager.collective_hunger
+		update_labels()
+
 	var is_sleeping: bool = TimeGlobal.time_scale > 10.0
 	if is_sleeping != was_sleeping:
 		was_sleeping = is_sleeping
 		fade_sleep_effects(is_sleeping)
 
 func update_time_indicator() -> void:
+	if not time_indicator or not time_indicator.sprite_frames:
+		return
 	var max_frames: int = time_indicator.sprite_frames.get_frame_count(time_indicator.animation)
 	var total_minutes: int = (TimeGlobal.hour * 60) + TimeGlobal.minute
 	var target_frame: int = floori((float(total_minutes) / 1440.0) * max_frames) % max_frames
@@ -70,58 +80,37 @@ func fade_sleep_effects(active: bool) -> void:
 			tween.tween_property(sleep_button, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.3)
 			tween.tween_property(sleep_button, "scale", Vector2(1.0, 1.0), 0.3)
 
-func open(d: Area3D, n: Node, deposited: int = 0) -> void:
-	den = d
-	player_needs = n
-	if deposited > 0:
-		if label_tween and label_tween.is_valid():
-			label_tween.kill()
-		_set_food_label(den.stored_food - deposited)
-		label_tween = create_tween()
-		label_tween.tween_method(_set_food_label, float(den.stored_food - deposited), float(den.stored_food), 0.4)
-	else:
-		update_label()
-	for child in children.get_children():
-		child.queue_free()
-	for child in den.get_children():
-		if not child.has_node("Needs"):
-			continue
-		var c: MouseBaby = children_scene.instantiate()
-		c.position = Vector2(randf_range(300, 700), randf_range(300, 500))
-		c.needs = child.get_node("Needs")
-		children.add_child(c)
+func open(den_node: Area3D, needs_node: Node) -> void:
+	current_den = den_node
+	player_needs = needs_node
+	update_labels()
 
-func update_label() -> void:
-	food_label.text = "food: " + str(den.stored_food)
-
-func _set_food_label(value: float) -> void:
-	food_label.text = "food: " + str(roundi(value))
+func update_labels() -> void:
+	if food_label and current_den:
+		food_label.text = "Food: " + str(current_den.stored_food)
+	
+	if food_needed_label and mouse_manager:
+		var hunger_per_food: float = 10.0
+		var food_needed: int = ceili(mouse_manager.collective_hunger / hunger_per_food)
+		food_needed_label.text = "Food Needed: " + str(food_needed)
 
 func _on_eat_pressed() -> void:
-	feed(player_needs)
+	if not current_den or current_den.stored_food <= 0 or not player_needs:
+		return
+	
+	current_den.stored_food -= 1
+	player_needs.eat(1)
+	update_labels()
 
 func _on_feed_pressed() -> void:
-	if den.stored_food <= 0:
+	if not current_den or current_den.stored_food <= 0 or not mouse_manager:
 		return
-	var hungriest: Node = null
-	for child in den.get_children():
-		if not child.has_node("Needs"):
-			continue
-		var child_needs: Node = child.get_node("Needs")
-		if hungriest == null or hungriest.hunger < child_needs.hunger:
-			hungriest = child_needs
-	if hungriest != null:
-		feed(hungriest)
-
-func feed(target_needs: Node) -> bool:
-	if den.stored_food <= 0 or target_needs.hunger <= 0:
-		return false
-	if label_tween and label_tween.is_valid():
-		label_tween.kill()
-	den.stored_food -= 1
-	target_needs.eat(FOOD_VALUE)
-	update_label()
-	return true
+	
+	var food_to_feed: int = current_den.stored_food
+	mouse_manager.feed_mice(food_to_feed)
+	current_den.stored_food = 0
+	
+	update_labels()
 
 func _input(event: InputEvent) -> void:
 	if not visible:
@@ -131,11 +120,8 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_released("jump"):
 		TimeGlobal.stop_sleeping()
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var reverse_children: Array = children.get_children()
-		reverse_children.reverse()
-		for child: MouseBaby in reverse_children:
-			if child.is_hit(event.position):
-				if feed(child.needs):
-					child.pop_jump(child.fed_jump_power)
-				get_viewport().set_input_as_handled()
-				return
+		if current_den and current_den.stored_food > 0 and mouse_manager:
+			mouse_manager.feed_mice(1)
+			current_den.stored_food -= 1
+			update_labels()
+			get_viewport().set_input_as_handled()
