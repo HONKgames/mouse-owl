@@ -16,10 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://d4lbwl3yhr7r3" path="res://world/food.tscn" id="12_ycdy4"]
 [ext_resource type="Script" uid="uid://he481n5k5npk" path="res://world/nature_spawner.gd" id="13_nature"]
 [ext_resource type="Script" uid="uid://brkc4y5753k4q" path="res://systems/navigation_setup.gd" id="14_navigation"]
-[ext_resource type="Script" path="res://world/house_collision.gd" id="16_house_collision"]
 [ext_resource type="Script" uid="uid://hr0q1q6qak88" path="res://world/terrain_object_placer.gd" id="15_terrain_placer"]
-[ext_resource type="Script" path="res://world/house_door.gd" id="17_house_door"]
 [ext_resource type="Texture2D" uid="uid://de8l6cqagxkk5" path="res://assets/art/grass.png" id="15_vivmo"]
+[ext_resource type="Script" uid="uid://by8bopn5p3ysi" path="res://world/house_collision.gd" id="16_house_collision"]
+[ext_resource type="Script" uid="uid://cjqf0w0v0lpua" path="res://world/house_door.gd" id="17_house_door"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
 vertices = PackedVector3Array(-10.681719, 1.9986035, 0.062232018, -10.181719, 1.9986035, 0.812232, -9.681719, 1.9986035, 0.562232, -9.681719, 1.9986035, -0.18776798, 4.568281, 7.4986033, 3.812232, 3.8182812, 7.4986033, 3.062232, 3.3182812, 7.7486033, 3.562232, 3.8182812, 7.7486033, 5.062232, 4.568281, 7.2486033, 4.812232, -1.9317188, 1.9986035, 10.562232, -1.6817188, 2.2486033, 11.062232, -0.9317188, 1.9986035, 11.062232, -1.1817188, 1.9986035, 10.062232, 6.818281, 8.248604, 15.312232, 7.568281, 8.998604, 16.562233, 8.068281, 8.998604, 16.312233, -0.43171883, 13.998604, 22.562233, 0.8182812, 13.498604, 23.312233, 0.8182812, 13.248604, 22.062233, -1.1817188, 13.998604, 21.062233, -0.43171883, 11.498604, 22.812233, -0.43171883, 11.248604, 23.562233, 0.06828117, 11.498604, 23.812233, 2.0682812, 14.248604, 24.062233, 2.8182812, 13.998604, 24.062233, 3.0682812, 13.998604, 23.562233, 3.0682812, 13.748604, 22.812233, 1.8182812, 14.248604, 23.062233)
@@ -142,8 +142,7 @@ offset_bottom = 655.0
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -1.0435891)
 
 [node name="Owl" parent="." unique_id=2075625185 instance=ExtResource("9_4c57u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 14, 4)
-scale = Vector3(2, 2, 2)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2.5, 14, 4)
 player_path = NodePath("../Player")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=207479146]
@@ -170,8 +169,6 @@ visible = false
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Environment/Den" unique_id=702877438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0854616, 0)
-collision_layer = 1
-collision_mask = 1
 physics_material_override = SubResource("PhysicsMaterial_qanqi")
 
 [node name="stump_low" parent="NavigationRegion3D/Environment/Den/StaticBody3D" unique_id=1757837621 instance=ExtResource("5_ycdy4")]
@@ -181,16 +178,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09800506, 0, 0)
 shape = SubResource("CylinderShape3D_pm0ju")
 
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/Den" unique_id=834735284]
-position = Vector3(0, 1.4, 1.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.6)
 
 [node name="House" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2042364361]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -55, 0, 0)
 script = ExtResource("16_house_collision")
-collision_layer = 1
-collision_mask = 1
 
 [node name="HouseCollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House" unique_id=2042364362]
-position = Vector3(0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 shape = SubResource("BoxShape3D_house")
 
 [node name="house" parent="NavigationRegion3D/Environment/House" unique_id=1533688866 instance=ExtResource("8_yaehf")]
@@ -199,11 +194,11 @@ transform = Transform3D(0.06155146, 0, -0.9981039, 0, 1, 0, 0.9981039, 0, 0.0615
 [node name="SpawnPoint" type="Marker3D" parent="NavigationRegion3D/Environment/House" unique_id=23668642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.046, 3, 8)
 
-[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" node_paths=PackedStringArray()]
-position = Vector3(0, 1.5, 8)
+[node name="HouseDoor" type="Area3D" parent="NavigationRegion3D/Environment/House" unique_id=1824792840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8)
 script = ExtResource("17_house_door")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/House/HouseDoor" unique_id=469907962]
 shape = SubResource("BoxShape3D_house_door")
 
 [node name="PumpkingSpawnRegion" type="Area3D" parent="NavigationRegion3D/Environment" unique_id=2127347354]
