@@ -5,6 +5,7 @@ extends CanvasLayer
 @export var player: Node
 
 @onready var hotbar: HBoxContainer = $Hotbar
+@onready var controls_hint: Label = $ControlsHint
 @onready var slots: Array[Node] = $Hotbar.get_children()
 
 @onready var free_stamina_panel: Panel = $Energy/Segments/FreeStamina
@@ -47,12 +48,17 @@ func _ready() -> void:
 	
 	_on_selected_changed()
 	update_bar(false)
+	
+	var hint_tween: Tween = create_tween()
+	hint_tween.tween_interval(12.0)
+	hint_tween.tween_property(controls_hint, "modulate:a", 0.0, 1.5)
+	hint_tween.tween_callback(controls_hint.hide)
 
 func _process(_delta: float) -> void:
 	if not player:
 		return
 		
-	pickup_bar.value = player.pickup_progress / player.PICKUP_TIME * 100
+	pickup_bar.value = maxf(player.pickup_progress / player.PICKUP_TIME, player.eat_progress / player.EAT_TIME) * 100
 	pickup_bar.visible = pickup_bar.value != 0
 
 func _on_inventory_changed() -> void:

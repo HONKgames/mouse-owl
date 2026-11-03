@@ -1,7 +1,7 @@
 extends Node
 
-@onready var music_player: AudioStreamPlayer3D = $MusicPlayer
-@onready var ambience_player: AudioStreamPlayer3D = $AmbiencePlayer
+@onready var music_player: AudioStreamPlayer = $MusicPlayer
+@onready var ambience_player: AudioStreamPlayer = $AmbiencePlayer
 @onready var player: CharacterBody3D = get_tree().get_first_node_in_group("player") as CharacterBody3D
 
 const DAY_START = 0.25

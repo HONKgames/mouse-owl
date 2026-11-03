@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://jen2u0ggq21g" path="res://ui/hud.gd" id="1_rbyyf"]
 [ext_resource type="Texture2D" uid="uid://bmeibrecbthmw" path="res://icon.svg" id="2_276te"]
+[ext_resource type="FontFile" uid="uid://djcc3t4cj2u1k" path="res://assets/art/KiwiSoda.ttf" id="3_kiwi"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_276te"]
 load_path = "res://.godot/imported/staminabar.png-e3ccb6eb56b5f4154e13f4f476932e15.ctex"
@@ -122,3 +123,23 @@ grow_vertical = 2
 offset_transform_enabled = true
 offset_transform_position = Vector2(0, 30)
 show_percentage = false
+
+[node name="ControlsHint" type="Label" parent="." unique_id=1928374651]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 160.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_kiwi")
+theme_override_font_sizes/font_size = 18
+text = "WASD move, Shift sprint, Space jump
+hold Left Click to pick up food
+1 2 3 or scroll to pick a slot, hold E to eat it
+E at the stump to enter your den, hold Space inside to sleep
+Esc frees your mouse"
+horizontal_alignment = 1

@@ -15,7 +15,9 @@ also! keep the tree3d dll in the same folder so the trees work!
 - Sprint with Shift.
 - Jump with Space.
 - Pick up food by holding Left Click.
-- Enter or exit your den (the triangular prism) with E.
+- Pick a hotbar slot with 1, 2, 3 or the scroll wheel.
+- Eat the food in your selected slot by holding E (away from the den).
+- Enter or exit your den (the stump) with E.
 - Free or capture your mouse with Esc.
 
 ## what do you do?

@@ -33,6 +33,7 @@ const TIME_TO_DEATH: float = 5.0
 @onready var hud: CanvasLayer = $Hud
 
 @onready var den_prompt: Label = $DenPrompt
+@onready var held_food: MeshInstance3D = $Rotation_Helper/Camera3D/HeldFood
 
 var current_den: Area3D = null
 var nearby_food: Array[Area3D] = []
@@ -41,6 +42,7 @@ var eat_progress: float = 0.0
 var is_dead: bool = false
 var death_timer: float = 0.0
 var death_camera: Camera3D = null
+var held_rest_pos: Vector3
 
 func _ready() -> void:
 	add_to_group("player")
@@ -51,6 +53,11 @@ func _ready() -> void:
 	if restart_button:
 		restart_button.pressed.connect(_reset)
 	
+	held_rest_pos = held_food.position
+	inventory.changed.connect(_update_held_food)
+	inventory.selected_changed.connect(_update_held_food)
+	_update_held_food()
+	
 	if spawn_point:
 		_teleport_to_spawn.call_deferred()
 		
@@ -59,6 +66,10 @@ func _process(delta: float) -> void:
 	den_prompt.visible = current_den != null and not den_ui.visible
 	if is_dead:
 		return
+	
+	var bite: float = eat_progress / EAT_TIME
+	held_food.position = held_rest_pos.lerp(Vector3(0.0, -0.05, -0.09), bite)
+	held_food.position.x += sin(Time.get_ticks_msec() * 0.04) * 0.004 * bite
 		
 	var max_cap: float = maxf(0.0, 100.0 - needs.fatigue - needs.hunger)
 	
@@ -147,7 +158,7 @@ func process_input(delta: float) -> void:
 			pickup_sound.pitch_scale = randf_range(0.9, 1.1)
 			#pickup_sound.play() we need a pickup sfx lol
 		pickup_progress = 0.0
-	if Input.is_action_pressed("interact") and current_den == null and inventory.selected_item() != "":
+	if Input.is_action_pressed("interact") and current_den == null and inventory.selected_item() != "" and needs.hunger > 0:
 		eat_progress += delta
 	else:
 		eat_progress = 0.0
@@ -203,6 +214,7 @@ func toggle_den() -> void:
 		
 	den_ui.visible = !den_ui.visible
 	hud.set_hotbar_visible(!den_ui.visible)
+	_update_held_food()
 	needs.in_den = den_ui.visible
 	if den_ui.visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -229,7 +241,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			inventory.select(inventory.selected - 1)
 
 func start_death_sequence(type: String) -> void:
+	if is_dead:
+		return
 	is_dead = true
+	held_food.visible = false
 	hud.visible = false
 	den_ui.visible = false
 	death_model.visible = true
@@ -248,6 +263,7 @@ func start_death_sequence(type: String) -> void:
 	game_over_screen(type)
 
 func game_over_screen(type: String) -> void:
+	held_food.visible = false
 	hud.visible = false
 	den_ui.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -275,3 +291,6 @@ func game_over_screen(type: String) -> void:
 
 func _reset() -> void:
 	get_tree().reload_current_scene()
+
+func _update_held_food() -> void:
+	held_food.visible = inventory.selected_item() != "" and not den_ui.visible and not is_dead

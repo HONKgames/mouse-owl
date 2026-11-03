@@ -13,19 +13,6 @@ var highlight_tween: Tween
 func _ready() -> void:
 	base_y = mesh.position.y
 	phase = randf() * TAU
-	_build_mesh_collision()
-
-func _build_mesh_collision() -> void:
-	var collision := get_node_or_null("CollisionShape3D") as CollisionShape3D
-	if collision == null or mesh.mesh == null:
-		return
-	# Derive the food's interaction shape from the same mesh that is rendered.
-	# Convex mesh collision is supported reliably by Area3D and keeps the
-	# player-food overlap aligned with the visible item.
-	var mesh_shape := mesh.mesh.create_convex_shape()
-	if mesh_shape != null:
-		collision.shape = mesh_shape
-		collision.transform = mesh.transform
 
 func _process(delta: float) -> void:
 	mesh.rotate_y(spin_speed * delta)
