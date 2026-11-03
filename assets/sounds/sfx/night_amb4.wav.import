@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://drth8xcga2fpc"
-path="res://.godot/imported/Moonlight Ambience Pad.wav-0f0b71078c3baf18cb1caf8e1b7e8006.sample"
+path="res://.godot/imported/night_amb4.wav-5be9b8117d690f36e1d4efff6ef18501.sample"
 
 [deps]
 
-source_file="res://assets/sounds/sfx/Moonlight Ambience Pad.wav"
-dest_files=["res://.godot/imported/Moonlight Ambience Pad.wav-0f0b71078c3baf18cb1caf8e1b7e8006.sample"]
+source_file="res://assets/sounds/sfx/night_amb4.wav"
+dest_files=["res://.godot/imported/night_amb4.wav-5be9b8117d690f36e1d4efff6ef18501.sample"]
 
 [params]
 

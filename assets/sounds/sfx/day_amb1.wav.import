@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://4vxbmb30bnsh"
-path="res://.godot/imported/forest ambiance.wav-1f7f48bbefb14f8079c58f2578b467b4.sample"
+path="res://.godot/imported/day_amb1.wav-8607e7a75ef216689226dc7350e5db7a.sample"
 
 [deps]
 
-source_file="res://assets/sounds/sfx/forest ambiance.wav"
-dest_files=["res://.godot/imported/forest ambiance.wav-1f7f48bbefb14f8079c58f2578b467b4.sample"]
+source_file="res://assets/sounds/sfx/day_amb1.wav"
+dest_files=["res://.godot/imported/day_amb1.wav-8607e7a75ef216689226dc7350e5db7a.sample"]
 
 [params]
 

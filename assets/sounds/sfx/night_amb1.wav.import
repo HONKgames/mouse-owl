@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://orj0vavn5mw0"
-path="res://.godot/imported/FRB_VTH1_Ambience_02_Gmin.wav-4eca4960a61f75149b0ea4161e03eabe.sample"
+path="res://.godot/imported/night_amb1.wav-06b3f5f0927e0765065a3139c5df21e2.sample"
 
 [deps]
 
-source_file="res://assets/sounds/sfx/FRB_VTH1_Ambience_02_Gmin.wav"
-dest_files=["res://.godot/imported/FRB_VTH1_Ambience_02_Gmin.wav-4eca4960a61f75149b0ea4161e03eabe.sample"]
+source_file="res://assets/sounds/sfx/night_amb1.wav"
+dest_files=["res://.godot/imported/night_amb1.wav-06b3f5f0927e0765065a3139c5df21e2.sample"]
 
 [params]
 

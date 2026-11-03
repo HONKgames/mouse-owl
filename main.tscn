@@ -22,6 +22,8 @@
 [ext_resource type="Texture2D" uid="uid://de8l6cqagxkk5" path="res://assets/art/grass.png" id="15_vivmo"]
 [ext_resource type="Script" uid="uid://by8bopn5p3ysi" path="res://world/house_collision.gd" id="16_house_collision"]
 [ext_resource type="Script" uid="uid://cjqf0w0v0lpua" path="res://world/house_door.gd" id="17_house_door"]
+[ext_resource type="Script" uid="uid://v88kparhyean" path="res://musicmanager.gd" id="23_d13ii"]
+[ext_resource type="AudioStream" uid="uid://t7bl60exuecq" path="res://assets/sounds/music/day_music.mp3" id="24_1u8w0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_et6nl"]
 vertices = PackedVector3Array(-10.681719, 1.9986035, 0.062232018, -10.181719, 1.9986035, 0.812232, -9.681719, 1.9986035, 0.562232, -9.681719, 1.9986035, -0.18776798, 4.568281, 7.4986033, 3.812232, 3.8182812, 7.4986033, 3.062232, 3.3182812, 7.7486033, 3.562232, 3.8182812, 7.7486033, 5.062232, 4.568281, 7.2486033, 4.812232, -1.9317188, 1.9986035, 10.562232, -1.6817188, 2.2486033, 11.062232, -0.9317188, 1.9986035, 11.062232, -1.1817188, 1.9986035, 10.062232, 6.818281, 8.248604, 15.312232, 7.568281, 8.998604, 16.562233, 8.068281, 8.998604, 16.312233, -0.43171883, 13.998604, 22.562233, 0.8182812, 13.498604, 23.312233, 0.8182812, 13.248604, 22.062233, -1.1817188, 13.998604, 21.062233, -0.43171883, 11.498604, 22.812233, -0.43171883, 11.248604, 23.562233, 0.06828117, 11.498604, 23.812233, 2.0682812, 14.248604, 24.062233, 2.8182812, 13.998604, 24.062233, 3.0682812, 13.998604, 23.562233, 3.0682812, 13.748604, 22.812233, 1.8182812, 14.248604, 23.062233)
@@ -308,3 +310,14 @@ night_color = Color(0.22086313, 0.09058233, 0.36689776, 1)
 cloud_count = 25
 cloud_speed = 5.0
 sky_height = 150.0
+
+[node name="MusicManager" type="Node3D" parent="." unique_id=1531094376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0695779, 1.3836646, -0.65454686)
+script = ExtResource("23_d13ii")
+
+[node name="MusicPlayer" type="AudioStreamPlayer3D" parent="MusicManager" unique_id=224718856]
+stream = ExtResource("24_1u8w0")
+volume_db = 5.0
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer3D" parent="MusicManager" unique_id=558198765]
+volume_db = 5.0
